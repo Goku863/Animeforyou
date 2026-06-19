@@ -57,6 +57,17 @@ function toast(m){
   setTimeout(()=>{t.classList.remove('show');setTimeout(()=>t.remove(),300);},3000);
 }
 
+// ===== MOBILE MENU =====
+function toggleMobileMenu(){
+  const el=document.getElementById('navLinks');
+  if(el)el.classList.toggle('open');
+}
+document.addEventListener('click',(e)=>{
+  const el=document.getElementById('navLinks');
+  if(el&&el.classList.contains('open')&&!e.target.closest('.nav-links')&&!e.target.closest('.mobile-menu-btn'))
+    el.classList.remove('open');
+});
+
 // ===== THREE.JS BACKGROUND =====
 function initThree(){
   if(THREE_INIT||typeof THREE==='undefined')return;

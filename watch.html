@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>AnimeForYou — Watch</title>
   <meta name="description" content="Watch anime episodes online — video player with servers and episode navigation." />
-  <meta name="theme-color" content="#f4f6f9" />
+  <meta name="theme-color" content="#fef8f5" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -19,47 +19,43 @@
   <div class="page-transition" id="pageTransition"></div>
   <canvas id="three-canvas"></canvas>
 
-  <nav class="navbar navbar-expand-lg" id="navbar" role="navigation" aria-label="Main">
+  <header class="top-app-bar" id="topAppBar">
     <div class="container">
-      <a class="navbar-brand logo" href="index.html" aria-label="AnimeForYou Home">
+      <a href="index.html" class="logo" aria-label="AnimeForYou Home">
         <span class="logo-mark"><i class="fas fa-play"></i></span>
         <span class="logo-word">Anime<span class="accent">ForYou</span></span>
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-        <i class="fas fa-bars"></i>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarContent">
-        <div class="nav-search">
-          <i class="fas fa-search search-icon"></i>
-          <input type="text" id="searchInput" placeholder="Search anime..." aria-label="Search" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();location='search.html?q='+encodeURIComponent(this.value.trim())}" />
-          <span class="search-kbd">/</span>
-        </div>
-        <div class="navbar-nav nav-menu">
-          <a href="index.html" class="nav-link" data-p="home"><i class="fas fa-house"></i> Home</a>
-          <a href="browse.html" class="nav-link" data-p="browse"><i class="fas fa-compass"></i> Browse</a>
-          <a href="trending.html" class="nav-link" data-p="trending"><i class="fas fa-fire"></i> Trending</a>
-          <a href="latest.html" class="nav-link" data-p="latest"><i class="fas fa-clock"></i> Latest</a>
-          <a href="az.html" class="nav-link" data-p="az"><i class="fas fa-list"></i> A-Z</a>
-          <a href="categories.html" class="nav-link" data-p="categories"><i class="fas fa-tags"></i> Genres</a>
-        </div>
-        <div class="nav-end">
-          <div class="theme-toggle" onclick="toggleThemePanel()" aria-label="Theme" role="button" tabindex="0">
-            <i class="fas fa-palette" id="themeIcon"></i>
-            <div class="theme-panel" id="themePanel" onclick="event.stopPropagation()">
-              <div class="theme-panel-label">Accent Color</div>
-              <div class="theme-row">
-                <div class="theme-option" data-t="volcanic" onclick="setTheme('volcanic')"><span class="theme-swatch v"></span> Volcanic</div>
-                <div class="theme-option" data-t="crimson" onclick="setTheme('crimson')"><span class="theme-swatch c"></span> Crimson</div>
-                <div class="theme-option" data-t="emerald" onclick="setTheme('emerald')"><span class="theme-swatch e"></span> Emerald</div>
-                <div class="theme-option" data-t="violet" onclick="setTheme('violet')"><span class="theme-swatch w"></span> Violet</div>
-                <div class="theme-option" data-t="ocean" onclick="setTheme('ocean')"><span class="theme-swatch o"></span> Ocean</div>
-              </div>
+      <div class="nav-search">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="searchInput" placeholder="Search anime..." aria-label="Search" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();location='search.html?q='+encodeURIComponent(this.value.trim())}" />
+        <span class="search-kbd">/</span>
+      </div>
+      <button class="mobile-menu-btn" id="menuBtn" onclick="toggleMobileMenu()" aria-label="Menu"><i class="fas fa-bars"></i></button>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html" class="nav-link" data-p="home"><i class="fas fa-house"></i> Home</a>
+        <a href="browse.html" class="nav-link" data-p="browse"><i class="fas fa-compass"></i> Browse</a>
+        <a href="trending.html" class="nav-link" data-p="trending"><i class="fas fa-fire"></i> Trending</a>
+        <a href="latest.html" class="nav-link" data-p="latest"><i class="fas fa-clock"></i> Latest</a>
+        <a href="az.html" class="nav-link" data-p="az"><i class="fas fa-list"></i> A-Z</a>
+        <a href="categories.html" class="nav-link" data-p="categories"><i class="fas fa-tags"></i> Genres</a>
+      </div>
+      <div class="nav-actions">
+        <div class="theme-toggle" onclick="toggleThemePanel()" aria-label="Theme" role="button" tabindex="0">
+          <i class="fas fa-palette" id="themeIcon"></i>
+          <div class="theme-panel" id="themePanel" onclick="event.stopPropagation()">
+            <div class="theme-panel-label">Accent Color</div>
+            <div class="theme-row">
+              <div class="theme-option" data-t="volcanic" onclick="setTheme('volcanic')"><span class="theme-swatch v"></span> Volcanic</div>
+              <div class="theme-option" data-t="crimson" onclick="setTheme('crimson')"><span class="theme-swatch c"></span> Crimson</div>
+              <div class="theme-option" data-t="emerald" onclick="setTheme('emerald')"><span class="theme-swatch e"></span> Emerald</div>
+              <div class="theme-option" data-t="violet" onclick="setTheme('violet')"><span class="theme-swatch w"></span> Violet</div>
+              <div class="theme-option" data-t="ocean" onclick="setTheme('ocean')"><span class="theme-swatch o"></span> Ocean</div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </nav>
+  </header>
 
   <main class="main" id="main">
 <section>
@@ -92,7 +88,7 @@
     <a href="bookmarks.html" class="mob-item" data-p="bookmarks"><i class="fas fa-bookmark"></i><span>Saved</span></a>
   </nav>
 
-  <footer role="contentinfo">
+  <footer>
     <div class="container">
       <div class="row g-5 mb-4">
         <div class="col-lg-5 col-md-6">
@@ -133,14 +129,13 @@
         </div>
       </div>
       <div class="ft-bottom">
-        <span>&copy; 2026 AnimeForYou &mdash; Crafted with <i class="fas fa-heart" style="color:var(--accent)"></i> for anime fans</span>
+        <span>&copy; 2026 AnimeForYou &mdash; Crafted with <i class="fas fa-heart" style="color:var(--md-primary)"></i> for anime fans</span>
       </div>
     </div>
   </footer>
 
   <div class="toast-rack" id="toastRack" role="status" aria-live="polite"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -157,7 +152,7 @@ document.addEventListener('DOMContentLoaded', async()=>{
   const DATA=await api.getAll();
   const params=new URLSearchParams(location.search);
   const aid=params.get('id'),ep=parseInt(params.get('ep'))||1;
-  if(!aid||!DATA.length){document.querySelector('.watch-wrap').innerHTML='<div class="empty-state"><i class="fas fa-film"></i><h3>Not found</h3><a href="browse.html" class="btn-glow">Browse</a></div>';return;}
+  if(!aid||!DATA.length){document.querySelector('.watch-wrap').innerHTML='<div class="empty-state"><i class="fas fa-film"></i><h3>Not found</h3><a href="browse.html" class="btn-filled">Browse</a></div>';return;}
   initWatch(DATA,aid,ep);
 });
 
