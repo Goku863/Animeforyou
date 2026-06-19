@@ -33,6 +33,7 @@
       </div>
       <div class="nav-menu" id="navMenu" role="menubar">
         <a href="#" class="nav-item active" data-p="home" role="menuitem" onclick="go('home');return false"><i class="fas fa-house" aria-hidden="true"></i> Home</a>
+        <a href="#" class="nav-item" data-p="browse" role="menuitem" onclick="go('browse');return false"><i class="fas fa-compass" aria-hidden="true"></i> Browse</a>
         <a href="#" class="nav-item" data-p="trending" role="menuitem" onclick="go('trending');return false"><i class="fas fa-fire" aria-hidden="true"></i> Trending</a>
         <a href="#" class="nav-item" data-p="latest" role="menuitem" onclick="go('latest');return false"><i class="fas fa-clock" aria-hidden="true"></i> Latest</a>
         <a href="#" class="nav-item" data-p="az" role="menuitem" onclick="go('az');return false"><i class="fas fa-list" aria-hidden="true"></i> A-Z</a>
@@ -61,8 +62,27 @@
 
   <main class="main" id="main">
 
-    <!-- ===== HOME ===== -->
+    <!-- ===== HOME (LANDING) ===== -->
     <section class="pg active" id="pg-home" aria-label="Home">
+      <div class="landing">
+        <div class="landing-glow"></div>
+        <div class="landing-content">
+          <div class="landing-badge">&#9733; Premium Streaming</div>
+          <h1 class="landing-title">Discover &amp; Stream<br><span>Premium Anime</span></h1>
+          <p class="landing-desc">Thousands of episodes across every genre — from timeless classics to the latest seasonal releases. Watch free, fast, and beautifully presented.</p>
+          <div class="landing-feats">
+            <div class="landing-feat"><i class="fas fa-infinity"></i> Unlimited</div>
+            <div class="landing-feat"><i class="fas fa-globe"></i> Multi-Language</div>
+            <div class="landing-feat"><i class="fas fa-bolt"></i> No Sign Up</div>
+          </div>
+          <button class="landing-btn" onclick="go('browse')"><i class="fas fa-play"></i> Watch Anime</button>
+          <p class="landing-scroll">Explore the collection <i class="fas fa-arrow-right"></i></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BROWSE ===== -->
+    <section class="pg" id="pg-browse" aria-label="Browse">
       <div class="hero" id="hero">
         <div class="hero-track" id="heroTrack"></div>
         <div class="hero-vignette"></div>
@@ -280,6 +300,7 @@
 
   <nav class="mob-nav" id="mobNav" aria-label="Mobile navigation">
     <a href="#" class="mob-item active" data-p="home" onclick="go('home');return false"><i class="fas fa-house"></i><span>Home</span></a>
+    <a href="#" class="mob-item" data-p="browse" onclick="go('browse');return false"><i class="fas fa-compass"></i><span>Browse</span></a>
     <a href="#" class="mob-item" data-p="trending" onclick="go('trending');return false"><i class="fas fa-fire"></i><span>Trending</span></a>
     <a href="#" class="mob-item" data-p="search" onclick="go('search');return false"><i class="fas fa-search"></i><span>Search</span></a>
     <a href="#" class="mob-item" data-p="bookmarks" onclick="go('bookmarks');return false"><i class="fas fa-bookmark"></i><span>Saved</span></a>
@@ -491,7 +512,8 @@
       document.getElementById('navMenu').classList.remove('open');
       document.getElementById('hamburger').setAttribute('aria-expanded','false');
       clearST();
-      if(pg==='home')renderHome();
+      if(pg==='home'){/* landing — static */}
+      else if(pg==='browse')renderHome();
       else if(pg==='trending')renderTrend();
       else if(pg==='latest')renderLatest();
       else if(pg==='az')renderAZ();

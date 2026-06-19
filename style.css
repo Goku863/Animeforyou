@@ -148,6 +148,113 @@
   --swatch: #3b82f6;
 }
 
+/* ===== LANDING PAGE ===== */
+.landing{
+  position:relative;
+  min-height:calc(100vh - var(--nav-h));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:60px 24px 80px;
+  overflow:hidden
+}
+.landing-glow{
+  position:absolute;
+  top:50%;left:50%;
+  width:600px;height:600px;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle,var(--accent-glow) 0%,transparent 70%);
+  opacity:0.4;
+  pointer-events:none
+}
+.landing-content{
+  position:relative;
+  z-index:1;
+  max-width:640px
+}
+.landing-badge{
+  display:inline-flex;
+  padding:6px 16px;
+  background:var(--accent-muted);
+  color:var(--accent);
+  border-radius:9999px;
+  font-size:12px;font-weight:600;
+  letter-spacing:0.03em;
+  margin-bottom:20px
+}
+.landing-title{
+  font-size:52px;
+  font-weight:800;
+  letter-spacing:-0.03em;
+  line-height:1.1;
+  margin-bottom:16px
+}
+.landing-title span{color:var(--accent)}
+.landing-desc{
+  font-size:17px;
+  color:var(--text-secondary);
+  line-height:1.7;
+  max-width:480px;
+  margin:0 auto 28px
+}
+.landing-feats{
+  display:flex;
+  justify-content:center;
+  gap:24px;
+  margin-bottom:32px;
+  flex-wrap:wrap
+}
+.landing-feat{
+  display:flex;align-items:center;gap:8px;
+  font-size:14px;font-weight:500;
+  color:var(--text-secondary)
+}
+.landing-feat i{
+  width:32px;height:32px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--glass);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius);
+  font-size:13px;
+  color:var(--accent)
+}
+.landing-btn{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:16px 40px;
+  background:var(--accent);
+  color:white;
+  border-radius:9999px;
+  font-size:17px;font-weight:700;
+  box-shadow:0 8px 32px var(--accent-glow);
+  transition:all 0.3s;
+  cursor:pointer;border:none
+}
+.landing-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 40px var(--accent-glow)
+}
+.landing-btn i{font-size:18px}
+.landing-scroll{
+  margin-top:24px;
+  font-size:13px;
+  color:var(--text-muted);
+  cursor:pointer;
+  transition:color 0.2s
+}
+.landing-scroll:hover{color:var(--accent)}
+.landing-scroll i{font-size:10px;margin-left:4px}
+@media(max-width:768px){
+  .landing-title{font-size:34px}
+  .landing-desc{font-size:15px}
+  .landing-feats{gap:16px}
+  .landing-btn{padding:14px 32px;font-size:15px}
+}
+@media(max-width:480px){
+  .landing-title{font-size:28px}
+  .landing-badge{font-size:11px}
+}
+
 /* ===== GLASS UTILITY ===== */
 .glass-base {
   background: var(--glass);
