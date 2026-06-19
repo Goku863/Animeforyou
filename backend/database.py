@@ -1,122 +1,45 @@
-import sqlite3
-import json
-import os
+SCHEMA = '''
+CREATE TABLE IF NOT EXISTS anime (
+  id TEXT PRIMARY KEY,
+  title TEXT NOT NULL,
+  poster TEXT,
+  banner TEXT,
+  synopsis TEXT,
+  rating REAL DEFAULT 0,
+  year INTEGER DEFAULT 2024,
+  studio TEXT DEFAULT 'Unknown',
+  status TEXT DEFAULT 'Airing',
+  type TEXT DEFAULT 'TV',
+  totalEpisodes INTEGER DEFAULT 1,
+  trending INTEGER DEFAULT 0,
+  genres TEXT DEFAULT '[]',
+  audio TEXT DEFAULT '[]',
+  subs TEXT DEFAULT '[]'
+);
+'''
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "animevault.db")
-
-def get_conn():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    conn.execute("PRAGMA journal_mode=WAL")
-    conn.execute("PRAGMA foreign_keys=ON")
-    return conn
-
-def init_db():
-    conn = get_conn()
-    conn.executescript("""
-        CREATE TABLE IF NOT EXISTS anime (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT NOT NULL,
-            slug TEXT NOT NULL UNIQUE,
-            image TEXT NOT NULL DEFAULT '',
-            categories TEXT NOT NULL DEFAULT '[]',
-            audio TEXT NOT NULL DEFAULT 'hindi-dubbed',
-            episodes INTEGER NOT NULL DEFAULT 12,
-            created_at TEXT NOT NULL DEFAULT (datetime('now'))
-        );
-        CREATE INDEX IF NOT EXISTS idx_anime_slug ON anime(slug);
-        CREATE INDEX IF NOT EXISTS idx_anime_audio ON anime(audio);
-    """)
-    conn.commit()
-    conn.close()
-
-def seed_defaults():
-    conn = get_conn()
-    count = conn.execute("SELECT COUNT(*) FROM anime").fetchone()[0]
-    if count > 0:
-        conn.close()
-        return
-    defaults = [
-        ("Haikyu!! (Season 4) Hindi Dubbed", "haikyu-s04-hindi", "https://image.tmdb.org/t/p/w500/zfOWZf3rMkgaXXNKOSTL33RBchx.jpg", json.dumps(["animation","anime-hindi-dubbed","comedy","drama","sports"]), "hindi-dubbed", 25),
-        ("The Ramparts of Ice S1 Triple Audio", "ramparts-of-ice-s01", "https://image.tmdb.org/t/p/w500/rke9UC2QrogvxiQD9TGpbvqDosi.jpg", json.dumps(["animation","anime-hindi-dubbed","romance"]), "hindi-dubbed", 12),
-        ("Dr. Stone (Season 4) Triple Audio", "dr-stone-s04", "https://catimages.org/images/2025/01/12/drs4.jpg", json.dumps(["action","adventure","animation","sci-fi"]), "hindi-dubbed", 24),
-        ("Baki-Dou: The Invincible Samurai S1 P2", "baki-dou-s01-p2", "https://m.media-amazon.com/images/M/MV5BYmVjZTgzYjQtOTFhMS00NzRmLTkwMzctYmQ3MzE2YTBhZTQ1XkEyXkFqcGc@._V1_SX500.jpg", json.dumps(["action","animation","sports","thriller"]), "hindi-dubbed", 13),
-        ("Fullmetal Alchemist: Brotherhood S1", "fma-brotherhood-s01", "https://image.tmdb.org/t/p/w500/5ZFUEOULaVml7pQuXxhpR2SmVUw.jpg", json.dumps(["action","adventure","animation","fantasy"]), "hindi-dubbed", 64),
-        ("Attack on Titan Final Season", "aot-final-season", "https://image.tmdb.org/t/p/w500/6Ff2w1z6tJ4fHjWkYWv2y3z5Kx.jpg", json.dumps(["action","animation","drama","fantasy","thriller"]), "english-dubbed", 28),
-        ("Demon Slayer: Entertainment District", "demon-slayer-entertainment", "https://image.tmdb.org/t/p/w500/5H5BvA1W5b6Vg9yCV9QK5K5Z5b.jpg", json.dumps(["action","animation","fantasy"]), "english-dubbed", 11),
-        ("Jujutsu Kaisen Season 2", "jujutsu-kaisen-s2", "https://image.tmdb.org/t/p/w500/7d3Z5r3C5e4xNvXjPXx3V7xQjL.jpg", json.dumps(["action","animation","fantasy"]), "english-dubbed", 23),
-        ("One Piece Hindi Dubbed", "one-piece-hindi", "https://image.tmdb.org/t/p/w500/3M8Fk7K73vkzV7MJKawyr2FVu1.jpg", json.dumps(["action","adventure","animation","comedy","fantasy"]), "hindi-dubbed", 1000),
-        ("Naruto Shippuden Hindi Dubbed", "naruto-shippuden-hindi", "https://image.tmdb.org/t/p/w500/7d3Z5r3C5e4xNvXjPXx3V7xQjL.jpg", json.dumps(["action","adventure","animation","anime-hindi-dubbed"]), "hindi-dubbed", 500),
-        ("Solo Leveling", "solo-leveling", "https://image.tmdb.org/t/p/w500/5L2Y7G7G7G7G7G7G7G7G7G7G7G.jpg", json.dumps(["action","adventure","animation","fantasy"]), "subbed", 12),
-        ("Dragon Ball Daima", "dragon-ball-daima", "https://image.tmdb.org/t/p/w500/7d3Z5r3C5e4xNvXjPXx3V7xQjL.jpg", json.dumps(["action","adventure","animation","comedy","fantasy"]), "hindi-dubbed", 20),
-    ]
-    conn.executemany("INSERT INTO anime (title, slug, image, categories, audio, episodes) VALUES (?, ?, ?, ?, ?, ?)", defaults)
-    conn.commit()
-    conn.close()
-
-def row_to_dict(row):
-    d = dict(row)
-    d["categories"] = json.loads(d["categories"])
-    return d
-
-def get_all():
-    conn = get_conn()
-    rows = conn.execute("SELECT * FROM anime ORDER BY created_at DESC").fetchall()
-    conn.close()
-    return [row_to_dict(r) for r in rows]
-
-def get_by_id(aid):
-    conn = get_conn()
-    row = conn.execute("SELECT * FROM anime WHERE id=?", (aid,)).fetchone()
-    conn.close()
-    return row_to_dict(row) if row else None
-
-def create(title, slug, image, categories, audio, episodes):
-    conn = get_conn()
-    try:
-        cur = conn.execute(
-            "INSERT INTO anime (title, slug, image, categories, audio, episodes) VALUES (?, ?, ?, ?, ?, ?)",
-            (title, slug, image, json.dumps(categories), audio, episodes)
-        )
-        conn.commit()
-        aid = cur.lastrowid
-        conn.close()
-        return get_by_id(aid)
-    except sqlite3.IntegrityError as e:
-        conn.close()
-        raise ValueError(f"Slug '{slug}' already exists")
-
-def update(aid, title, slug, image, categories, audio, episodes):
-    conn = get_conn()
-    try:
-        conn.execute(
-            "UPDATE anime SET title=?, slug=?, image=?, categories=?, audio=?, episodes=? WHERE id=?",
-            (title, slug, image, json.dumps(categories), audio, episodes, aid)
-        )
-        conn.commit()
-        conn.close()
-        return get_by_id(aid)
-    except sqlite3.IntegrityError as e:
-        conn.close()
-        raise ValueError(f"Slug '{slug}' already exists")
-
-def delete(aid):
-    conn = get_conn()
-    conn.execute("DELETE FROM anime WHERE id=?", (aid,))
-    conn.commit()
-    conn.close()
-
-def get_stats():
-    conn = get_conn()
-    total = conn.execute("SELECT COUNT(*) FROM anime").fetchone()[0]
-    hindi = conn.execute("SELECT COUNT(*) FROM anime WHERE audio='hindi-dubbed'").fetchone()[0]
-    english = conn.execute("SELECT COUNT(*) FROM anime WHERE audio='english-dubbed'").fetchone()[0]
-    subbed = conn.execute("SELECT COUNT(*) FROM anime WHERE audio='subbed'").fetchone()[0]
-    eps = conn.execute("SELECT COALESCE(SUM(episodes),0) FROM anime").fetchone()[0]
-    conn.close()
-    return {"total": total, "hindi_dubbed": hindi, "english_dubbed": english, "subbed": subbed, "total_episodes": eps}
-
-if __name__ == "__main__":
-    init_db()
-    seed_defaults()
-    print("Database initialized at", DB_PATH)
+SEED_DATA = [
+  {"id":"naruto","title":"Naruto Shippuden","poster":"https://cdn.myanimelist.net/images/anime/1565/111305l.jpg","banner":"https://wallpaperaccess.com/full/3146573.jpg","synopsis":"Follows Naruto Uzumaki as he grows from a mischievous academy student into a powerful ninja. After training with Jiraiya, he returns to Konoha to rescue Sasuke and faces the Akatsuki threat that endangers all ninja villages.","rating":9.2,"year":2007,"studio":"Pierrot","status":"Completed","type":"TV","totalEpisodes":500,"trending":98,"genres":["Action","Adventure"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"onepiece","title":"One Piece","poster":"https://cdn.myanimelist.net/images/anime/1244/138851l.jpg","banner":"https://wallpaperaccess.com/full/4568992.jpg","synopsis":"Monkey D. Luffy sets sail with his pirate crew in search of the legendary treasure, One Piece. Along the way, they face powerful enemies, uncover ancient mysteries, and build unbreakable bonds of friendship.","rating":9.5,"year":1999,"studio":"Toei Animation","status":"Airing","type":"TV","totalEpisodes":1120,"trending":99,"genres":["Action","Adventure","Comedy"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"demon-slayer","title":"Demon Slayer","poster":"https://cdn.myanimelist.net/images/anime/1286/99889l.jpg","banner":"https://wallpaperaccess.com/full/3146580.jpg","synopsis":"Tanjiro Kamado becomes a demon slayer after his family is slaughtered and his sister Nezuko is turned into a demon. He embarks on a journey to find a cure and avenge his family.","rating":9.1,"year":2019,"studio":"Ufotable","status":"Airing","type":"TV","totalEpisodes":55,"trending":97,"genres":["Action","Fantasy"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"attack-on-titan","title":"Attack on Titan","poster":"https://cdn.myanimelist.net/images/anime/1000/110531l.jpg","banner":"https://wallpaperaccess.com/full/3146590.jpg","synopsis":"In a world where humanity lives inside cities surrounded by enormous walls due to the Titans, giant humanoid creatures who devour humans seemingly without reason.","rating":9.4,"year":2013,"studio":"MAPPA","status":"Completed","type":"TV","totalEpisodes":87,"trending":96,"genres":["Action","Drama","Horror"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"jujutsu-kaisen","title":"Jujutsu Kaisen","poster":"https://cdn.myanimelist.net/images/anime/1171/109222l.jpg","banner":"https://wallpaperaccess.com/full/4625669.jpg","synopsis":"Yuji Itadori joins a secret organization of Jujutsu Sorcerers after swallowing a cursed object. He fights Curses while trying to find all of Sukuna's fingers.","rating":9.0,"year":2020,"studio":"MAPPA","status":"Airing","type":"TV","totalEpisodes":47,"trending":95,"genres":["Action","Fantasy"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"my-hero-academia","title":"My Hero Academia","poster":"https://cdn.myanimelist.net/images/anime/10/78745l.jpg","banner":"https://wallpaperaccess.com/full/3146600.jpg","synopsis":"In a world where 80% of the population has superpowers, Izuku Midoriya dreams of becoming a hero despite being born quirkless.","rating":8.5,"year":2016,"studio":"Bones","status":"Airing","type":"TV","totalEpisodes":138,"trending":88,"genres":["Action","Comedy"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"death-note","title":"Death Note","poster":"https://cdn.myanimelist.net/images/anime/9/9453l.jpg","banner":"https://wallpaperaccess.com/full/3146610.jpg","synopsis":"Light Yagami finds a supernatural notebook that kills anyone whose name is written in it. He begins a crusade to create a utopia free of criminals.","rating":9.3,"year":2006,"studio":"Madhouse","status":"Completed","type":"TV","totalEpisodes":37,"trending":94,"genres":["Drama","Horror"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"fullmetal-alchemist","title":"Fullmetal Alchemist: Brotherhood","poster":"https://cdn.myanimelist.net/images/anime/1208/94745l.jpg","banner":"https://wallpaperaccess.com/full/3146620.jpg","synopsis":"Two brothers search for the Philosopher's Stone after a failed alchemical ritual leaves Edward without limbs and Alphonse as a soul in armor.","rating":9.6,"year":2009,"studio":"Bones","status":"Completed","type":"TV","totalEpisodes":64,"trending":93,"genres":["Action","Adventure","Drama"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"solo-leveling","title":"Solo Leveling","poster":"https://cdn.myanimelist.net/images/anime/1809/143580l.jpg","banner":"https://wallpaperaccess.com/full/5030071.jpg","synopsis":"In a world of hunters and magical portals, Sung Jinwoo, the weakest hunter, gains a unique leveling system and rises to become the strongest.","rating":8.9,"year":2024,"studio":"A-1 Pictures","status":"Airing","type":"TV","totalEpisodes":24,"trending":92,"genres":["Action","Adventure","Fantasy"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"dragon-ball-super","title":"Dragon Ball Super","poster":"https://cdn.myanimelist.net/images/anime/1552/122579l.jpg","banner":"https://wallpaperaccess.com/full/3146630.jpg","synopsis":"Goku and his friends participate in intergalactic tournaments, face gods of destruction, and unlock new forms of power beyond imagination.","rating":8.8,"year":2015,"studio":"Toei Animation","status":"Completed","type":"TV","totalEpisodes":131,"trending":87,"genres":["Action","Adventure","Comedy"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"hunter-x-hunter","title":"Hunter x Hunter","poster":"https://cdn.myanimelist.net/images/anime/1337/99013l.jpg","banner":"https://wallpaperaccess.com/full/3146640.jpg","synopsis":"Gon Freecss discovers his father is a legendary Hunter and sets out on an adventure to find him, passing the brutal Hunter Exam along the way.","rating":9.3,"year":2011,"studio":"Madhouse","status":"Completed","type":"TV","totalEpisodes":148,"trending":91,"genres":["Action","Adventure"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"one-punch-man","title":"One Punch Man","poster":"https://cdn.myanimelist.net/images/anime/12/76049l.jpg","banner":"https://wallpaperaccess.com/full/3146650.jpg","synopsis":"Saitama became a hero for fun and can defeat any opponent with a single punch. He searches for a worthy opponent who can give him a real challenge.","rating":8.7,"year":2015,"studio":"Madhouse","status":"Airing","type":"TV","totalEpisodes":24,"trending":86,"genres":["Action","Comedy"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"sword-art-online","title":"Sword Art Online","poster":"https://cdn.myanimelist.net/images/anime/11/39717l.jpg","banner":"https://wallpaperaccess.com/full/3146660.jpg","synopsis":"Players become trapped in a virtual reality MMORPG where dying in-game means dying in real life. Kirito must clear all 100 floors to escape.","rating":8.2,"year":2012,"studio":"A-1 Pictures","status":"Airing","type":"TV","totalEpisodes":96,"trending":80,"genres":["Action","Adventure","Romance"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"tokyo-ghoul","title":"Tokyo Ghoul","poster":"https://cdn.myanimelist.net/images/anime/5/64449l.jpg","banner":"https://wallpaperaccess.com/full/3146670.jpg","synopsis":"Ken Kaneki becomes half-ghoul after a near-fatal encounter. He must navigate both the human and ghoul worlds while struggling with his new identity.","rating":8.6,"year":2014,"studio":"Pierrot","status":"Completed","type":"TV","totalEpisodes":48,"trending":85,"genres":["Action","Drama","Horror"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"bleach","title":"Bleach: TYBW","poster":"https://cdn.myanimelist.net/images/anime/1908/135431l.jpg","banner":"https://wallpaperaccess.com/full/4625700.jpg","synopsis":"Ichigo Kurosaki continues his battle as a Soul Reaper, now facing the Quincy king Yhwach in the final war that will decide the fate of all worlds.","rating":9.0,"year":2022,"studio":"Pierrot","status":"Airing","type":"TV","totalEpisodes":52,"trending":90,"genres":["Action","Adventure"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"mushoku-tensei","title":"Mushoku Tensei","poster":"https://cdn.myanimelist.net/images/anime/1806/126216l.jpg","banner":"https://wallpaperaccess.com/full/5030080.jpg","synopsis":"A jobless man reincarnated into a magical world as Rudeus Greyrat, retaining his memories. He strives to live without regrets in his second chance at life.","rating":8.9,"year":2021,"studio":"Studio Bind","status":"Airing","type":"TV","totalEpisodes":36,"trending":89,"genres":["Adventure","Fantasy","Romance"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"spy-family","title":"Spy x Family","poster":"https://cdn.myanimelist.net/images/anime/1441/139629l.jpg","banner":"https://wallpaperaccess.com/full/4625710.jpg","synopsis":"A spy, an assassin, and a telepath form a fake family. Each has secrets but they genuinely grow to care for each other while completing their missions.","rating":8.8,"year":2022,"studio":"Wit Studio","status":"Airing","type":"TV","totalEpisodes":37,"trending":84,"genres":["Action","Comedy","Drama"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"chainsaw-man","title":"Chainsaw Man","poster":"https://cdn.myanimelist.net/images/anime/1806/126216l.jpg","banner":"https://wallpaperaccess.com/full/5030090.jpg","synopsis":"Denji merges with his chainsaw devil Pochita and becomes Chainsaw Man, a devil hunter working for Public Safety while chasing his simple dreams.","rating":8.7,"year":2022,"studio":"MAPPA","status":"Airing","type":"TV","totalEpisodes":12,"trending":83,"genres":["Action","Fantasy","Horror"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"steins-gate","title":"Steins;Gate","poster":"https://cdn.myanimelist.net/images/anime/5/73199l.jpg","banner":"https://wallpaperaccess.com/full/3146690.jpg","synopsis":"Rintaro Okabe discovers he can send messages to the past using a modified microwave. His experiments attract the attention of a shadowy organization.","rating":9.4,"year":2011,"studio":"White Fox","status":"Completed","type":"TV","totalEpisodes":24,"trending":82,"genres":["Drama","Sci-Fi"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"cowboy-bebop","title":"Cowboy Bebop","poster":"https://cdn.myanimelist.net/images/anime/4/19644l.jpg","banner":"https://wallpaperaccess.com/full/3146700.jpg","synopsis":"A group of bounty hunters travel through space in their ship Bebop, taking on jobs while dealing with their troubled pasts.","rating":9.1,"year":1998,"studio":"Sunrise","status":"Completed","type":"TV","totalEpisodes":26,"trending":79,"genres":["Action","Adventure","Sci-Fi"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"re-zero","title":"Re:Zero","poster":"https://cdn.myanimelist.net/images/anime/1121/133164l.jpg","banner":"https://wallpaperaccess.com/full/5030100.jpg","synopsis":"Subaru Natsuki is transported to another world and discovers he has the ability to return from death. He uses this power to save those he loves.","rating":8.8,"year":2016,"studio":"White Fox","status":"Airing","type":"TV","totalEpisodes":50,"trending":81,"genres":["Drama","Fantasy","Thriller"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"kimetsu-no-yaiba-mugen","title":"Demon Slayer: Mugen Train","poster":"https://cdn.myanimelist.net/images/anime/1751/119815l.jpg","banner":"https://wallpaperaccess.com/full/3146710.jpg","synopsis":"Tanjiro and his friends board the Mugen Train to investigate disappearances. They face Enmu, the Lower Moon One demon, in an emotional battle.","rating":8.5,"year":2020,"studio":"Ufotable","status":"Completed","type":"Movie","totalEpisodes":1,"trending":77,"genres":["Action","Fantasy"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]},
+  {"id":"your-name","title":"Your Name","poster":"https://cdn.myanimelist.net/images/anime/5/87048l.jpg","banner":"https://wallpaperaccess.com/full/3146720.jpg","synopsis":"Two strangers find themselves linked in a bizarre way. When a comet threatens Tokyo, they must find each other and save their city.","rating":9.0,"year":2016,"studio":"CoMix Wave Films","status":"Completed","type":"Movie","totalEpisodes":1,"trending":78,"genres":["Drama","Romance","Fantasy"],"audio":["Hindi","English","Japanese"],"subs":["English","Hindi"]}
+]

@@ -1,52 +1,78 @@
-const API_BASE = window.location.port === "5000" || window.location.port === "5001"
-  ? "" : "http://" + window.location.hostname + ":5000";
+const API_BASE = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? 'http://localhost:5000/api'
+  : 'https://animeforyou.onrender.com/api';
 
-async function api(method, path, body) {
-  const opts = {
-    method,
-    headers: { "Content-Type": "application/json" },
-  };
-  if (body) opts.body = JSON.stringify(body);
-  const res = await fetch(API_BASE + path, opts);
-  const data = await res.json();
-  if (!data.success) throw new Error(data.error || "API error");
-  return data;
-}
+class AnimeAPI {
+  constructor() { this.useFallback = false; }
 
-function apiGetAll(q, category, audio) {
-  const params = new URLSearchParams();
-  if (q) params.set("q", q);
-  if (category) params.set("category", category);
-  if (audio) params.set("audio", audio);
-  const qs = params.toString();
-  return api("GET", "/api/anime" + (qs ? "?" + qs : ""));
-}
+  async fetch(path, options = {}) {
+    try {
+      const res = await fetch(`${API_BASE}${path}`, {
+        headers: { 'Content-Type': 'application/json', ...options.headers },
+        ...options
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.json();
+    } catch (e) {
+      console.warn('API fallback to localStorage:', e.message);
+      this.useFallback = true;
+      return null;
+    }
+  }
 
-function apiGetOne(id) {
-  return api("GET", "/api/anime/" + id);
-}
+  async getAll() {
+    const data = await this.fetch('/anime');
+    if (data) { localStorage.setItem('afy_data', JSON.stringify(data)); return data; }
+    return JSON.parse(localStorage.getItem('afy_data') || '[]');
+  }
 
-function apiCreate(anime) {
-  return api("POST", "/api/anime", anime);
-}
+  async getById(id) {
+    const data = await this.fetch(`/anime/${id}`);
+    if (data) return data;
+    const all = JSON.parse(localStorage.getItem('afy_data') || '[]');
+    return all.find(a => a.id === id);
+  }
 
-function apiUpdate(id, anime) {
-  return api("PUT", "/api/anime/" + id, anime);
-}
+  async search(q) {
+    const data = await this.fetch(`/anime/search?q=${encodeURIComponent(q)}`);
+    if (data) return data;
+    const all = JSON.parse(localStorage.getItem('afy_data') || '[]');
+    return all.filter(a => a.title.toLowerCase().includes(q.toLowerCase()));
+  }
 
-function apiDelete(id) {
-  return api("DELETE", "/api/anime/" + id);
-}
+  async getByGenre(genre) {
+    const data = await this.fetch(`/anime/genre/${encodeURIComponent(genre)}`);
+    if (data) return data;
+    const all = JSON.parse(localStorage.getItem('afy_data') || '[]');
+    return all.filter(a => a.genres.includes(genre));
+  }
 
-function apiGetStats() {
-  return api("GET", "/api/stats");
-}
+  async create(anime) {
+    return await this.fetch('/anime', { method: 'POST', body: JSON.stringify(anime) });
+  }
 
-async function apiCheck() {
-  try {
-    await apiGetStats();
-    return true;
-  } catch {
-    return false;
+  async update(id, anime) {
+    return await this.fetch(`/anime/${id}`, { method: 'PUT', body: JSON.stringify(anime) });
+  }
+
+  async delete(id) {
+    return await this.fetch(`/anime/${id}`, { method: 'DELETE' });
+  }
+
+  async getStats() {
+    const data = await this.fetch('/stats');
+    if (data) return data;
+    const all = JSON.parse(localStorage.getItem('afy_data') || '[]');
+    return { totalAnime: all.length, totalEpisodes: all.reduce((s,a) => s + (a.totalEpisodes||0), 0), totalGenres: [...new Set(all.flatMap(a => a.genres))].length };
+  }
+
+  async importData(data) {
+    return await this.fetch('/anime/import', { method: 'POST', body: JSON.stringify({ data }) });
+  }
+
+  async exportData() {
+    return await this.getAll();
   }
 }
+
+const api = new AnimeAPI();
