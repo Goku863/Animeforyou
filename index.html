@@ -14,13 +14,20 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
 <body>
-  <!-- Loading Screen -->
-  <div class="loading-screen" id="loadingScreen">
-    <div class="loader">
-      <div class="loader-ring"></div>
-      <div class="loader-ring"></div>
-      <div class="loader-ring"></div>
-      <span class="loader-text">AnimeVault</span>
+  <!-- Real Preloader -->
+  <div class="preloader" id="preloader">
+    <div class="preloader-inner">
+      <div class="preloader-logo">
+        <span class="logo-mark">A</span>
+      </div>
+      <div class="preloader-bar-track">
+        <div class="preloader-bar-fill" id="preloaderFill"></div>
+      </div>
+      <div class="preloader-info">
+        <span class="preloader-text" id="preloaderText">Loading resources...</span>
+        <span class="preloader-percent" id="preloaderPercent">0%</span>
+      </div>
+      <div class="preloader-details" id="preloaderDetails">Fetching anime data</div>
     </div>
   </div>
 
@@ -339,10 +346,52 @@
     var CURRENT_PAGE = "home";
     var CURRENT_ANIME = null;
 
-    // Loading Screen
-    function hideLoading() {
-      var loader = document.getElementById("loadingScreen");
-      gsap.to(loader, { opacity: 0, duration: 0.5, onComplete: function() { loader.style.display = "none"; } });
+    // Real Preloader
+    var preloaderProgress = 0;
+    var preloaderTotal = 0;
+    var preloaderLoaded = 0;
+
+    function updatePreloader(percent, text, details) {
+      var fill = document.getElementById("preloaderFill");
+      var percentEl = document.getElementById("preloaderPercent");
+      var textEl = document.getElementById("preloaderText");
+      var detailsEl = document.getElementById("preloaderDetails");
+      if (fill) fill.style.width = percent + "%";
+      if (percentEl) percentEl.textContent = Math.round(percent) + "%";
+      if (textEl) textEl.textContent = text || "Loading resources...";
+      if (detailsEl) detailsEl.textContent = details || "";
+    }
+
+    function preloadImages(urls) {
+      return new Promise(function(resolve) {
+        if (!urls || urls.length === 0) { resolve(); return; }
+        preloaderTotal = urls.length;
+        preloaderLoaded = 0;
+        var checked = 0;
+        urls.forEach(function(url) {
+          var img = new Image();
+          img.onload = img.onerror = function() {
+            preloaderLoaded++;
+            var pct = Math.min((preloaderLoaded / preloaderTotal) * 100, 100);
+            updatePreloader(pct, "Loading anime images...", preloaderLoaded + " / " + preloaderTotal + " images");
+            checked++;
+            if (checked === urls.length) resolve();
+          };
+          img.src = url;
+        });
+      });
+    }
+
+    function hidePreloader() {
+      var preloader = document.getElementById("preloader");
+      updatePreloader(100, "Ready!", "Starting AnimeVault...");
+      gsap.to(preloader, {
+        opacity: 0, duration: 0.6, delay: 0.3,
+        onComplete: function() {
+          preloader.style.display = "none";
+          gsap.from(".main-wrap", { opacity: 0, y: 20, duration: 0.5 });
+        }
+      });
     }
 
     // Particle System
@@ -411,6 +460,10 @@
 
     // Initialize
     (async function init() {
+      updatePreloader(5, "Initializing...", "Setting up AnimeVault");
+
+      // Step 1: Load data
+      updatePreloader(10, "Fetching anime data...", "Connecting to database");
       var apiData = await loadFromAPI();
       if (apiData) {
         ALL_ANIME = apiData;
@@ -419,6 +472,9 @@
         if (local) { ALL_ANIME = local; }
         else { saveLocalData(DEFAULT_ANIME); ALL_ANIME = DEFAULT_ANIME; }
       }
+      updatePreloader(25, "Processing anime list...", ALL_ANIME.length + " titles found");
+
+      // Step 2: Process data
       ALL_ANIME.forEach(function(a) {
         if (!a.badge) {
           if (a.audio === "hindi-dubbed") a.badge = "Hindi";
@@ -430,12 +486,25 @@
         if (!a.status) a.status = Math.random() > 0.5 ? "Ongoing" : "Completed";
       });
       document.getElementById("statTotal").textContent = ALL_ANIME.length + "+";
+      updatePreloader(35, "Preparing content...", "Building categories and sections");
+
+      // Step 3: Build UI
       rebuildCategoryList();
       buildGenreGrid();
       buildFooterCategories();
       goHome();
+      updatePreloader(45, "Loading anime images...", "0 / " + ALL_ANIME.length + " images");
+
+      // Step 4: Preload images
+      var imageUrls = ALL_ANIME.map(function(a) { return a.image; }).filter(function(url) { return url && url.indexOf("data:") !== 0; });
+      await preloadImages(imageUrls);
+
+      // Step 5: Init particles and finish
+      updatePreloader(95, "Finalizing...", "Almost ready");
       initParticles();
-      setTimeout(hideLoading, 800);
+
+      // Step 6: Done
+      hidePreloader();
     })();
 
     // Render Functions
