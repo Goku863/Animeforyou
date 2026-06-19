@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>AnimeForYou — Premium Anime Streaming</title>
   <meta name="description" content="Watch anime online for free. Stream thousands of episodes in Hindi, English, and Japanese with subtitles." />
-  <meta name="theme-color" content="#0a0a0a" />
+  <meta name="theme-color" content="#09090b" />
   <meta property="og:title" content="AnimeForYou — Premium Anime Streaming" />
   <meta property="og:description" content="Watch anime online for free. Stream thousands of episodes." />
   <meta property="og:type" content="website" />
@@ -43,6 +43,7 @@
           <div class="search-drop" id="searchDrop" role="listbox"></div>
         </div>
         <button class="nav-icon-btn" onclick="go('bookmarks')" aria-label="Bookmarks"><i class="fas fa-bookmark" aria-hidden="true"></i></button>
+        <a href="admin.html" class="nav-icon-btn" aria-label="Admin"><i class="fas fa-gear" aria-hidden="true"></i></a>
         <button class="nav-icon-btn hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu" aria-expanded="false"><i class="fas fa-bars" aria-hidden="true"></i></button>
       </div>
     </div>
@@ -218,7 +219,7 @@
           <img id="dPoster" class="detail-poster" alt="" width="280" height="373" />
           <div class="detail-acts">
             <button class="btn-glow" id="dPlay" onclick="playFirst()"><i class="fas fa-play"></i> Watch Now</button>
-            <button class="btn-ghost" id="dBm" onclick="toggleBmDetail()"><i class="fas fa-bookmark"></i> Bookmark</button>
+            <button class="btn-ghost lg" id="dBm" onclick="toggleBmDetail()"><i class="fas fa-bookmark"></i> Bookmark</button>
           </div>
         </aside>
         <div class="detail-main">
@@ -247,7 +248,7 @@
     <a href="#" class="mob-item" data-p="trending" onclick="go('trending');return false"><i class="fas fa-chart-line"></i><span>Trending</span></a>
     <a href="#" class="mob-item" data-p="search" onclick="go('search');return false"><i class="fas fa-search"></i><span>Search</span></a>
     <a href="#" class="mob-item" data-p="bookmarks" onclick="go('bookmarks');return false"><i class="fas fa-bookmark"></i><span>Saved</span></a>
-    <a href="#" class="mob-item" data-p="latest" onclick="go('latest');return false"><i class="fas fa-clock"></i><span>Latest</span></a>
+    <a href="admin.html" class="mob-item" aria-label="Admin"><i class="fas fa-gear"></i><span>Admin</span></a>
   </nav>
 
   <footer role="contentinfo">
@@ -266,6 +267,10 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.18/lenis.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+  <script src="firebase-config.js"></script>
   <script src="api.js"></script>
   <script>
   'use strict';
@@ -279,13 +284,41 @@
   function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
   function gIC(c){return GI[c]||'tag';}
 
-  document.addEventListener('DOMContentLoaded',()=>{
-    DATA=seed();
+  document.addEventListener('DOMContentLoaded', async()=>{
     if(!RM)initBg();
-    initHero();renderHome();initScroll();initSearch();initKeys();
+    initLenis();
+    initScroll();initSearch();initKeys();
     gsap.registerPlugin(ScrollTrigger);
+    await loadData();
   });
   window.addEventListener('beforeunload',()=>{if(HINT)clearInterval(HINT);});
+
+  async function loadData(){
+    showLoading();
+    DATA=await api.getAll();
+    hideLoading();
+    initHero();
+    renderHome();
+  }
+
+  function showLoading(){
+    ['featRow','trendRow','latestGrid','recentGrid','contRow','homeCatGrid'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el)el.innerHTML='<div class="loading-pulse"></div>'.repeat(4);
+    });
+  }
+  function hideLoading(){}
+
+  // ===== LENIS SMOOTH SCROLL =====
+  function initLenis(){
+    if(RM)return;
+    const lenis=new Lenis({duration:1.2,easing:(t)=>Math.min(1,1.001-Math.pow(2,-10*t)),smooth:true});
+    function raf(time){lenis.raf(time);requestAnimationFrame(raf);}
+    requestAnimationFrame(raf);
+    lenis.on('scroll',ScrollTrigger.update);
+    gsap.ticker.add((time)=>{lenis.raf(time*1000);});
+    gsap.ticker.lagSmoothing(0);
+  }
 
   // ===== NAVIGATION =====
   function go(pg,d){
@@ -343,12 +376,16 @@
   function initHero(){
     const feat=DATA.filter(a=>a.rating>=8.5).slice(0,5);
     const tk=document.getElementById('heroTrack'),dt=document.getElementById('heroDots');
-    tk.innerHTML=feat.map(a=>'<div class="hero-slide" style="background-image:url(\''+esc(a.banner)+'\')"></div>').join('');
+    if(!feat.length){
+      document.getElementById('heroBody').innerHTML='<div class="empty-hero"><h2 class="hero-title">Welcome to AnimeForYou</h2><p class="hero-desc">No anime added yet. Start by adding your first anime in the admin panel.</p><div class="hero-acts"><a href="admin.html" class="btn-glow lg"><i class="fas fa-plus"></i> Add Anime</a></div></div>';
+      return;
+    }
+    tk.innerHTML=feat.map(a=>'<div class="hero-slide" style="background-image:url(\''+esc(a.banner||a.poster)+'\')"></div>').join('');
     dt.innerHTML=feat.map((_,i)=>'<button class="h-dot'+(i===0?' on':'')+'" role="tab" aria-selected="'+(i===0)+'" onclick="heroGo('+i+')"></button>').join('');
     HIDX=0;updHero();
     HINT=setInterval(()=>heroGo(1),7000);
   }
-  function heroGo(d){const t=document.querySelectorAll('.hero-slide').length;HIDX=(HIDX+d+t)%t;updHero();}
+  function heroGo(d){const t=document.querySelectorAll('.hero-slide').length;if(!t)return;HIDX=(HIDX+d+t)%t;updHero();}
   function heroGoTo(i){HIDX=i;updHero();clearInterval(HINT);HINT=setInterval(()=>heroGo(1),7000);}
   function updHero(){
     const sl=document.querySelectorAll('.hero-slide'),dt=document.querySelectorAll('.h-dot');
@@ -357,7 +394,7 @@
     dt.forEach((d,i)=>{d.classList.toggle('on',i===HIDX);d.setAttribute('aria-selected',i===HIDX);});
     const a=feat[HIDX];if(!a)return;
     const b=document.getElementById('heroBody');
-    b.innerHTML='<span class="hero-chip"><i class="fas fa-fire"></i> Featured</span><h2 class="hero-title">'+esc(a.title)+'</h2><p class="hero-sub">'+a.year+' &bull; '+esc(a.studio)+' &bull; <i class="fas fa-star" style="color:var(--accent)"></i> '+a.rating+'</p><p class="hero-desc">'+esc(a.synopsis.substring(0,160))+'...</p><div class="hero-acts"><button class="btn-glow lg" onclick="go(\'detail\',\''+esc(a.id)+'\')"><i class="fas fa-play"></i> Watch Now</button><button class="btn-ghost lg" onclick="go(\'detail\',\''+esc(a.id)+'\')"><i class="fas fa-circle-info"></i> Details</button></div>';
+    b.innerHTML='<span class="hero-chip"><i class="fas fa-fire"></i> Featured</span><h2 class="hero-title">'+esc(a.title)+'</h2><p class="hero-sub">'+a.year+' &bull; '+esc(a.studio||'')+' &bull; <i class="fas fa-star" style="color:var(--accent)"></i> '+a.rating+'</p><p class="hero-desc">'+esc((a.synopsis||'').substring(0,160))+'...</p><div class="hero-acts"><button class="btn-glow lg" onclick="go(\'detail\',\''+esc(a.id)+'\')"><i class="fas fa-play"></i> Watch Now</button><button class="btn-ghost lg" onclick="go(\'detail\',\''+esc(a.id)+'\')"><i class="fas fa-circle-info"></i> Details</button></div>';
     if(!RM)gsap.fromTo('#heroBody > *',{opacity:0,y:30},{opacity:1,y:0,duration:.6,stagger:.1,ease:'power3.out'});
   }
 
@@ -410,10 +447,14 @@
 
   // ===== RENDER =====
   function renderHome(){
+    if(!DATA.length){
+      renderEmptyHome();
+      return;
+    }
     const feat=DATA.filter(a=>a.rating>=8.5).slice(0,10);
-    const trend=[...DATA].sort((a,b)=>b.trending-a.trending).slice(0,12);
-    const latest=[...DATA].sort((a,b)=>b.id.localeCompare(a.id)).slice(0,12);
-    const recent=[...DATA].sort((a,b)=>b.id.localeCompare(a.id)).slice(0,8);
+    const trend=[...DATA].sort((a,b)=>(b.trending||0)-(a.trending||0)).slice(0,12);
+    const latest=[...DATA].sort((a,b)=>(b.year||0)-(a.year||0)).slice(0,12);
+    const recent=[...DATA].sort((a,b)=>(b.id||'').localeCompare(a.id||'')).slice(0,8);
     const cont=HIST.slice(0,10).map(h=>DATA.find(a=>a.id===h.id)).filter(Boolean);
     renderRow('featRow',feat);renderRow('trendRow',trend);
     renderGrid('latestGrid',latest);renderGrid('recentGrid',recent);
@@ -421,38 +462,49 @@
     animScroll();
   }
 
+  function renderEmptyHome(){
+    const empty='<div class="empty-state"><i class="fas fa-film"></i><h3>No Anime Yet</h3><p>Add your first anime in the admin panel to get started.</p><a href="admin.html" class="btn-glow" style="margin-top:16px"><i class="fas fa-plus"></i> Add Anime</a></div>';
+    ['featRow','trendRow','latestGrid','recentGrid','contRow'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el)el.innerHTML=empty;
+    });
+    renderHomeCats();
+  }
+
   function renderHomeCats(){
     const g=document.getElementById('homeCatGrid');
-    g.innerHTML=CATS.map(c=>'<a href="#" class="cat-card glass" onclick="go(\'categories\',\''+esc(c)+'\');return false"><div class="cat-ico" style="background:'+(GC[c]||'var(--accent)')+'"><i class="fas fa-'+gIC(c)+'"></i></div><span>'+esc(c)+'</span><span class="cat-n">'+DATA.filter(a=>a.genres.includes(c)).length+'</span></a>').join('');
+    const counts={};
+    DATA.forEach(a=>(a.genres||[]).forEach(g=>{counts[g]=(counts[g]||0)+1;}));
+    g.innerHTML=CATS.map(c=>'<a href="#" class="cat-card glass" onclick="go(\'categories\',\''+esc(c)+'\');return false"><div class="cat-ico" style="background:'+(GC[c]||'var(--accent)')+'"><i class="fas fa-'+gIC(c)+'"></i></div><span>'+esc(c)+'</span><span class="cat-n">'+(counts[c]||0)+'</span></a>').join('');
     const fc=document.getElementById('ftCats');
     if(fc)fc.innerHTML=CATS.slice(0,6).map(c=>'<li><a href="#" onclick="go(\'categories\',\''+esc(c)+'\');return false">'+esc(c)+'</a></li>').join('');
   }
 
-  function renderRow(id,items){const r=document.getElementById(id);if(!r)return;r.innerHTML=items.map(a=>card(a)).join('');}
-  function renderGrid(id,items){const g=document.getElementById(id);if(!g)return;g.innerHTML=items.map(a=>card(a)).join('');}
+  function renderRow(id,items){const r=document.getElementById(id);if(!r)return;if(!items.length){r.innerHTML='<p class="dim" style="padding:20px">No anime available</p>';return;}r.innerHTML=items.map(a=>card(a)).join('');}
+  function renderGrid(id,items){const g=document.getElementById(id);if(!g)return;if(!items.length){g.innerHTML='<div class="empty-state"><i class="fas fa-film"></i><h3>No anime found</h3><p>Try adjusting your filters or add more anime.</p></div>';return;}g.innerHTML=items.map(a=>card(a)).join('');}
 
   function renderCont(id,items){
     const r=document.getElementById(id);if(!r)return;
     if(!items.length){r.innerHTML='<p class="dim" style="padding:20px">Start watching to see history</p>';return;}
     r.innerHTML=items.map(a=>{
       const h=HIST.find(x=>x.id===a.id);
-      const pct=h?Math.round((h.ep/a.totalEpisodes)*100):0;
-      return '<div class="anime-card" onclick="go(\'detail\',\''+esc(a.id)+'\')"><div class="card-vis"><img src="'+esc(a.poster)+'" alt="'+esc(a.title)+'" width="200" height="267" loading="lazy" /><div class="card-overlay"><span class="card-play"><i class="fas fa-play"></i></span></div><div class="card-bar"><div class="card-fill" style="width:'+pct+'%"></div></div></div><div class="card-txt"><h3>'+esc(a.title)+'</h3><p class="dim">'+(h?h.ep:a.totalEpisodes)+' / '+a.totalEpisodes+'</p></div></div>';
+      const pct=h?Math.round((h.ep/(a.totalEpisodes||1))*100):0;
+      return '<div class="anime-card" onclick="go(\'detail\',\''+esc(a.id)+'\')"><div class="card-vis"><img src="'+esc(a.poster||'')+'" alt="'+esc(a.title)+'" width="200" height="267" loading="lazy" /><div class="card-overlay"><span class="card-play"><i class="fas fa-play"></i></span></div><div class="card-bar"><div class="card-fill" style="width:'+pct+'%"></div></div></div><div class="card-txt"><h3>'+esc(a.title)+'</h3><p class="dim">'+(h?h.ep:(a.totalEpisodes||0))+' / '+(a.totalEpisodes||0)+'</p></div></div>';
     }).join('');
   }
 
   function card(a){
-    return '<div class="anime-card" onclick="go(\'detail\',\''+esc(a.id)+'\')"><div class="card-vis"><img src="'+esc(a.poster)+'" alt="'+esc(a.title)+'" width="200" height="267" loading="lazy" /><div class="card-overlay"><span class="card-play"><i class="fas fa-play"></i></span><button class="card-bm'+(BMS.includes(a.id)?' on':'')+'" onclick="event.stopPropagation();toggleBM(\''+esc(a.id)+'\')" aria-label="Bookmark"><i class="fas fa-bookmark"></i></button></div><span class="card-badge">'+esc(a.type)+'</span>'+(a.rating>=9?'<span class="card-hot"><i class="fas fa-fire"></i></span>':'')+'</div><div class="card-txt"><h3>'+esc(a.title)+'</h3><div class="card-row-meta"><span><i class="fas fa-star" style="color:var(--accent)"></i> '+a.rating+'</span><span>'+a.totalEpisodes+' eps</span></div><div class="card-tags">'+a.genres.slice(0,2).map(g=>'<span class="ctag" style="--tc:'+(GC[g]||'var(--accent)')+'">'+esc(g)+'</span>').join('')+'</div></div></div>';
+    return '<div class="anime-card" onclick="go(\'detail\',\''+esc(a.id)+'\')"><div class="card-vis"><img src="'+esc(a.poster||'')+'" alt="'+esc(a.title)+'" width="200" height="267" loading="lazy" /><div class="card-overlay"><span class="card-play"><i class="fas fa-play"></i></span><button class="card-bm'+(BMS.includes(a.id)?' on':'')+'" onclick="event.stopPropagation();toggleBM(\''+esc(a.id)+'\')" aria-label="Bookmark"><i class="fas fa-bookmark"></i></button></div><span class="card-badge">'+esc(a.type||'TV')+'</span>'+(a.rating>=9?'<span class="card-hot"><i class="fas fa-fire"></i></span>':'')+'</div><div class="card-txt"><h3>'+esc(a.title)+'</h3><div class="card-row-meta"><span><i class="fas fa-star" style="color:var(--accent)"></i> '+(a.rating||0)+'</span><span>'+(a.totalEpisodes||0)+' eps</span></div><div class="card-tags">'+(a.genres||[]).slice(0,2).map(g=>'<span class="ctag" style="--tc:'+(GC[g]||'var(--accent)')+'">'+esc(g)+'</span>').join('')+'</div></div></div>';
   }
 
   // ===== TRENDING =====
-  function renderTrend(){
+  async function renderTrend(){
     const g=document.getElementById('fGenre').value,s=document.getElementById('fSort').value;
     let items=[...DATA];
-    if(g!=='all')items=items.filter(a=>a.genres.includes(g));
-    if(s==='t')items.sort((a,b)=>b.trending-a.trending);
-    else if(s==='r')items.sort((a,b)=>b.rating-a.rating);
-    else if(s==='n')items.sort((a,b)=>b.year-a.year);
+    if(g!=='all')items=items.filter(a=>a.genres&&a.genres.includes(g));
+    if(s==='t')items.sort((a,b)=>(b.trending||0)-(a.trending||0));
+    else if(s==='r')items.sort((a,b)=>(b.rating||0)-(a.rating||0));
+    else if(s==='n')items.sort((a,b)=>(b.year||0)-(a.year||0));
     else if(s==='a')items.sort((a,b)=>a.title.localeCompare(b.title));
     renderGrid('trendGrid',items);popFilter('fGenre');animScroll();
   }
@@ -478,10 +530,12 @@
     if(genre){
       if(ph)ph.style.display='none';cg.style.display='none';sa.style.display='block';
       document.getElementById('catTitle').textContent=genre+' Anime';
-      renderGrid('catAnimeGrid',DATA.filter(a=>a.genres.includes(genre)));
+      renderGrid('catAnimeGrid',DATA.filter(a=>a.genres&&a.genres.includes(genre)));
     }else{
       if(ph)ph.style.display='';cg.style.display='';sa.style.display='none';
-      cg.innerHTML=CATS.map(c=>'<a href="#" class="cat-card glass" onclick="go(\'categories\',\''+esc(c)+'\');return false"><div class="cat-ico" style="background:'+(GC[c]||'var(--accent)')+'"><i class="fas fa-'+gIC(c)+'"></i></div><span>'+esc(c)+'</span><span class="cat-n">'+DATA.filter(a=>a.genres.includes(c)).length+'</span></a>').join('');
+      const counts={};
+      DATA.forEach(a=>(a.genres||[]).forEach(g=>{counts[g]=(counts[g]||0)+1;}));
+      cg.innerHTML=CATS.map(c=>'<a href="#" class="cat-card glass" onclick="go(\'categories\',\''+esc(c)+'\');return false"><div class="cat-ico" style="background:'+(GC[c]||'var(--accent)')+'"><i class="fas fa-'+gIC(c)+'"></i></div><span>'+esc(c)+'</span><span class="cat-n">'+(counts[c]||0)+'</span></a>').join('');
     }
     animScroll();
   }
@@ -495,9 +549,9 @@
       db=setTimeout(()=>{
         const q=inp.value.trim().toLowerCase();
         if(q.length<2){drp.style.display='none';return;}
-        const m=DATA.filter(a=>a.title.toLowerCase().includes(q)||a.genres.some(g=>g.toLowerCase().includes(q))).slice(0,6);
+        const m=DATA.filter(a=>a.title.toLowerCase().includes(q)||(a.genres&&a.genres.some(g=>g.toLowerCase().includes(q)))).slice(0,6);
         if(!m.length){drp.style.display='none';return;}
-        drp.innerHTML=m.map(a=>'<div class="sug" role="option" onclick="go(\'detail\',\''+esc(a.id)+'\')"><img src="'+esc(a.poster)+'" alt="" width="32" height="44" loading="lazy" /><span>'+esc(a.title)+'</span></div>').join('');
+        drp.innerHTML=m.map(a=>'<div class="sug" role="option" onclick="go(\'detail\',\''+esc(a.id)+'\')"><img src="'+esc(a.poster||'')+'" alt="" width="32" height="44" loading="lazy" /><span>'+esc(a.title)+'</span></div>').join('');
         drp.style.display='block';
       },180);
     });
@@ -513,7 +567,7 @@
 
   function doSearch(q){
     if(!q)return;
-    SRES=DATA.filter(a=>a.title.toLowerCase().includes(q.toLowerCase())||a.synopsis.toLowerCase().includes(q.toLowerCase())||a.genres.some(g=>g.toLowerCase().includes(q.toLowerCase())));
+    SRES=DATA.filter(a=>a.title.toLowerCase().includes(q.toLowerCase())||(a.synopsis&&a.synopsis.toLowerCase().includes(q.toLowerCase()))||(a.genres&&a.genres.some(g=>g.toLowerCase().includes(q.toLowerCase()))));
     document.getElementById('searchCount').textContent='Found '+SRES.length+' for "'+esc(q)+'"';
     go('search');renderGrid('searchGrid',SRES);popFilter('sGenre');popYearFilter('sYear');animScroll();
   }
@@ -521,18 +575,18 @@
   function filterSearch(){
     let items=[...SRES];
     const g=document.getElementById('sGenre').value,y=document.getElementById('sYear').value,r=document.getElementById('sRating').value,s=document.getElementById('sSort').value;
-    if(g!=='all')items=items.filter(a=>a.genres.includes(g));
+    if(g!=='all')items=items.filter(a=>a.genres&&a.genres.includes(g));
     if(y!=='all')items=items.filter(a=>a.year===parseInt(y));
-    if(r!=='all')items=items.filter(a=>a.rating>=parseFloat(r));
-    if(s==='r')items.sort((a,b)=>b.rating-a.rating);
-    else if(s==='n')items.sort((a,b)=>b.year-a.year);
+    if(r!=='all')items=items.filter(a=>(a.rating||0)>=parseFloat(r));
+    if(s==='r')items.sort((a,b)=>(b.rating||0)-(a.rating||0));
+    else if(s==='n')items.sort((a,b)=>(b.year||0)-(a.year||0));
     else if(s==='a')items.sort((a,b)=>a.title.localeCompare(b.title));
     renderGrid('searchGrid',items);
     document.getElementById('noResults').style.display=items.length?'none':'block';
   }
 
   function popFilter(id){const s=document.getElementById(id),v=s.value;while(s.options.length>1)s.remove(1);CATS.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;s.appendChild(o);});s.value=v;}
-  function popYearFilter(id){const s=document.getElementById(id),v=s.value;while(s.options.length>1)s.remove(1);[...new Set(DATA.map(a=>a.year))].sort((a,b)=>b-a).forEach(y=>{const o=document.createElement('option');o.value=y;o.textContent=y;s.appendChild(o);});s.value=v;}
+  function popYearFilter(id){const s=document.getElementById(id),v=s.value;while(s.options.length>1)s.remove(1);[...new Set(DATA.map(a=>a.year).filter(Boolean))].sort((a,b)=>b-a).forEach(y=>{const o=document.createElement('option');o.value=y;o.textContent=y;s.appendChild(o);});s.value=v;}
 
   // ===== BOOKMARKS =====
   function toggleBM(id){
@@ -555,28 +609,29 @@
   }
 
   // ===== DETAIL =====
-  function showDetail(id){
+  async function showDetail(id){
     const a=DATA.find(x=>x.id===id);if(!a)return;CUR=a;
-    document.getElementById('dPoster').src=a.poster;document.getElementById('dPoster').alt=a.title;
-    document.getElementById('detailBg').style.backgroundImage='url(\''+esc(a.banner)+'\')';
+    document.getElementById('dPoster').src=a.poster||'';
+    document.getElementById('dPoster').alt=a.title;
+    document.getElementById('detailBg').style.backgroundImage='url(\''+esc(a.banner||a.poster||'')+'\')';
     document.getElementById('dTitle').textContent=a.title;
-    document.getElementById('dRating').querySelector('span').textContent=a.rating;
-    document.getElementById('dYear').querySelector('span').textContent=a.year;
-    document.getElementById('dStatus').querySelector('span').textContent=a.status;
-    document.getElementById('dType').querySelector('span').textContent=a.type;
-    document.getElementById('dStudio').textContent=a.studio;
-    document.getElementById('dSyn').textContent=a.synopsis;
-    document.getElementById('dGenres').innerHTML=a.genres.map(g=>'<span class="ctag" style="--tc:'+(GC[g]||'var(--accent)')+'">'+esc(g)+'</span>').join('');
-    document.getElementById('dAudio').innerHTML=a.audio.map(l=>'<span class="ctag">'+esc(l)+'</span>').join('');
-    document.getElementById('dSubs').innerHTML=a.subs.map(s=>'<span class="ctag">'+esc(s)+'</span>').join('');
-    document.getElementById('dEpCount').textContent=a.totalEpisodes+' episodes';
+    document.getElementById('dRating').querySelector('span').textContent=a.rating||0;
+    document.getElementById('dYear').querySelector('span').textContent=a.year||'';
+    document.getElementById('dStatus').querySelector('span').textContent=a.status||'';
+    document.getElementById('dType').querySelector('span').textContent=a.type||'TV';
+    document.getElementById('dStudio').textContent=a.studio||'';
+    document.getElementById('dSyn').textContent=a.synopsis||'';
+    document.getElementById('dGenres').innerHTML=(a.genres||[]).map(g=>'<span class="ctag" style="--tc:'+(GC[g]||'var(--accent)')+'">'+esc(g)+'</span>').join('');
+    document.getElementById('dAudio').innerHTML=(a.audio||[]).map(l=>'<span class="ctag">'+esc(l)+'</span>').join('');
+    document.getElementById('dSubs').innerHTML=(a.subs||[]).map(s=>'<span class="ctag">'+esc(s)+'</span>').join('');
+    document.getElementById('dEpCount').textContent=(a.totalEpisodes||0)+' episodes';
     document.getElementById('dBm').innerHTML=BMS.includes(a.id)?'<i class="fas fa-bookmark"></i> Bookmarked':'<i class="far fa-bookmark"></i> Bookmark';
-    CEPS=[];for(let i=1;i<=a.totalEpisodes;i++)CEPS.push({n:i,t:'Episode '+i});
-    const rng=[];for(let i=1;i<=a.totalEpisodes;i+=100)rng.push(i+'-'+Math.min(i+99,a.totalEpisodes));
+    CEPS=[];for(let i=1;i<=(a.totalEpisodes||1);i++)CEPS.push({n:i,t:'Episode '+i});
+    const rng=[];for(let i=1;i<=(a.totalEpisodes||1);i+=100)rng.push(i+'-'+Math.min(i+99,a.totalEpisodes||1));
     document.getElementById('epRange').innerHTML=rng.map((r,i)=>'<option value="'+i+'">'+r+'</option>').join('');
     renderEps();
-    renderRow('dRelated',DATA.filter(x=>x.id!==a.id&&x.genres.some(g=>a.genres.includes(g))).slice(0,10));
-    renderRow('dRec',DATA.filter(x=>x.id!==a.id&&x.rating>=8).sort(()=>Math.random()-.5).slice(0,10));
+    renderRow('dRelated',DATA.filter(x=>x.id!==a.id&&x.genres&&a.genres&&x.genres.some(g=>a.genres.includes(g))).slice(0,10));
+    renderRow('dRec',DATA.filter(x=>x.id!==a.id&&(x.rating||0)>=8).sort(()=>Math.random()-.5).slice(0,10));
     document.getElementById('watchBack').setAttribute('onclick','go(\'detail\',\''+esc(a.id)+'\');return false');
     animScroll();
   }
@@ -597,23 +652,23 @@
     const p=d.split(':'),aid=p[0],ep=parseInt(p[1])||1;
     const a=DATA.find(x=>x.id===aid);if(!a)return;CUR=a;CEP=ep;
     document.getElementById('wTitle').textContent=a.title;
-    document.getElementById('wEp').textContent='Episode '+CEP+' of '+a.totalEpisodes;
+    document.getElementById('wEp').textContent='Episode '+CEP+' of '+(a.totalEpisodes||0);
     document.getElementById('wSource').textContent='Server 1 — '+a.title+' EP'+CEP;
-    document.getElementById('wAudio').innerHTML=a.audio.map(l=>'<span class="ctag">'+esc(l)+'</span>').join('');
-    document.getElementById('wSubs').innerHTML=a.subs.map(s=>'<span class="ctag">'+esc(s)+'</span>').join('');
+    document.getElementById('wAudio').innerHTML=(a.audio||[]).map(l=>'<span class="ctag">'+esc(l)+'</span>').join('');
+    document.getElementById('wSubs').innerHTML=(a.subs||[]).map(s=>'<span class="ctag">'+esc(s)+'</span>').join('');
     document.getElementById('prevEp').disabled=CEP<=1;
-    document.getElementById('nextEp').disabled=CEP>=a.totalEpisodes;
-    const sel=document.getElementById('epScroll'),mx=Math.min(a.totalEpisodes,CEP+5);
+    document.getElementById('nextEp').disabled=CEP>=(a.totalEpisodes||0);
+    const sel=document.getElementById('epScroll'),mx=Math.min(a.totalEpisodes||0,CEP+5);
     sel.innerHTML='';for(let i=Math.max(1,CEP-2);i<=mx;i++)sel.innerHTML+='<button class="ep-pill'+(i===CEP?' on':'')+'" onclick="go(\'watch\',\''+esc(a.id)+':'+i+'\')">EP '+i+'</button>';
     const hi=HIST.findIndex(h=>h.id===a.id);
     if(hi>-1)HIST[hi]={id:a.id,ep:CEP,t:Date.now()};else HIST.unshift({id:a.id,ep:CEP,t:Date.now()});
     if(HIST.length>50)HIST=HIST.slice(0,50);
     localStorage.setItem('afy_hist',JSON.stringify(HIST));
-    renderRow('wRelated',DATA.filter(x=>x.id!==a.id&&x.genres.some(g=>a.genres.includes(g))).slice(0,10));
+    renderRow('wRelated',DATA.filter(x=>x.id!==a.id&&x.genres&&a.genres&&x.genres.some(g=>a.genres.includes(g))).slice(0,10));
   }
 
   function prevEp(){if(CUR&&CEP>1)go('watch',CUR.id+':'+(CEP-1));}
-  function nextEp(){if(CUR&&CEP<CUR.totalEpisodes)go('watch',CUR.id+':'+(CEP+1));}
+  function nextEp(){if(CUR&&CEP<(CUR.totalEpisodes||0))go('watch',CUR.id+':'+(CEP+1));}
   function pickSrv(i){document.querySelectorAll('.srv').forEach((b,j)=>b.classList.toggle('on',j===i));toast('Server '+(i+1));}
   function toggleTheater(){document.getElementById('playerBox').classList.toggle('theater');}
   function toggleFs(){const e=document.getElementById('playerBox');if(e.requestFullscreen)e.requestFullscreen();else if(e.webkitRequestFullscreen)e.webkitRequestFullscreen();}
@@ -632,34 +687,6 @@
       if(e.key==='/'&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){e.preventDefault();document.getElementById('searchInput').focus();}
       if(e.key==='Escape'){document.getElementById('searchInput').blur();document.getElementById('searchDrop').style.display='none';}
     });
-  }
-
-  function seed(){
-    return [
-      {id:'naruto',title:'Naruto Shippuden',poster:'https://cdn.myanimelist.net/images/anime/1565/111305l.jpg',banner:'https://wallpaperaccess.com/full/3146573.jpg',synopsis:'Follows Naruto Uzumaki as he grows into a powerful ninja and faces the Akatsuki threat.',rating:9.2,year:2007,studio:'Pierrot',status:'Completed',type:'TV',totalEpisodes:500,trending:98,genres:['Action','Adventure'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'onepiece',title:'One Piece',poster:'https://cdn.myanimelist.net/images/anime/1244/138851l.jpg',banner:'https://wallpaperaccess.com/full/4568992.jpg',synopsis:'Monkey D. Luffy sets sail in search of the legendary treasure, One Piece.',rating:9.5,year:1999,studio:'Toei Animation',status:'Airing',type:'TV',totalEpisodes:1120,trending:99,genres:['Action','Adventure','Comedy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'demon-slayer',title:'Demon Slayer',poster:'https://cdn.myanimelist.net/images/anime/1286/99889l.jpg',banner:'https://wallpaperaccess.com/full/3146580.jpg',synopsis:'Tanjiro becomes a demon slayer to avenge his family and cure his sister.',rating:9.1,year:2019,studio:'Ufotable',status:'Airing',type:'TV',totalEpisodes:55,trending:97,genres:['Action','Fantasy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'attack-on-titan',title:'Attack on Titan',poster:'https://cdn.myanimelist.net/images/anime/1000/110531l.jpg',banner:'https://wallpaperaccess.com/full/3146590.jpg',synopsis:'Humanity fights for survival against giant humanoid Titans.',rating:9.4,year:2013,studio:'MAPPA',status:'Completed',type:'TV',totalEpisodes:87,trending:96,genres:['Action','Drama','Horror'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'jujutsu-kaisen',title:'Jujutsu Kaisen',poster:'https://cdn.myanimelist.net/images/anime/1171/109222l.jpg',banner:'https://wallpaperaccess.com/full/4625669.jpg',synopsis:'Yuji Itadori joins Jujutsu Sorcerers after swallowing a cursed object.',rating:9.0,year:2020,studio:'MAPPA',status:'Airing',type:'TV',totalEpisodes:47,trending:95,genres:['Action','Fantasy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'my-hero-academia',title:'My Hero Academia',poster:'https://cdn.myanimelist.net/images/anime/10/78745l.jpg',banner:'https://wallpaperaccess.com/full/3146600.jpg',synopsis:'Izuku Midoriya dreams of becoming a hero despite being born quirkless.',rating:8.5,year:2016,studio:'Bones',status:'Airing',type:'TV',totalEpisodes:138,trending:88,genres:['Action','Comedy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'death-note',title:'Death Note',poster:'https://cdn.myanimelist.net/images/anime/9/9453l.jpg',banner:'https://wallpaperaccess.com/full/3146610.jpg',synopsis:'Light Yagami finds a notebook that kills anyone whose name is written in it.',rating:9.3,year:2006,studio:'Madhouse',status:'Completed',type:'TV',totalEpisodes:37,trending:94,genres:['Drama','Horror'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'fullmetal-alchemist',title:'FMA Brotherhood',poster:'https://cdn.myanimelist.net/images/anime/1208/94745l.jpg',banner:'https://wallpaperaccess.com/full/3146620.jpg',synopsis:'Two brothers search for the Philosopher Stone after a failed ritual.',rating:9.6,year:2009,studio:'Bones',status:'Completed',type:'TV',totalEpisodes:64,trending:93,genres:['Action','Adventure','Drama'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'solo-leveling',title:'Solo Leveling',poster:'https://cdn.myanimelist.net/images/anime/1809/143580l.jpg',banner:'https://wallpaperaccess.com/full/5030071.jpg',synopsis:'Sung Jinwoo gains a unique leveling system and rises to become the strongest.',rating:8.9,year:2024,studio:'A-1 Pictures',status:'Airing',type:'TV',totalEpisodes:24,trending:92,genres:['Action','Adventure','Fantasy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'dragon-ball-super',title:'Dragon Ball Super',poster:'https://cdn.myanimelist.net/images/anime/1552/122579l.jpg',banner:'https://wallpaperaccess.com/full/3146630.jpg',synopsis:'Goku and friends face cosmic threats in intergalactic tournaments.',rating:8.8,year:2015,studio:'Toei Animation',status:'Completed',type:'TV',totalEpisodes:131,trending:87,genres:['Action','Adventure','Comedy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'hunter-x-hunter',title:'Hunter x Hunter',poster:'https://cdn.myanimelist.net/images/anime/1337/99013l.jpg',banner:'https://wallpaperaccess.com/full/3146640.jpg',synopsis:'Gon Freecss embarks on an adventure to find his father.',rating:9.3,year:2011,studio:'Madhouse',status:'Completed',type:'TV',totalEpisodes:148,trending:91,genres:['Action','Adventure'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'one-punch-man',title:'One Punch Man',poster:'https://cdn.myanimelist.net/images/anime/12/76049l.jpg',banner:'https://wallpaperaccess.com/full/3146650.jpg',synopsis:'Saitama defeats any opponent with a single punch.',rating:8.7,year:2015,studio:'Madhouse',status:'Airing',type:'TV',totalEpisodes:24,trending:86,genres:['Action','Comedy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'sword-art-online',title:'Sword Art Online',poster:'https://cdn.myanimelist.net/images/anime/11/39717l.jpg',banner:'https://wallpaperaccess.com/full/3146660.jpg',synopsis:'Players trapped in a VRMMORPG where death is real.',rating:8.2,year:2012,studio:'A-1 Pictures',status:'Airing',type:'TV',totalEpisodes:96,trending:80,genres:['Action','Adventure','Romance'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'tokyo-ghoul',title:'Tokyo Ghoul',poster:'https://cdn.myanimelist.net/images/anime/5/64449l.jpg',banner:'https://wallpaperaccess.com/full/3146670.jpg',synopsis:'Ken Kaneki becomes half-ghoul after a near-fatal encounter.',rating:8.6,year:2014,studio:'Pierrot',status:'Completed',type:'TV',totalEpisodes:48,trending:85,genres:['Action','Drama','Horror'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'bleach',title:'Bleach TYBW',poster:'https://cdn.myanimelist.net/images/anime/1908/135431l.jpg',banner:'https://wallpaperaccess.com/full/4625700.jpg',synopsis:'Ichigo faces the Quincy king Yhwach in the final war.',rating:9.0,year:2022,studio:'Pierrot',status:'Airing',type:'TV',totalEpisodes:52,trending:90,genres:['Action','Adventure'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'mushoku-tensei',title:'Mushoku Tensei',poster:'https://cdn.myanimelist.net/images/anime/1806/126216l.jpg',banner:'https://wallpaperaccess.com/full/5030080.jpg',synopsis:'A jobless man reincarnated into a magical world.',rating:8.9,year:2021,studio:'Studio Bind',status:'Airing',type:'TV',totalEpisodes:36,trending:89,genres:['Adventure','Fantasy','Romance'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'spy-family',title:'Spy x Family',poster:'https://cdn.myanimelist.net/images/anime/1441/139629l.jpg',banner:'https://wallpaperaccess.com/full/4625710.jpg',synopsis:'A spy, assassin, and telepath form a fake family.',rating:8.8,year:2022,studio:'Wit Studio',status:'Airing',type:'TV',totalEpisodes:37,trending:84,genres:['Action','Comedy','Drama'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'chainsaw-man',title:'Chainsaw Man',poster:'https://cdn.myanimelist.net/images/anime/1806/126216l.jpg',banner:'https://wallpaperaccess.com/full/5030090.jpg',synopsis:'Denji merges with his chainsaw devil Pochita.',rating:8.7,year:2022,studio:'MAPPA',status:'Airing',type:'TV',totalEpisodes:12,trending:83,genres:['Action','Fantasy','Horror'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'steins-gate',title:'Steins;Gate',poster:'https://cdn.myanimelist.net/images/anime/5/73199l.jpg',banner:'https://wallpaperaccess.com/full/3146690.jpg',synopsis:'Rintaro discovers he can send messages to the past.',rating:9.4,year:2011,studio:'White Fox',status:'Completed',type:'TV',totalEpisodes:24,trending:82,genres:['Drama','Sci-Fi'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'cowboy-bebop',title:'Cowboy Bebop',poster:'https://cdn.myanimelist.net/images/anime/4/19644l.jpg',banner:'https://wallpaperaccess.com/full/3146700.jpg',synopsis:'Bounty hunters travel through space on the Bebop.',rating:9.1,year:1998,studio:'Sunrise',status:'Completed',type:'TV',totalEpisodes:26,trending:79,genres:['Action','Adventure','Sci-Fi'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'re-zero',title:'Re:Zero',poster:'https://cdn.myanimelist.net/images/anime/1121/133164l.jpg',banner:'https://wallpaperaccess.com/full/5030100.jpg',synopsis:'Subaru discovers he can return from death.',rating:8.8,year:2016,studio:'White Fox',status:'Airing',type:'TV',totalEpisodes:50,trending:81,genres:['Drama','Fantasy','Thriller'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'mugen-train',title:'Demon Slayer: Mugen Train',poster:'https://cdn.myanimelist.net/images/anime/1751/119815l.jpg',banner:'https://wallpaperaccess.com/full/3146710.jpg',synopsis:'Tanjiro boards the Mugen Train to face Enmu.',rating:8.5,year:2020,studio:'Ufotable',status:'Completed',type:'Movie',totalEpisodes:1,trending:77,genres:['Action','Fantasy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-      {id:'your-name',title:'Your Name',poster:'https://cdn.myanimelist.net/images/anime/5/87048l.jpg',banner:'https://wallpaperaccess.com/full/3146720.jpg',synopsis:'Two strangers find themselves linked across time.',rating:9.0,year:2016,studio:'CoMix Wave Films',status:'Completed',type:'Movie',totalEpisodes:1,trending:78,genres:['Drama','Romance','Fantasy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']}
-    ];
   }
   </script>
 </body>
