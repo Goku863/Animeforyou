@@ -5,26 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>AnimeForYou — Premium Anime Streaming</title>
   <meta name="description" content="Watch anime online for free. Stream thousands of episodes in Hindi, English, and Japanese with subtitles." />
-  <meta name="theme-color" content="#09090b" />
-  <meta property="og:title" content="AnimeForYou — Premium Anime Streaming" />
-  <meta property="og:description" content="Watch anime online for free. Stream thousands of episodes." />
-  <meta property="og:type" content="website" />
-  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="theme-color" content="#0a0a0a" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23f97316'/><text x='16' y='23' text-anchor='middle' font-size='18' fill='white' font-weight='bold'>A</text></svg>" />
   <link rel="stylesheet" href="style.css" />
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"AnimeForYou","url":"https://animeforyou9.pages.dev","potentialAction":{"@type":"SearchAction","target":"https://animeforyou9.pages.dev/?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
-  <canvas id="bgCanvas" aria-hidden="true"></canvas>
   <div class="page-transition" id="pageTransition"></div>
 
-  <nav class="navbar glass-nav" id="navbar" role="navigation" aria-label="Main">
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main">
     <div class="nav-inner">
+      <button class="nav-icon-btn hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu" aria-expanded="false"><i class="fas fa-bars" aria-hidden="true"></i></button>
       <a href="#" class="logo" onclick="go('home');return false" aria-label="AnimeForYou Home">
         <span class="logo-mark"><i class="fas fa-play" aria-hidden="true"></i></span>
         <span class="logo-word">Anime<span class="accent">ForYou</span></span>
@@ -37,19 +32,21 @@
         <a href="#" class="nav-item" data-p="categories" role="menuitem" onclick="go('categories');return false"><i class="fas fa-layer-group" aria-hidden="true"></i> Categories</a>
       </div>
       <div class="nav-end">
-        <div class="search-shell" id="searchShell">
-          <button class="search-expand" onclick="toggleSearch()" aria-label="Search"><i class="fas fa-magnifying-glass" aria-hidden="true"></i></button>
-          <input type="text" id="searchInput" class="search-field" placeholder="Search anime..." aria-label="Search anime" autocomplete="off" />
-          <div class="search-drop" id="searchDrop" role="listbox"></div>
-        </div>
         <button class="nav-icon-btn" onclick="go('bookmarks')" aria-label="Bookmarks"><i class="fas fa-bookmark" aria-hidden="true"></i></button>
         <a href="admin.html" class="nav-icon-btn" aria-label="Admin"><i class="fas fa-gear" aria-hidden="true"></i></a>
-        <button class="nav-icon-btn hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu" aria-expanded="false"><i class="fas fa-bars" aria-hidden="true"></i></button>
       </div>
     </div>
   </nav>
 
   <main class="main" id="main">
+
+    <!-- ===== SEARCH ===== -->
+    <div class="search-section" id="searchSection">
+      <div class="search-box">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search anime..." aria-label="Search anime" autocomplete="off" />
+        <button class="search-btn" onclick="doSearch(document.getElementById('searchInput').value)"><i class="fas fa-search"></i> Search</button>
+      </div>
+    </div>
 
     <!-- ===== HOME ===== -->
     <section class="pg active" id="pg-home" aria-label="Home">
@@ -75,30 +72,30 @@
     <section class="pg" id="pg-trending" aria-label="Trending">
       <div class="pg-head"><h1><i class="fas fa-fire" aria-hidden="true"></i> Trending</h1><p>Most popular right now</p></div>
       <div class="filter-row"><select id="fGenre" onchange="renderTrend()" aria-label="Genre"><option value="all">All Genres</option></select><select id="fSort" onchange="renderTrend()" aria-label="Sort"><option value="t">Most Trending</option><option value="r">Top Rated</option><option value="n">Newest</option><option value="a">A-Z</option></select></div>
-      <div class="card-grid full" id="trendGrid"></div>
+      <div class="card-grid" id="trendGrid"></div>
     </section>
 
     <!-- ===== LATEST ===== -->
     <section class="pg" id="pg-latest" aria-label="Latest">
       <div class="pg-head"><h1><i class="fas fa-clock" aria-hidden="true"></i> Latest</h1><p>Freshly uploaded</p></div>
-      <div class="card-grid full" id="latestFull"></div>
+      <div class="card-grid" id="latestFull"></div>
     </section>
 
     <!-- ===== A-Z ===== -->
     <section class="pg" id="pg-az" aria-label="A-Z">
       <div class="pg-head"><h1><i class="fas fa-arrow-down-a-z" aria-hidden="true"></i> A-Z</h1><p>Browse alphabetically</p></div>
       <div class="alpha-bar" id="alphaBar"></div>
-      <div class="card-grid full" id="azGrid"></div>
+      <div class="card-grid" id="azGrid"></div>
     </section>
 
     <!-- ===== CATEGORIES ===== -->
     <section class="pg" id="pg-categories" aria-label="Categories">
       <div class="pg-head"><h1><i class="fas fa-layer-group" aria-hidden="true"></i> Categories</h1><p>Browse by genre</p></div>
-      <div class="cat-grid large" id="catGrid"></div>
-      <div class="sect" id="catAnime" style="display:none"><div class="sect-head"><h2 id="catTitle"></h2><a href="#" onclick="go('categories');return false" class="see-all"><i class="fas fa-arrow-left"></i> All</a></div><div class="card-grid full" id="catAnimeGrid"></div></div>
+      <div class="cat-grid" id="catGrid"></div>
+      <div class="sect" id="catAnime" style="display:none"><div class="sect-head"><h2 id="catTitle"></h2><a href="#" onclick="go('categories');return false" class="see-all"><i class="fas fa-arrow-left"></i> All</a></div><div class="card-grid" id="catAnimeGrid"></div></div>
     </section>
 
-    <!-- ===== SEARCH ===== -->
+    <!-- ===== SEARCH RESULTS ===== -->
     <section class="pg" id="pg-search" aria-label="Search">
       <div class="pg-head"><h1><i class="fas fa-magnifying-glass" aria-hidden="true"></i> Search</h1><p id="searchCount"></p></div>
       <div class="filter-row">
@@ -107,14 +104,14 @@
         <select id="sRating" onchange="filterSearch()" aria-label="Rating"><option value="all">All Ratings</option><option value="9">9+</option><option value="8">8+</option><option value="7">7+</option></select>
         <select id="sSort" onchange="filterSearch()" aria-label="Sort"><option value="rel">Relevance</option><option value="r">Rating</option><option value="n">Newest</option><option value="a">A-Z</option></select>
       </div>
-      <div class="card-grid full" id="searchGrid"></div>
+      <div class="card-grid" id="searchGrid"></div>
       <div class="empty-state" id="noResults" style="display:none"><i class="fas fa-magnifying-glass"></i><h3>No results</h3><p>Try different keywords</p></div>
     </section>
 
     <!-- ===== BOOKMARKS ===== -->
     <section class="pg" id="pg-bookmarks" aria-label="Bookmarks">
       <div class="pg-head"><h1><i class="fas fa-bookmark" aria-hidden="true"></i> Bookmarks</h1><p>Your saved anime</p></div>
-      <div class="card-grid full" id="bmGrid"></div>
+      <div class="card-grid" id="bmGrid"></div>
       <div class="empty-state" id="noBm" style="display:none"><i class="fas fa-bookmark"></i><h3>No bookmarks</h3><p>Save anime to watch later</p></div>
     </section>
 
@@ -123,15 +120,15 @@
       <div class="pg-head"><h1><i class="fas fa-circle-info" aria-hidden="true"></i> About</h1><p>Your anime destination</p></div>
       <div class="about-wrap">
         <div class="about-grid">
-          <div class="about-card glass"><div class="about-ico"><i class="fas fa-play"></i></div><h3>Thousands of Anime</h3><p>Classic titles to latest releases.</p></div>
-          <div class="about-card glass"><div class="about-ico"><i class="fas fa-globe"></i></div><h3>Multi-Language</h3><p>Hindi, English, Japanese audio.</p></div>
-          <div class="about-card glass"><div class="about-ico"><i class="fas fa-mobile"></i></div><h3>Watch Anywhere</h3><p>Mobile, tablet, desktop.</p></div>
-          <div class="about-card glass"><div class="about-ico"><i class="fas fa-bolt"></i></div><h3>Fast & Free</h3><p>No subscriptions needed.</p></div>
-          <div class="about-card glass"><div class="about-ico"><i class="fas fa-masks-theater"></i></div><h3>All Genres</h3><p>Every genre you love.</p></div>
-          <div class="about-card glass"><div class="about-ico"><i class="fas fa-bell"></i></div><h3>Stay Updated</h3><p>Never miss an episode.</p></div>
+          <div class="about-card"><div class="about-ico"><i class="fas fa-play"></i></div><h3>Thousands of Anime</h3><p>Classic titles to latest releases.</p></div>
+          <div class="about-card"><div class="about-ico"><i class="fas fa-globe"></i></div><h3>Multi-Language</h3><p>Hindi, English, Japanese audio.</p></div>
+          <div class="about-card"><div class="about-ico"><i class="fas fa-mobile"></i></div><h3>Watch Anywhere</h3><p>Mobile, tablet, desktop.</p></div>
+          <div class="about-card"><div class="about-ico"><i class="fas fa-bolt"></i></div><h3>Fast & Free</h3><p>No subscriptions needed.</p></div>
+          <div class="about-card"><div class="about-ico"><i class="fas fa-masks-theater"></i></div><h3>All Genres</h3><p>Every genre you love.</p></div>
+          <div class="about-card"><div class="about-ico"><i class="fas fa-bell"></i></div><h3>Stay Updated</h3><p>Never miss an episode.</p></div>
         </div>
-        <div class="about-block glass"><h2>Our Mission</h2><p>AnimeForYou makes anime accessible to everyone. Great stories should never be locked behind paywalls.</p></div>
-        <div class="about-block glass"><h3>Disclaimer</h3><p>Educational demonstration project. All content belongs to respective owners.</p></div>
+        <div class="about-block"><h2>Our Mission</h2><p>AnimeForYou makes anime accessible to everyone. Great stories should never be locked behind paywalls.</p></div>
+        <div class="about-block"><h3>Disclaimer</h3><p>Educational demonstration project. All content belongs to respective owners.</p></div>
       </div>
     </section>
 
@@ -139,13 +136,13 @@
     <section class="pg" id="pg-contact" aria-label="Contact">
       <div class="pg-head"><h1><i class="fas fa-envelope" aria-hidden="true"></i> Contact</h1><p>Get in touch</p></div>
       <div class="contact-wrap">
-        <div class="contact-info glass">
+        <div class="contact-info">
           <h2>Reach Out</h2>
           <div class="c-item"><i class="fab fa-github"></i><div><h4>GitHub</h4><a href="https://github.com/Goku863/Animeforyou" target="_blank" rel="noopener">Goku863/Animeforyou</a></div></div>
           <div class="c-item"><i class="fas fa-globe"></i><div><h4>Website</h4><a href="https://animeforyou9.pages.dev" target="_blank" rel="noopener">animeforyou9.pages.dev</a></div></div>
           <div class="c-item"><i class="fas fa-shield"></i><div><h4>DMCA</h4><a href="#" onclick="go('dmca');return false">Open request</a></div></div>
         </div>
-        <div class="contact-form glass">
+        <div class="contact-form">
           <h2>Send Message</h2>
           <form onsubmit="handleContact(event)" novalidate>
             <div class="fg"><label for="c-name">Name</label><input id="c-name" type="text" required placeholder="Your name" /></div>
@@ -162,10 +159,10 @@
     <section class="pg" id="pg-privacy" aria-label="Privacy">
       <div class="pg-head"><h1><i class="fas fa-shield" aria-hidden="true"></i> Privacy Policy</h1><p>Last updated Jan 2026</p></div>
       <div class="legal-wrap">
-        <div class="legal-card glass"><h2>1. Information We Collect</h2><p>Minimal data via browser local storage. No personal data stored on servers.</p></div>
-        <div class="legal-card glass"><h2>2. How We Use It</h2><p>To improve the website and ensure functionality.</p></div>
-        <div class="legal-card glass"><h2>3. Data Storage</h2><p>All preferences stored locally in your browser.</p></div>
-        <div class="legal-card glass"><h2>4. Contact</h2><p>Questions? Reach us via GitHub.</p></div>
+        <div class="legal-card"><h2>1. Information We Collect</h2><p>Minimal data via browser local storage. No personal data stored on servers.</p></div>
+        <div class="legal-card"><h2>2. How We Use It</h2><p>To improve the website and ensure functionality.</p></div>
+        <div class="legal-card"><h2>3. Data Storage</h2><p>All preferences stored locally in your browser.</p></div>
+        <div class="legal-card"><h2>4. Contact</h2><p>Questions? Reach us via GitHub.</p></div>
       </div>
     </section>
 
@@ -173,10 +170,10 @@
     <section class="pg" id="pg-terms" aria-label="Terms">
       <div class="pg-head"><h1><i class="fas fa-file-contract" aria-hidden="true"></i> Terms</h1><p>Last updated Jan 2026</p></div>
       <div class="legal-wrap">
-        <div class="legal-card glass"><h2>1. Acceptance</h2><p>Using the site means you accept these terms.</p></div>
-        <div class="legal-card glass"><h2>2. Use</h2><p>Personal, non-commercial use only.</p></div>
-        <div class="legal-card glass"><h2>3. Content</h2><p>We do not host or stream video content.</p></div>
-        <div class="legal-card glass"><h2>4. Liability</h2><p>Provided "as is" without warranties.</p></div>
+        <div class="legal-card"><h2>1. Acceptance</h2><p>Using the site means you accept these terms.</p></div>
+        <div class="legal-card"><h2>2. Use</h2><p>Personal, non-commercial use only.</p></div>
+        <div class="legal-card"><h2>3. Content</h2><p>We do not host or stream video content.</p></div>
+        <div class="legal-card"><h2>4. Liability</h2><p>Provided "as is" without warranties.</p></div>
       </div>
     </section>
 
@@ -184,9 +181,9 @@
     <section class="pg" id="pg-dmca" aria-label="DMCA">
       <div class="pg-head"><h1><i class="fas fa-gavel" aria-hidden="true"></i> DMCA</h1><p>Copyright policy</p></div>
       <div class="legal-wrap">
-        <div class="legal-card glass"><h2>Overview</h2><p>We respect intellectual property rights.</p></div>
-        <div class="legal-card glass"><h2>No Hosting</h2><p>All content sourced from public APIs.</p></div>
-        <div class="legal-card glass"><h2>File a Notice</h2><p>Submit via GitHub with "DMCA" in title.</p></div>
+        <div class="legal-card"><h2>Overview</h2><p>We respect intellectual property rights.</p></div>
+        <div class="legal-card"><h2>No Hosting</h2><p>All content sourced from public APIs.</p></div>
+        <div class="legal-card"><h2>File a Notice</h2><p>Submit via GitHub with "DMCA" in title.</p></div>
       </div>
     </section>
 
@@ -216,7 +213,7 @@
       <div class="detail-bg" id="detailBg"></div>
       <div class="detail-wrap">
         <aside class="detail-side">
-          <img id="dPoster" class="detail-poster" alt="" width="280" height="373" />
+          <img id="dPoster" class="detail-poster" alt="" width="260" height="364" />
           <div class="detail-acts">
             <button class="btn-glow" id="dPlay" onclick="playFirst()"><i class="fas fa-play"></i> Watch Now</button>
             <button class="btn-ghost lg" id="dBm" onclick="toggleBmDetail()"><i class="fas fa-bookmark"></i> Bookmark</button>
@@ -267,7 +264,6 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.18/lenis.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
   <script src="firebase-config.js"></script>
@@ -285,8 +281,6 @@
   function gIC(c){return GI[c]||'tag';}
 
   document.addEventListener('DOMContentLoaded', async()=>{
-    if(!RM)initBg();
-    initLenis();
     initScroll();initSearch();initKeys();
     gsap.registerPlugin(ScrollTrigger);
     await loadData();
@@ -308,17 +302,6 @@
     });
   }
   function hideLoading(){}
-
-  // ===== LENIS SMOOTH SCROLL =====
-  function initLenis(){
-    if(RM)return;
-    const lenis=new Lenis({duration:1.2,easing:(t)=>Math.min(1,1.001-Math.pow(2,-10*t)),smooth:true});
-    function raf(time){lenis.raf(time);requestAnimationFrame(raf);}
-    requestAnimationFrame(raf);
-    lenis.on('scroll',ScrollTrigger.update);
-    gsap.ticker.add((time)=>{lenis.raf(time*1000);});
-    gsap.ticker.lagSmoothing(0);
-  }
 
   // ===== NAVIGATION =====
   function go(pg,d){
@@ -358,18 +341,6 @@
   function toggleMenu(){
     const m=document.getElementById('navMenu'),h=document.getElementById('hamburger');
     m.classList.toggle('open');h.setAttribute('aria-expanded',m.classList.contains('open'));
-  }
-
-  // ===== BACKGROUND =====
-  function initBg(){
-    const c=document.getElementById('bgCanvas'),x=c.getContext('2d');
-    let pts=[],af;
-    function rz(){c.width=innerWidth;c.height=innerHeight;}
-    rz();addEventListener('resize',rz);
-    for(let i=0;i<40;i++)pts.push({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.5});
-    function draw(){x.clearRect(0,0,c.width,c.height);pts.forEach(p=>{x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fillStyle='rgba(249,115,22,0.08)';x.fill();p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>c.width)p.vx*=-1;if(p.y<0||p.y>c.height)p.vy*=-1;});af=requestAnimationFrame(draw);}
-    draw();
-    document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelAnimationFrame(af);else af=requestAnimationFrame(draw);});
   }
 
   // ===== HERO =====
@@ -414,43 +385,9 @@
     },60);
   }
 
-  // ===== MAGNETIC BUTTONS =====
-  document.addEventListener('mousemove',e=>{
-    document.querySelectorAll('.btn-glow, .hero-arrow').forEach(b=>{
-      const r=b.getBoundingClientRect();
-      const cx=r.left+r.width/2,cy=r.top+r.height/2;
-      const dx=e.clientX-cx,dy=e.clientY-cy;
-      const dist=Math.sqrt(dx*dx+dy*dy);
-      if(dist<150){
-        const pull=(1-dist/150)*8;
-        b.style.transform='translate('+dx*pull/150+'px,'+dy*pull/150+'px)';
-      }else{b.style.transform='';}
-    });
-  });
-
-  // ===== 3D TILT =====
-  document.addEventListener('mousemove',e=>{
-    document.querySelectorAll('.anime-card').forEach(c=>{
-      const r=c.getBoundingClientRect();
-      const x=(e.clientX-r.left)/r.width-.5;
-      const y=(e.clientY-r.top)/r.height-.5;
-      if(Math.abs(x)<1&&Math.abs(y)<1){
-        c.style.transform='perspective(600px) rotateY('+x*8+'deg) rotateX('+-y*8+'deg) translateY(-4px) scale(1.02)';
-      }
-    });
-  });
-  document.addEventListener('mouseleave',e=>{
-    if(e.target.classList&&e.target.classList.contains('anime-card')){
-      e.target.style.transform='';
-    }
-  },true);
-
   // ===== RENDER =====
   function renderHome(){
-    if(!DATA.length){
-      renderEmptyHome();
-      return;
-    }
+    if(!DATA.length){renderEmptyHome();return;}
     const feat=DATA.filter(a=>a.rating>=8.5).slice(0,10);
     const trend=[...DATA].sort((a,b)=>(b.trending||0)-(a.trending||0)).slice(0,12);
     const latest=[...DATA].sort((a,b)=>(b.year||0)-(a.year||0)).slice(0,12);
@@ -463,7 +400,7 @@
   }
 
   function renderEmptyHome(){
-    const empty='<div class="empty-state"><i class="fas fa-film"></i><h3>No Anime Yet</h3><p>Add your first anime in the admin panel to get started.</p><a href="admin.html" class="btn-glow" style="margin-top:16px"><i class="fas fa-plus"></i> Add Anime</a></div>';
+    const empty='<div class="empty-state"><i class="fas fa-film"></i><h3>No Anime Yet</h3><p>Add your first anime in the admin panel to get started.</p><a href="admin.html" class="btn-glow" style="margin-top:12px"><i class="fas fa-plus"></i> Add Anime</a></div>';
     ['featRow','trendRow','latestGrid','recentGrid','contRow'].forEach(id=>{
       const el=document.getElementById(id);
       if(el)el.innerHTML=empty;
@@ -475,7 +412,7 @@
     const g=document.getElementById('homeCatGrid');
     const counts={};
     DATA.forEach(a=>(a.genres||[]).forEach(g=>{counts[g]=(counts[g]||0)+1;}));
-    g.innerHTML=CATS.map(c=>'<a href="#" class="cat-card glass" onclick="go(\'categories\',\''+esc(c)+'\');return false"><div class="cat-ico" style="background:'+(GC[c]||'var(--accent)')+'"><i class="fas fa-'+gIC(c)+'"></i></div><span>'+esc(c)+'</span><span class="cat-n">'+(counts[c]||0)+'</span></a>').join('');
+    g.innerHTML=CATS.map(c=>'<a href="#" class="cat-card" onclick="go(\'categories\',\''+esc(c)+'\');return false"><div class="cat-ico" style="background:'+(GC[c]||'var(--accent)')+'"><i class="fas fa-'+gIC(c)+'"></i></div><span>'+esc(c)+'</span><span class="cat-n">'+(counts[c]||0)+'</span></a>').join('');
     const fc=document.getElementById('ftCats');
     if(fc)fc.innerHTML=CATS.slice(0,6).map(c=>'<li><a href="#" onclick="go(\'categories\',\''+esc(c)+'\');return false">'+esc(c)+'</a></li>').join('');
   }
@@ -489,12 +426,12 @@
     r.innerHTML=items.map(a=>{
       const h=HIST.find(x=>x.id===a.id);
       const pct=h?Math.round((h.ep/(a.totalEpisodes||1))*100):0;
-      return '<div class="anime-card" onclick="go(\'detail\',\''+esc(a.id)+'\')"><div class="card-vis"><img src="'+esc(a.poster||'')+'" alt="'+esc(a.title)+'" width="200" height="267" loading="lazy" /><div class="card-overlay"><span class="card-play"><i class="fas fa-play"></i></span></div><div class="card-bar"><div class="card-fill" style="width:'+pct+'%"></div></div></div><div class="card-txt"><h3>'+esc(a.title)+'</h3><p class="dim">'+(h?h.ep:(a.totalEpisodes||0))+' / '+(a.totalEpisodes||0)+'</p></div></div>';
+      return '<div class="anime-card" onclick="go(\'detail\',\''+esc(a.id)+'\')"><div class="card-vis"><img src="'+esc(a.poster||'')+'" alt="'+esc(a.title)+'" width="160" height="224" loading="lazy" /><div class="card-overlay"><span class="card-play"><i class="fas fa-play"></i></span></div><div class="card-bar"><div class="card-fill" style="width:'+pct+'%"></div></div></div><div class="card-txt"><h3>'+esc(a.title)+'</h3><p class="dim">'+(h?h.ep:(a.totalEpisodes||0))+' / '+(a.totalEpisodes||0)+'</p></div></div>';
     }).join('');
   }
 
   function card(a){
-    return '<div class="anime-card" onclick="go(\'detail\',\''+esc(a.id)+'\')"><div class="card-vis"><img src="'+esc(a.poster||'')+'" alt="'+esc(a.title)+'" width="200" height="267" loading="lazy" /><div class="card-overlay"><span class="card-play"><i class="fas fa-play"></i></span><button class="card-bm'+(BMS.includes(a.id)?' on':'')+'" onclick="event.stopPropagation();toggleBM(\''+esc(a.id)+'\')" aria-label="Bookmark"><i class="fas fa-bookmark"></i></button></div><span class="card-badge">'+esc(a.type||'TV')+'</span>'+(a.rating>=9?'<span class="card-hot"><i class="fas fa-fire"></i></span>':'')+'</div><div class="card-txt"><h3>'+esc(a.title)+'</h3><div class="card-row-meta"><span><i class="fas fa-star" style="color:var(--accent)"></i> '+(a.rating||0)+'</span><span>'+(a.totalEpisodes||0)+' eps</span></div><div class="card-tags">'+(a.genres||[]).slice(0,2).map(g=>'<span class="ctag" style="--tc:'+(GC[g]||'var(--accent)')+'">'+esc(g)+'</span>').join('')+'</div></div></div>';
+    return '<div class="anime-card" onclick="go(\'detail\',\''+esc(a.id)+'\')"><div class="card-vis"><img src="'+esc(a.poster||'')+'" alt="'+esc(a.title)+'" width="160" height="224" loading="lazy" /><div class="card-overlay"><span class="card-play"><i class="fas fa-play"></i></span><button class="card-bm'+(BMS.includes(a.id)?' on':'')+'" onclick="event.stopPropagation();toggleBM(\''+esc(a.id)+'\')" aria-label="Bookmark"><i class="fas fa-bookmark"></i></button></div><span class="card-badge">'+esc(a.type||'TV')+'</span>'+(a.rating>=9?'<span class="card-hot"><i class="fas fa-fire"></i></span>':'')+'</div><div class="card-txt"><h3>'+esc(a.title)+'</h3><div class="card-row-meta"><span><i class="fas fa-star" style="color:var(--accent)"></i> '+(a.rating||0)+'</span><span>'+(a.totalEpisodes||0)+' eps</span></div><div class="card-tags">'+(a.genres||[]).slice(0,2).map(g=>'<span class="ctag" style="--tc:'+(GC[g]||'var(--accent)')+'">'+esc(g)+'</span>').join('')+'</div></div></div>';
   }
 
   // ===== TRENDING =====
@@ -535,38 +472,19 @@
       if(ph)ph.style.display='';cg.style.display='';sa.style.display='none';
       const counts={};
       DATA.forEach(a=>(a.genres||[]).forEach(g=>{counts[g]=(counts[g]||0)+1;}));
-      cg.innerHTML=CATS.map(c=>'<a href="#" class="cat-card glass" onclick="go(\'categories\',\''+esc(c)+'\');return false"><div class="cat-ico" style="background:'+(GC[c]||'var(--accent)')+'"><i class="fas fa-'+gIC(c)+'"></i></div><span>'+esc(c)+'</span><span class="cat-n">'+(counts[c]||0)+'</span></a>').join('');
+      cg.innerHTML=CATS.map(c=>'<a href="#" class="cat-card" onclick="go(\'categories\',\''+esc(c)+'\');return false"><div class="cat-ico" style="background:'+(GC[c]||'var(--accent)')+'"><i class="fas fa-'+gIC(c)+'"></i></div><span>'+esc(c)+'</span><span class="cat-n">'+(counts[c]||0)+'</span></a>').join('');
     }
     animScroll();
   }
 
   // ===== SEARCH =====
   function initSearch(){
-    const inp=document.getElementById('searchInput'),drp=document.getElementById('searchDrop');
-    let db;
-    inp.addEventListener('input',()=>{
-      clearTimeout(db);
-      db=setTimeout(()=>{
-        const q=inp.value.trim().toLowerCase();
-        if(q.length<2){drp.style.display='none';return;}
-        const m=DATA.filter(a=>a.title.toLowerCase().includes(q)||(a.genres&&a.genres.some(g=>g.toLowerCase().includes(q)))).slice(0,6);
-        if(!m.length){drp.style.display='none';return;}
-        drp.innerHTML=m.map(a=>'<div class="sug" role="option" onclick="go(\'detail\',\''+esc(a.id)+'\')"><img src="'+esc(a.poster||'')+'" alt="" width="32" height="44" loading="lazy" /><span>'+esc(a.title)+'</span></div>').join('');
-        drp.style.display='block';
-      },180);
-    });
-    inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();drp.style.display='none';doSearch(inp.value.trim());}});
-    document.addEventListener('click',e=>{if(!e.target.closest('.search-shell'))drp.style.display='none';});
-  }
-
-  function toggleSearch(){
-    const s=document.getElementById('searchShell');
-    s.classList.toggle('open');
-    if(s.classList.contains('open'))document.getElementById('searchInput').focus();
+    const inp=document.getElementById('searchInput');
+    inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();doSearch(inp.value.trim());}});
   }
 
   function doSearch(q){
-    if(!q)return;
+    if(!q){go('home');return;}
     SRES=DATA.filter(a=>a.title.toLowerCase().includes(q.toLowerCase())||(a.synopsis&&a.synopsis.toLowerCase().includes(q.toLowerCase()))||(a.genres&&a.genres.some(g=>g.toLowerCase().includes(q.toLowerCase()))));
     document.getElementById('searchCount').textContent='Found '+SRES.length+' for "'+esc(q)+'"';
     go('search');renderGrid('searchGrid',SRES);popFilter('sGenre');popYearFilter('sYear');animScroll();
@@ -685,7 +603,7 @@
   function initKeys(){
     document.addEventListener('keydown',e=>{
       if(e.key==='/'&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){e.preventDefault();document.getElementById('searchInput').focus();}
-      if(e.key==='Escape'){document.getElementById('searchInput').blur();document.getElementById('searchDrop').style.display='none';}
+      if(e.key==='Escape'){document.getElementById('searchInput').blur();}
     });
   }
   </script>
