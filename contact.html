@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>AnimeForYou — Premium Anime Streaming</title>
-  <meta name="description" content="Watch anime online for free. Stream thousands of episodes in Hindi, English, and Japanese with subtitles." />
+  <title>AnimeForYou — Contact</title>
+  <meta name="description" content="Get in touch with AnimeForYou" />
   <meta name="theme-color" content="#f4f6f9" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,13 +30,13 @@
         <span class="search-kbd">/</span>
       </div>
       <div class="nav-menu" id="navMenu" role="menubar">
-        <a href="index.html" class="nav-item active" data-p="home" role="menuitem"><i class="fas fa-house"></i> Home</a>
+        <a href="index.html" class="nav-item" data-p="home" role="menuitem"><i class="fas fa-house"></i> Home</a>
         <a href="browse.html" class="nav-item" data-p="browse" role="menuitem"><i class="fas fa-compass"></i> Browse</a>
         <a href="trending.html" class="nav-item" data-p="trending" role="menuitem"><i class="fas fa-fire"></i> Trending</a>
         <a href="latest.html" class="nav-item" data-p="latest" role="menuitem"><i class="fas fa-clock"></i> Latest</a>
         <a href="az.html" class="nav-item" data-p="az" role="menuitem"><i class="fas fa-list"></i> A-Z</a>
         <a href="categories.html" class="nav-item" data-p="categories" role="menuitem"><i class="fas fa-tags"></i> Genres</a>
-        <a href="about.html" class="nav-item" data-p="about" role="menuitem"><i class="fas fa-info"></i> About</a>
+        <a href="about.html" class="nav-item " data-p="about" role="menuitem"><i class="fas fa-info"></i> About</a>
       </div>
       <div class="nav-end">
         <a href="bookmarks.html" class="nav-icon-btn" aria-label="Bookmarks"><i class="fas fa-bookmark"></i></a>
@@ -58,29 +58,33 @@
   </nav>
 
   <main class="main" id="main">
-    <section aria-label="Home">
-      <div class="landing">
-        <div class="landing-glow"></div>
-        <div class="landing-content">
-          <div class="landing-badge">&#9733; Premium Streaming</div>
-          <h1 class="landing-title">Discover &amp; Stream<br><span>Premium Anime</span></h1>
-          <p class="landing-desc">Thousands of episodes across every genre — from timeless classics to the latest seasonal releases. Watch free, fast, and beautifully presented.</p>
-          <div class="landing-feats">
-            <div class="landing-feat"><i class="fas fa-infinity"></i> Unlimited</div>
-            <div class="landing-feat"><i class="fas fa-globe"></i> Multi-Language</div>
-            <div class="landing-feat"><i class="fas fa-bolt"></i> No Sign Up</div>
-          </div>
-          <a href="browse.html" class="landing-btn"><i class="fas fa-play"></i> Watch Anime</a>
-          <a href="browse.html" class="landing-scroll">Explore the collection <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
-    </section>
+<div class="pg-head"><h1><i class="fas fa-envelope"></i> Contact</h1><p>We'd love to hear from you</p></div>
+<div class="breadcrumbs"><a href="index.html">Home</a><span class="sep">/</span><span class="cur">Contact</span></div>
+<div class="contact-wrap">
+  <div class="contact-info glass-card">
+    <h2>Get In Touch</h2>
+    <div class="c-item"><i class="fab fa-github"></i><div><h4>GitHub</h4><a href="https://github.com/Goku863/Animeforyou" target="_blank">Goku863/Animeforyou</a></div></div>
+    <div class="c-item"><i class="fas fa-globe"></i><div><h4>Website</h4><a href="https://animeforyou9.pages.dev" target="_blank">animeforyou9.pages.dev</a></div></div>
+    <div class="c-item"><i class="fas fa-shield"></i><div><h4>DMCA</h4><a href="dmca.html">File a request</a></div></div>
+    <div class="c-item"><i class="fas fa-envelope"></i><div><h4>Email</h4><a href="mailto:contact@animeforyou.com">contact@animeforyou.com</a></div></div>
+  </div>
+  <div class="contact-form glass-card">
+    <h2>Send a Message</h2>
+    <form onsubmit="handleContact(event)" novalidate>
+      <div class="fg"><label for="c-name">Name</label><input id="c-name" type="text" required placeholder="Your name" /></div>
+      <div class="fg"><label for="c-email">Email</label><input id="c-email" type="email" required placeholder="you@email.com" /></div>
+      <div class="fg"><label for="c-subj">Subject</label><input id="c-subj" type="text" required placeholder="How can we help?" /></div>
+      <div class="fg"><label for="c-msg">Message</label><textarea id="c-msg" rows="4" required placeholder="Tell us more..."></textarea></div>
+      <button type="submit" class="btn-glow"><i class="fas fa-paper-plane"></i> Send Message</button>
+    </form>
+  </div>
+</div>
   </main>
 
   <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
 
   <nav class="mob-nav" id="mobNav" aria-label="Mobile navigation">
-    <a href="index.html" class="mob-item active" data-p="home"><i class="fas fa-house"></i><span>Home</span></a>
+    <a href="index.html" class="mob-item" data-p="home"><i class="fas fa-house"></i><span>Home</span></a>
     <a href="browse.html" class="mob-item" data-p="browse"><i class="fas fa-compass"></i><span>Browse</span></a>
     <a href="search.html" class="mob-item" data-p="search"><i class="fas fa-search"></i><span>Search</span></a>
     <a href="bookmarks.html" class="mob-item" data-p="bookmarks"><i class="fas fa-bookmark"></i><span>Saved</span></a>
@@ -104,5 +108,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="shared.js"></script>
+<script>function handleContact(e){e.preventDefault();toast('Message sent! We\'ll get back to you soon.');e.target.reset();}</script>
 </body>
 </html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="volcanic">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>AnimeForYou — Browse</title>
+  <meta name="description" content="Browse the full anime collection at AnimeForYou. Discover featured, trending, latest releases, and more." />
+  <meta name="theme-color" content="#f4f6f9" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='10' fill='%23f97316'/><text x='16' y='23' text-anchor='middle' font-size='18' fill='white' font-weight='bold'>A</text></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <div class="page-transition" id="pageTransition"></div>
+  <canvas id="three-canvas"></canvas>
+
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main">
+    <div class="nav-inner">
+      <a href="index.html" class="logo" aria-label="AnimeForYou Home">
+        <span class="logo-mark"><i class="fas fa-play"></i></span>
+        <span class="logo-word">Anime<span class="accent">ForYou</span></span>
+      </a>
+      <div class="nav-search">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="searchInput" placeholder="Search anime..." aria-label="Search" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();location='search.html?q='+encodeURIComponent(this.value.trim())}" />
+        <span class="search-kbd">/</span>
+      </div>
+      <div class="nav-menu" id="navMenu" role="menubar">
+        <a href="index.html" class="nav-item" data-p="home" role="menuitem"><i class="fas fa-house"></i> Home</a>
+        <a href="browse.html" class="nav-item active" data-p="browse" role="menuitem"><i class="fas fa-compass"></i> Browse</a>
+        <a href="trending.html" class="nav-item" data-p="trending" role="menuitem"><i class="fas fa-fire"></i> Trending</a>
+        <a href="latest.html" class="nav-item" data-p="latest" role="menuitem"><i class="fas fa-clock"></i> Latest</a>
+        <a href="az.html" class="nav-item" data-p="az" role="menuitem"><i class="fas fa-list"></i> A-Z</a>
+        <a href="categories.html" class="nav-item" data-p="categories" role="menuitem"><i class="fas fa-tags"></i> Genres</a>
+        <a href="about.html" class="nav-item" data-p="about" role="menuitem"><i class="fas fa-info"></i> About</a>
+      </div>
+      <div class="nav-end">
+        <a href="bookmarks.html" class="nav-icon-btn" aria-label="Bookmarks"><i class="fas fa-bookmark"></i></a>
+        <div class="theme-toggle" id="themeToggle" onclick="toggleThemePanel()" aria-label="Theme" role="button" tabindex="0">
+          <i class="fas fa-palette" id="themeIcon"></i>
+          <div class="theme-panel" id="themePanel" onclick="event.stopPropagation()">
+            <div class="theme-panel-label">Accent Color</div>
+            <div class="theme-row">
+              <div class="theme-option" data-t="volcanic" onclick="setTheme('volcanic')"><span class="theme-swatch v"></span> Volcanic</div>
+              <div class="theme-option" data-t="crimson" onclick="setTheme('crimson')"><span class="theme-swatch c"></span> Crimson</div>
+              <div class="theme-option" data-t="emerald" onclick="setTheme('emerald')"><span class="theme-swatch e"></span> Emerald</div>
+              <div class="theme-option" data-t="violet" onclick="setTheme('violet')"><span class="theme-swatch w"></span> Violet</div>
+              <div class="theme-option" data-t="ocean" onclick="setTheme('ocean')"><span class="theme-swatch o"></span> Ocean</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main" id="main">
+<section>
+  <div class="hero" id="hero">
+    <div class="hero-track" id="heroTrack"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-body" id="heroBody"></div>
+    <div class="hero-nav">
+      <button class="hero-arrow" onclick="heroGo(-1)" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+      <div class="hero-dots" id="heroDots" role="tablist"></div>
+      <button class="hero-arrow" onclick="heroGo(1)" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+    </div>
+  </div>
+  <div class="sect" id="homeCont"><div class="sect-head"><h2><i class="fas fa-clock-rotate"></i> Continue Watching</h2></div><div class="card-row" id="contRow"></div></div>
+  <div class="sect" id="homeFeatured"><div class="sect-head"><h2><i class="fas fa-crown"></i> Featured</h2></div><div class="card-row" id="featRow"></div></div>
+  <div class="sect" id="homeTrending"><div class="sect-head"><h2><i class="fas fa-chart-simple"></i> Trending Now</h2><a href="trending.html" class="see-all">See All <i class="fas fa-arrow-right"></i></a></div><div class="card-row" id="trendRow"></div></div>
+  <div class="sect full" id="homeLatest"><div class="sect-head"><h2><i class="fas fa-bolt"></i> Latest Releases</h2><a href="latest.html" class="see-all">See All <i class="fas fa-arrow-right"></i></a></div><div class="card-grid" id="latestGrid"></div></div>
+  <div class="sect" id="homeCats"><div class="sect-head"><h2><i class="fas fa-grid-2"></i> Browse Genres</h2></div><div class="cat-grid" id="homeCatGrid"></div></div>
+  <div class="sect" id="homeRec"><div class="sect-head"><h2><i class="fas fa-star"></i> Recommended For You</h2></div><div class="card-row" id="recRow"></div></div>
+  <div class="sect full" id="homeRecent"><div class="sect-head"><h2><i class="fas fa-circle-plus"></i> Recently Added</h2></div><div class="card-grid" id="recentGrid"></div></div>
+</section>
+  </main>
+
+  <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+  <nav class="mob-nav" id="mobNav" aria-label="Mobile navigation">
+    <a href="index.html" class="mob-item" data-p="home"><i class="fas fa-house"></i><span>Home</span></a>
+    <a href="browse.html" class="mob-item" data-p="browse"><i class="fas fa-compass"></i><span>Browse</span></a>
+    <a href="search.html" class="mob-item" data-p="search"><i class="fas fa-search"></i><span>Search</span></a>
+    <a href="bookmarks.html" class="mob-item" data-p="bookmarks"><i class="fas fa-bookmark"></i><span>Saved</span></a>
+  </nav>
+
+  <footer role="contentinfo">
+    <div class="ft-wrap">
+      <div class="ft-grid">
+        <div class="ft-brand"><a href="index.html" class="logo"><span class="logo-mark"><i class="fas fa-play"></i></span> Anime<span class="accent">ForYou</span></a><p>Premium anime streaming platform.</p><div class="ft-social"><a href="https://github.com/Goku863/Animeforyou" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a></div></div>
+        <div class="ft-col"><h4>Browse</h4><ul><li><a href="index.html">Home</a></li><li><a href="browse.html">Browse</a></li><li><a href="trending.html">Trending</a></li><li><a href="latest.html">Latest</a></li><li><a href="az.html">A-Z</a></li><li><a href="categories.html">Genres</a></li></ul></div>
+        <div class="ft-col"><h4>Information</h4><ul><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li><li><a href="dmca.html">DMCA</a></li></ul></div>
+        <div class="ft-col"><h4>Account</h4><ul><li><a href="bookmarks.html">Bookmarks</a></li><li><a href="search.html">Search</a></li><li><a href="admin.html">Admin</a></li></ul></div>
+      </div>
+      <div class="ft-bottom"><p>&copy; 2026 AnimeForYou</p><p>Crafted with <i class="fas fa-heart" style="color:var(--accent)"></i> for anime fans</p></div>
+    </div>
+  </footer>
+
+  <div class="toast-rack" id="toastRack" role="status" aria-live="polite"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="api.js"></script>
+  <script src="shared.js"></script>
+<script>
+'use strict';
+let DATA=[],HIDX=0,HINT=null,STS=[];
+
+document.addEventListener('DOMContentLoaded', async()=>{
+  await loadData();
+});
+window.addEventListener('beforeunload',()=>{if(HINT)clearInterval(HINT);});
+
+async function loadData(){
+  showLoading();
+  DATA=await api.getAll();
+  hideLoading();
+  initHero();
+  renderHome();
+}
+
+function showLoading(){
+  ['featRow','trendRow','latestGrid','recentGrid','contRow','recRow','homeCatGrid'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.innerHTML='<div class="loading-pulse"></div>'.repeat(4);
+  });
+}
+function hideLoading(){}
+
+function initHero(){
+  const feat=DATA.filter(a=>a.rating>=8.5).slice(0,5);
+  const tk=document.getElementById('heroTrack'),dt=document.getElementById('heroDots');
+  if(!feat.length){
+    document.getElementById('heroBody').innerHTML='<div class="empty-hero"><h2 class="hero-title">Welcome to AnimeForYou</h2><p class="hero-desc">Your premium anime destination. Add your first anime in the admin panel and start building your collection.</p><div class="hero-acts"><a href="admin.html" class="btn-glow lg"><i class="fas fa-plus"></i> Add Anime</a><a href="about.html" class="btn-ghost lg"><i class="fas fa-info"></i> Learn More</a></div></div>';
+    return;
+  }
+  tk.innerHTML=feat.map(a=>'<div class="hero-slide" style="background-image:url(\''+esc(a.banner||a.poster)+'\')"></div>').join('');
+  dt.innerHTML=feat.map((_,i)=>'<button class="h-dot'+(i===0?' on':'')+'" role="tab" aria-selected="'+(i===0)+'" onclick="heroGo('+i+')"></button>').join('');
+  HIDX=0;updHero();
+  HINT=setInterval(()=>heroGo(1),7000);
+}
+function heroGo(d){const t=document.querySelectorAll('.hero-slide').length;if(!t)return;HIDX=(HIDX+d+t)%t;updHero();}
+function updHero(){
+  const sl=document.querySelectorAll('.hero-slide'),dt=document.querySelectorAll('.h-dot');
+  const feat=DATA.filter(a=>a.rating>=8.5).slice(0,5);
+  sl.forEach((s,i)=>s.classList.toggle('on',i===HIDX));
+  dt.forEach((d,i)=>{d.classList.toggle('on',i===HIDX);d.setAttribute('aria-selected',i===HIDX);});
+  const a=feat[HIDX];if(!a)return;
+  const b=document.getElementById('heroBody');
+  b.innerHTML='<span class="hero-chip"><i class="fas fa-crown"></i> Featured</span><h2 class="hero-title">'+esc(a.title)+'</h2><p class="hero-sub">'+a.year+' &bull; '+esc(a.studio||'')+' &bull; <i class="fas fa-star" style="color:var(--accent)"></i> '+a.rating+'</p><p class="hero-desc">'+esc((a.synopsis||'').substring(0,180))+'...</p><div class="hero-acts"><button class="btn-glow lg" onclick="location=\'detail.html?id='+esc(a.id)+'\'"><i class="fas fa-play"></i> Watch Now</button><button class="btn-ghost lg" onclick="location=\'detail.html?id='+esc(a.id)+'\'"><i class="fas fa-info"></i> Details</button></div>';
+  if(!RM)gsap.fromTo('#heroBody > *',{opacity:0,y:30},{opacity:1,y:0,duration:.6,stagger:.1,ease:'power3.out'});
+}
+
+function renderHome(){
+  if(!DATA.length){renderEmptyHome();return;}
+  const cont=getHIST().slice(0,10).map(h=>DATA.find(a=>a.id===h.id)).filter(Boolean);
+  const feat=DATA.filter(a=>a.rating>=8.5).slice(0,10);
+  const trend=[...DATA].sort((a,b)=>(b.trending||0)-(a.trending||0)).slice(0,12);
+  const latest=[...DATA].sort((a,b)=>(b.year||0)-(a.year||0)).slice(0,12);
+  const recent=[...DATA].sort((a,b)=>(b.id||'').localeCompare(a.id||'')).slice(0,8);
+  const rec=[...DATA].sort(()=>Math.random()-.5).slice(0,12);
+  renderCont('contRow',cont);renderRow('featRow',feat);
+  renderRow('trendRow',trend);renderGrid('latestGrid',latest);
+  renderGrid('recentGrid',recent);renderRow('recRow',rec);
+  renderHomeCats();animScroll();
+}
+
+function renderEmptyHome(){
+  const empty='<div class="empty-state"><i class="fas fa-film"></i><h3>No Anime Yet</h3><p>Your collection is empty. Start by adding your first anime in the admin panel.</p><a href="admin.html" class="btn-glow" style="margin-top:12px"><i class="fas fa-plus"></i> Add Anime</a></div>';
+  ['featRow','trendRow','latestGrid','recentGrid','contRow','recRow'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=empty;});
+  renderHomeCats();
+}
+
+function renderHomeCats(){
+  const g=document.getElementById('homeCatGrid');
+  const counts={};
+  DATA.forEach(a=>(a.genres||[]).forEach(g=>{counts[g]=(counts[g]||0)+1;}));
+  g.innerHTML=CATS.map(c=>'<a href="categories.html?g='+esc(c)+'" class="cat-card glass-card"><div class="cat-ico" style="background:'+(GC[c]||'var(--accent)')+'"><i class="fas fa-'+gIC(c)+'"></i></div><span>'+esc(c)+'</span><span class="cat-n">'+(counts[c]||0)+' titles</span></a>').join('');
+}
+
+function renderRow(id,items){const r=document.getElementById(id);if(!r)return;if(!items.length){r.innerHTML='<p class="dim" style="padding:20px">No anime available</p>';return;}const bms=getBMS();r.innerHTML=items.map(a=>cardHTML(a,bms)).join('');}
+function renderGrid(id,items){const g=document.getElementById(id);if(!g)return;if(!items.length){g.innerHTML='<div class="empty-state"><i class="fas fa-film"></i><h3>No anime found</h3><p>Try again later.</p></div>';return;}const bms=getBMS();g.innerHTML=items.map(a=>cardHTML(a,bms)).join('');}
+
+function renderCont(id,items){
+  const r=document.getElementById(id);if(!r)return;
+  if(!items.length){r.innerHTML='<p class="dim" style="padding:20px">Start watching to see your history here</p>';return;}
+  r.innerHTML=items.map(a=>{
+    const h=getHIST().find(x=>x.id===a.id);
+    const pct=h?Math.round((h.ep/(a.totalEpisodes||1))*100):0;
+    return '<div class="anime-card" onclick="location=\'detail.html?id='+esc(a.id)+'\'"><div class="card-vis"><img src="'+esc(a.poster||'')+'" alt="'+esc(a.title)+'" width="160" height="224" loading="lazy" /><div class="card-overlay"><span class="card-play"><i class="fas fa-play"></i></span></div><div class="card-bar"><div class="card-fill" style="width:'+pct+'%"></div></div></div><div class="card-txt"><h3>'+esc(a.title)+'</h3><p class="dim" style="font-size:11px">'+(h?h.ep:(a.totalEpisodes||0))+' / '+(a.totalEpisodes||0)+'</p></div></div>';
+  }).join('');
+}
+
+function animScroll(){
+  if(RM)return;
+  setTimeout(()=>{
+    gsap.utils.toArray('.anime-card').forEach((c,i)=>{const s=gsap.fromTo(c,{opacity:0,y:40,scale:.95},{opacity:1,y:0,scale:1,duration:.5,delay:i*.03,ease:'power3.out',scrollTrigger:{trigger:c,start:'top 93%'}});STS.push(s);});
+    gsap.utils.toArray('.sect-head').forEach(h=>{const s=gsap.fromTo(h,{opacity:0,x:-30},{opacity:1,x:0,duration:.5,ease:'power3.out',scrollTrigger:{trigger:h,start:'top 92%'}});STS.push(s);});
+  },60);
+}
+</script>
+</body>
+</html>

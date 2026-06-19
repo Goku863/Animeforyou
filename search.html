@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>AnimeForYou — Premium Anime Streaming</title>
-  <meta name="description" content="Watch anime online for free. Stream thousands of episodes in Hindi, English, and Japanese with subtitles." />
+  <title>AnimeForYou — Search</title>
+  <meta name="description" content="Search anime titles, genres, and descriptions on AnimeForYou." />
   <meta name="theme-color" content="#f4f6f9" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -21,16 +21,16 @@
   <nav class="navbar" id="navbar" role="navigation" aria-label="Main">
     <div class="nav-inner">
       <a href="index.html" class="logo" aria-label="AnimeForYou Home">
-        <span class="logo-mark"><i class="fas fa-play" aria-hidden="true"></i></span>
+        <span class="logo-mark"><i class="fas fa-play"></i></span>
         <span class="logo-word">Anime<span class="accent">ForYou</span></span>
       </a>
       <div class="nav-search">
-        <i class="fas fa-search search-icon" aria-hidden="true"></i>
-        <input type="text" id="searchInput" placeholder="Search anime..." aria-label="Search" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();location='search.html?q='+encodeURIComponent(this.value.trim())}" />
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="searchInput" placeholder="Search anime..." aria-label="Search" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();if(this.value.trim())location='search.html?q='+encodeURIComponent(this.value.trim())}" />
         <span class="search-kbd">/</span>
       </div>
       <div class="nav-menu" id="navMenu" role="menubar">
-        <a href="index.html" class="nav-item active" data-p="home" role="menuitem"><i class="fas fa-house"></i> Home</a>
+        <a href="index.html" class="nav-item" data-p="home" role="menuitem"><i class="fas fa-house"></i> Home</a>
         <a href="browse.html" class="nav-item" data-p="browse" role="menuitem"><i class="fas fa-compass"></i> Browse</a>
         <a href="trending.html" class="nav-item" data-p="trending" role="menuitem"><i class="fas fa-fire"></i> Trending</a>
         <a href="latest.html" class="nav-item" data-p="latest" role="menuitem"><i class="fas fa-clock"></i> Latest</a>
@@ -40,7 +40,7 @@
       </div>
       <div class="nav-end">
         <a href="bookmarks.html" class="nav-icon-btn" aria-label="Bookmarks"><i class="fas fa-bookmark"></i></a>
-        <div class="theme-toggle" id="themeToggle" onclick="toggleThemePanel()" aria-label="Theme" role="button" tabindex="0">
+        <div class="theme-toggle" id="themeToggle" onclick="toggleThemePanel()">
           <i class="fas fa-palette" id="themeIcon"></i>
           <div class="theme-panel" id="themePanel" onclick="event.stopPropagation()">
             <div class="theme-panel-label">Accent Color</div>
@@ -58,29 +58,23 @@
   </nav>
 
   <main class="main" id="main">
-    <section aria-label="Home">
-      <div class="landing">
-        <div class="landing-glow"></div>
-        <div class="landing-content">
-          <div class="landing-badge">&#9733; Premium Streaming</div>
-          <h1 class="landing-title">Discover &amp; Stream<br><span>Premium Anime</span></h1>
-          <p class="landing-desc">Thousands of episodes across every genre — from timeless classics to the latest seasonal releases. Watch free, fast, and beautifully presented.</p>
-          <div class="landing-feats">
-            <div class="landing-feat"><i class="fas fa-infinity"></i> Unlimited</div>
-            <div class="landing-feat"><i class="fas fa-globe"></i> Multi-Language</div>
-            <div class="landing-feat"><i class="fas fa-bolt"></i> No Sign Up</div>
-          </div>
-          <a href="browse.html" class="landing-btn"><i class="fas fa-play"></i> Watch Anime</a>
-          <a href="browse.html" class="landing-scroll">Explore the collection <i class="fas fa-arrow-right"></i></a>
-        </div>
-      </div>
-    </section>
+<section>
+  <div class="pg-head"><h1><i class="fas fa-magnifying-glass"></i> Search Results</h1><p id="searchCount"></p></div>
+  <div class="filter-row">
+    <select id="sGenre" onchange="filterSearch()" aria-label="Genre"><option value="all">All Genres</option></select>
+    <select id="sYear" onchange="filterSearch()" aria-label="Year"><option value="all">All Years</option></select>
+    <select id="sRating" onchange="filterSearch()" aria-label="Rating"><option value="all">All Ratings</option><option value="9">9+</option><option value="8">8+</option><option value="7">7+</option></select>
+    <select id="sSort" onchange="filterSearch()" aria-label="Sort"><option value="rel">Relevance</option><option value="r">Rating</option><option value="n">Newest</option><option value="a">A-Z</option></select>
+  </div>
+  <div class="card-grid" id="searchGrid"></div>
+  <div class="empty-state" id="noResults" style="display:none"><i class="fas fa-magnifying-glass"></i><h3>No results found</h3><p>Try different keywords or browse categories instead</p></div>
+</section>
   </main>
 
-  <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+  <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
 
   <nav class="mob-nav" id="mobNav" aria-label="Mobile navigation">
-    <a href="index.html" class="mob-item active" data-p="home"><i class="fas fa-house"></i><span>Home</span></a>
+    <a href="index.html" class="mob-item" data-p="home"><i class="fas fa-house"></i><span>Home</span></a>
     <a href="browse.html" class="mob-item" data-p="browse"><i class="fas fa-compass"></i><span>Browse</span></a>
     <a href="search.html" class="mob-item" data-p="search"><i class="fas fa-search"></i><span>Search</span></a>
     <a href="bookmarks.html" class="mob-item" data-p="bookmarks"><i class="fas fa-bookmark"></i><span>Saved</span></a>
@@ -89,7 +83,7 @@
   <footer role="contentinfo">
     <div class="ft-wrap">
       <div class="ft-grid">
-        <div class="ft-brand"><a href="index.html" class="logo"><span class="logo-mark"><i class="fas fa-play"></i></span> Anime<span class="accent">ForYou</span></a><p>Premium anime streaming platform. Discover, track, and watch your favorite series — all for free.</p><div class="ft-social"><a href="https://github.com/Goku863/Animeforyou" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a></div></div>
+        <div class="ft-brand"><a href="index.html" class="logo"><span class="logo-mark"><i class="fas fa-play"></i></span> Anime<span class="accent">ForYou</span></a><p>Premium anime streaming platform.</p><div class="ft-social"><a href="https://github.com/Goku863/Animeforyou" target="_blank" rel="noopener"><i class="fab fa-github"></i></a></div></div>
         <div class="ft-col"><h4>Browse</h4><ul><li><a href="index.html">Home</a></li><li><a href="browse.html">Browse</a></li><li><a href="trending.html">Trending</a></li><li><a href="latest.html">Latest</a></li><li><a href="az.html">A-Z</a></li><li><a href="categories.html">Genres</a></li></ul></div>
         <div class="ft-col"><h4>Information</h4><ul><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li><li><a href="dmca.html">DMCA</a></li></ul></div>
         <div class="ft-col"><h4>Account</h4><ul><li><a href="bookmarks.html">Bookmarks</a></li><li><a href="search.html">Search</a></li><li><a href="admin.html">Admin</a></li></ul></div>
@@ -103,6 +97,51 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="api.js"></script>
   <script src="shared.js"></script>
+<script>
+'use strict';
+let DATA=[],SRES=[];
+
+document.addEventListener('DOMContentLoaded', async()=>{
+  DATA=await api.getAll();
+  const params=new URLSearchParams(location.search);
+  const q=params.get('q');
+  if(q){document.getElementById('searchInput').value=q;doSearch(q);}
+});
+
+function doSearch(q){
+  if(!q)return;
+  SRES=DATA.filter(a=>a.title.toLowerCase().includes(q.toLowerCase())||(a.synopsis&&a.synopsis.toLowerCase().includes(q.toLowerCase()))||(a.genres&&a.genres.some(g=>g.toLowerCase().includes(q.toLowerCase()))));
+  document.getElementById('searchCount').textContent='Found '+SRES.length+' results for "'+esc(q)+'"';
+  renderGrid(SRES);popFilter('sGenre');popYearFilter('sYear');
+}
+
+function renderGrid(items){
+  const grid=document.getElementById('searchGrid');
+  const bms=getBMS();
+  if(!items.length){grid.innerHTML='';document.getElementById('noResults').style.display='block';return;}
+  document.getElementById('noResults').style.display='none';
+  grid.innerHTML=items.map(a=>cardHTML(a,bms)).join('');
+}
+
+function filterSearch(){
+  let items=[...SRES];
+  const g=document.getElementById('sGenre').value,y=document.getElementById('sYear').value,r=document.getElementById('sRating').value,s=document.getElementById('sSort').value;
+  if(g!=='all')items=items.filter(a=>a.genres&&a.genres.includes(g));
+  if(y!=='all')items=items.filter(a=>a.year===parseInt(y));
+  if(r!=='all')items=items.filter(a=>(a.rating||0)>=parseFloat(r));
+  if(s==='r')items.sort((a,b)=>(b.rating||0)-(a.rating||0));
+  else if(s==='n')items.sort((a,b)=>(b.year||0)-(a.year||0));
+  else if(s==='a')items.sort((a,b)=>a.title.localeCompare(b.title));
+  renderGrid(items);
+}
+
+function popFilter(id){const s=document.getElementById(id),v=s.value;while(s.options.length>1)s.remove(1);CATS.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;s.appendChild(o);});s.value=v;}
+function popYearFilter(id){const s=document.getElementById(id),v=s.value;while(s.options.length>1)s.remove(1);[...new Set(DATA.map(a=>a.year).filter(Boolean))].sort((a,b)=>b-a).forEach(y=>{const o=document.createElement('option');o.value=y;o.textContent=y;s.appendChild(o);});s.value=v;}
+</script>
 </body>
 </html>

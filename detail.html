@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="volcanic">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>AnimeForYou — Details</title>
+  <meta name="description" content="Anime detail page — description, episodes, and related recommendations." />
+  <meta name="theme-color" content="#f4f6f9" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='10' fill='%23f97316'/><text x='16' y='23' text-anchor='middle' font-size='18' fill='white' font-weight='bold'>A</text></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <div class="page-transition" id="pageTransition"></div>
+  <canvas id="three-canvas"></canvas>
+
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main">
+    <div class="nav-inner">
+      <a href="index.html" class="logo" aria-label="AnimeForYou Home">
+        <span class="logo-mark"><i class="fas fa-play"></i></span>
+        <span class="logo-word">Anime<span class="accent">ForYou</span></span>
+      </a>
+      <div class="nav-search">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" id="searchInput" placeholder="Search anime..." aria-label="Search" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();if(this.value.trim())location='search.html?q='+encodeURIComponent(this.value.trim())}" />
+        <span class="search-kbd">/</span>
+      </div>
+      <div class="nav-menu" id="navMenu" role="menubar">
+        <a href="index.html" class="nav-item" data-p="home" role="menuitem"><i class="fas fa-house"></i> Home</a>
+        <a href="browse.html" class="nav-item" data-p="browse" role="menuitem"><i class="fas fa-compass"></i> Browse</a>
+        <a href="trending.html" class="nav-item" data-p="trending" role="menuitem"><i class="fas fa-fire"></i> Trending</a>
+        <a href="latest.html" class="nav-item" data-p="latest" role="menuitem"><i class="fas fa-clock"></i> Latest</a>
+        <a href="az.html" class="nav-item" data-p="az" role="menuitem"><i class="fas fa-list"></i> A-Z</a>
+        <a href="categories.html" class="nav-item" data-p="categories" role="menuitem"><i class="fas fa-tags"></i> Genres</a>
+        <a href="about.html" class="nav-item" data-p="about" role="menuitem"><i class="fas fa-info"></i> About</a>
+      </div>
+      <div class="nav-end">
+        <a href="bookmarks.html" class="nav-icon-btn" aria-label="Bookmarks"><i class="fas fa-bookmark"></i></a>
+        <div class="theme-toggle" id="themeToggle" onclick="toggleThemePanel()">
+          <i class="fas fa-palette" id="themeIcon"></i>
+          <div class="theme-panel" id="themePanel" onclick="event.stopPropagation()">
+            <div class="theme-panel-label">Accent Color</div>
+            <div class="theme-row">
+              <div class="theme-option" data-t="volcanic" onclick="setTheme('volcanic')"><span class="theme-swatch v"></span> Volcanic</div>
+              <div class="theme-option" data-t="crimson" onclick="setTheme('crimson')"><span class="theme-swatch c"></span> Crimson</div>
+              <div class="theme-option" data-t="emerald" onclick="setTheme('emerald')"><span class="theme-swatch e"></span> Emerald</div>
+              <div class="theme-option" data-t="violet" onclick="setTheme('violet')"><span class="theme-swatch w"></span> Violet</div>
+              <div class="theme-option" data-t="ocean" onclick="setTheme('ocean')"><span class="theme-swatch o"></span> Ocean</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main" id="main">
+<section>
+  <div class="detail-bg" id="detailBg"></div>
+  <div class="detail-wrap">
+    <aside class="detail-side">
+      <img id="dPoster" class="detail-poster" alt="" width="260" height="364" />
+      <div class="detail-acts">
+        <button class="btn-glow" id="dPlay" onclick="playFirst()"><i class="fas fa-play"></i> Watch Now</button>
+        <button class="btn-ghost lg" id="dBm" onclick="toggleBmDetail()"><i class="fas fa-bookmark"></i> Bookmark</button>
+      </div>
+    </aside>
+    <div class="detail-main">
+      <h1 id="dTitle" class="detail-title"></h1>
+      <div class="detail-meta">
+        <span class="badge-rating" id="dRating"><i class="fas fa-star"></i> <span></span></span>
+        <span class="meta-pill" id="dYear"><i class="fas fa-calendar"></i> <span></span></span>
+        <span class="meta-pill" id="dStatus"><i class="fas fa-circle"></i> <span></span></span>
+        <span class="meta-pill" id="dType"><i class="fas fa-tv"></i> <span></span></span>
+      </div>
+      <div class="dt-row"><span class="dt-label">Studio:</span> <span id="dStudio"></span></div>
+      <div class="dt-row"><span class="dt-label">Genres:</span><div class="tag-list" id="dGenres"></div></div>
+      <div class="dt-row"><span class="dt-label">Audio:</span><div class="tag-list" id="dAudio"></div></div>
+      <div class="dt-row"><span class="dt-label">Subs:</span><div class="tag-list" id="dSubs"></div></div>
+      <div class="detail-syn"><h3>Synopsis</h3><p id="dSyn"></p></div>
+      <section class="sect"><div class="sect-head"><h2><i class="fas fa-list"></i> Episodes</h2><span class="dim" id="dEpCount"></span></div><div class="ep-range-wrap"><select id="epRange" onchange="renderEps()" aria-label="Episode range"></select></div><div class="ep-list" id="dEps"></div></section>
+      <section class="sect"><div class="sect-head"><h2>Related</h2></div><div class="card-row" id="dRelated"></div></section>
+      <section class="sect"><div class="sect-head"><h2>You May Also Like</h2></div><div class="card-row" id="dRec"></div></section>
+    </div>
+  </div>
+</section>
+  </main>
+
+  <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fas fa-arrow-up"></i></button>
+
+  <nav class="mob-nav" id="mobNav" aria-label="Mobile navigation">
+    <a href="index.html" class="mob-item" data-p="home"><i class="fas fa-house"></i><span>Home</span></a>
+    <a href="browse.html" class="mob-item" data-p="browse"><i class="fas fa-compass"></i><span>Browse</span></a>
+    <a href="search.html" class="mob-item" data-p="search"><i class="fas fa-search"></i><span>Search</span></a>
+    <a href="bookmarks.html" class="mob-item" data-p="bookmarks"><i class="fas fa-bookmark"></i><span>Saved</span></a>
+  </nav>
+
+  <footer role="contentinfo">
+    <div class="ft-wrap">
+      <div class="ft-grid">
+        <div class="ft-brand"><a href="index.html" class="logo"><span class="logo-mark"><i class="fas fa-play"></i></span> Anime<span class="accent">ForYou</span></a><p>Premium anime streaming platform.</p><div class="ft-social"><a href="https://github.com/Goku863/Animeforyou" target="_blank" rel="noopener"><i class="fab fa-github"></i></a></div></div>
+        <div class="ft-col"><h4>Browse</h4><ul><li><a href="index.html">Home</a></li><li><a href="browse.html">Browse</a></li><li><a href="trending.html">Trending</a></li><li><a href="latest.html">Latest</a></li><li><a href="az.html">A-Z</a></li><li><a href="categories.html">Genres</a></li></ul></div>
+        <div class="ft-col"><h4>Information</h4><ul><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li><li><a href="dmca.html">DMCA</a></li></ul></div>
+        <div class="ft-col"><h4>Account</h4><ul><li><a href="bookmarks.html">Bookmarks</a></li><li><a href="search.html">Search</a></li><li><a href="admin.html">Admin</a></li></ul></div>
+      </div>
+      <div class="ft-bottom"><p>&copy; 2026 AnimeForYou</p><p>Crafted with <i class="fas fa-heart" style="color:var(--accent)"></i> for anime fans</p></div>
+    </div>
+  </footer>
+
+  <div class="toast-rack" id="toastRack" role="status" aria-live="polite"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="api.js"></script>
+  <script src="shared.js"></script>
+<script>
+'use strict';
+let CUR=null,CEPS=[];
+
+document.addEventListener('DOMContentLoaded', async()=>{
+  const DATA=await api.getAll();
+  const params=new URLSearchParams(location.search);
+  const id=params.get('id');
+  if(!id||!DATA.length){document.querySelector('.detail-wrap').innerHTML='<div class="empty-state"><i class="fas fa-film"></i><h3>Anime not found</h3><a href="browse.html" class="btn-glow">Browse Anime</a></div>';return;}
+  showDetail(DATA,id);
+});
+
+function showDetail(DATA,id){
+  const a=DATA.find(x=>x.id===id);if(!a)return;CUR=a;
+  document.getElementById('dPoster').src=a.poster||'';
+  document.getElementById('dPoster').alt=a.title;
+  document.getElementById('detailBg').style.backgroundImage='url(\''+esc(a.banner||a.poster||'')+'\')';
+  document.getElementById('dTitle').textContent=a.title;
+  document.getElementById('dRating').querySelector('span').textContent=a.rating||0;
+  document.getElementById('dYear').querySelector('span').textContent=a.year||'';
+  document.getElementById('dStatus').querySelector('span').textContent=a.status||'';
+  document.getElementById('dType').querySelector('span').textContent=a.type||'TV';
+  document.getElementById('dStudio').textContent=a.studio||'';
+  document.getElementById('dSyn').textContent=a.synopsis||'';
+  document.getElementById('dGenres').innerHTML=(a.genres||[]).map(g=>'<span class="ctag" style="--tc:'+(GC[g]||'var(--accent)')+'">'+esc(g)+'</span>').join('');
+  document.getElementById('dAudio').innerHTML=(a.audio||[]).map(l=>'<span class="ctag">'+esc(l)+'</span>').join('');
+  document.getElementById('dSubs').innerHTML=(a.subs||[]).map(s=>'<span class="ctag">'+esc(s)+'</span>').join('');
+  document.getElementById('dEpCount').textContent=(a.totalEpisodes||0)+' episodes';
+  const bms=getBMS();
+  document.getElementById('dBm').innerHTML=bms.includes(a.id)?'<i class="fas fa-bookmark"></i> Bookmarked':'<i class="far fa-bookmark"></i> Bookmark';
+  CEPS=[];for(let i=1;i<=(a.totalEpisodes||1);i++)CEPS.push({n:i,t:'Episode '+i});
+  const rng=[];for(let i=1;i<=(a.totalEpisodes||1);i+=100)rng.push(i+'-'+Math.min(i+99,a.totalEpisodes||1));
+  document.getElementById('epRange').innerHTML=rng.map((r,i)=>'<option value="'+i+'">'+r+'</option>').join('');
+  renderEps();
+  const rel=DATA.filter(x=>x.id!==a.id&&x.genres&&a.genres&&x.genres.some(g=>a.genres.includes(g))).slice(0,10);
+  const rec=DATA.filter(x=>x.id!==a.id&&(x.rating||0)>=8).sort(()=>Math.random()-.5).slice(0,10);
+  const bm2=getBMS();
+  document.getElementById('dRelated').innerHTML=rel.map(x=>cardHTML(x,bm2)).join('');
+  document.getElementById('dRec').innerHTML=rec.map(x=>cardHTML(x,bm2)).join('');
+}
+
+function renderEps(){
+  const r=document.getElementById('epRange').value,s=r*100,eps=CEPS.slice(s,s+100);
+  const hist=getHIST();
+  document.getElementById('dEps').innerHTML=eps.map(ep=>{
+    const h=hist.find(x=>x.id===CUR.id&&x.ep===ep.n);
+    return '<div class="ep-item'+(h?' seen':'')+'" onclick="location=\'watch.html?id='+esc(CUR.id)+'&ep='+ep.n+'\'" role="button" tabindex="0"><span class="ep-num">'+ep.n+'</span><span class="ep-title">'+esc(ep.t)+'</span>'+(h?'<i class="fas fa-check-circle" style="color:var(--accent)"></i>':'')+'</div>';
+  }).join('');
+}
+
+function playFirst(){if(CUR)location='watch.html?id='+esc(CUR.id)+'&ep=1';}
+function toggleBmDetail(){if(CUR){const bms=toggleBM(CUR.id);document.getElementById('dBm').innerHTML=bms.includes(CUR.id)?'<i class="fas fa-bookmark"></i> Bookmarked':'<i class="far fa-bookmark"></i> Bookmark';}}
+</script>
+</body>
+</html>
