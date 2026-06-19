@@ -124,7 +124,6 @@
           <ul class="list-unstyled ft-col">
             <li><a href="bookmarks.html">Bookmarks</a></li>
             <li><a href="search.html">Search</a></li>
-            <li><a href="admin.html">Admin</a></li>
           </ul>
         </div>
       </div>
@@ -174,7 +173,7 @@ function initHero(){
   const feat=DATA.filter(a=>a.rating>=8.5).slice(0,5);
   const tk=document.getElementById('heroTrack'),dt=document.getElementById('heroDots');
   if(!feat.length){
-    document.getElementById('heroBody').innerHTML='<div class="empty-hero"><h2 class="hero-title">Welcome to AnimeForYou</h2><p class="hero-desc">Your premium anime destination. Add your first anime in the admin panel and start building your collection.</p><div class="hero-acts"><a href="admin.html" class="btn-filled lg"><i class="fas fa-plus"></i> Add Anime</a><a href="about.html" class="btn-outlined lg"><i class="fas fa-info"></i> Learn More</a></div></div>';
+    document.getElementById('heroBody').innerHTML='<div class="empty-hero"><h2 class="hero-title">Welcome to AnimeForYou</h2><p class="hero-desc">No anime in the collection yet. Check back soon for new releases!</p><div class="hero-acts"><a href="about.html" class="btn-outlined lg"><i class="fas fa-info"></i> Learn More</a></div></div>';
     return;
   }
   tk.innerHTML=feat.map(a=>'<div class="hero-slide" style="background-image:url(\''+esc(a.banner||a.poster)+'\')"></div>').join('');
@@ -209,7 +208,7 @@ function renderHome(){
 }
 
 function renderEmptyHome(){
-  const empty='<div class="empty-state"><i class="fas fa-film"></i><h3>No Anime Yet</h3><p>Your collection is empty. Start by adding your first anime in the admin panel.</p><a href="admin.html" class="btn-filled" style="margin-top:12px"><i class="fas fa-plus"></i> Add Anime</a></div>';
+  const empty='<div class="empty-state"><i class="fas fa-film"></i><h3>No Anime Yet</h3><p>No anime in the collection yet. Check back soon!</p></div>';
   ['featRow','trendRow','latestGrid','recentGrid','contRow','recRow'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=empty;});
   renderHomeCats();
 }
