@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AnimeVault — Watch Anime Online</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>A</text></svg>" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body>
+  <nav role="navigation" aria-label="Main">
+    <div class="container">
+      <button class="hamburger" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <a href="/" class="logo" data-nav="home">
+        <span class="logo-mark">A</span> AnimeVault
+      </a>
+      <div class="nav-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" id="searchInput" placeholder="Search anime, categories..." aria-label="Search" />
+      </div>
+      <div class="nav-actions">
+        <button class="btn-nav" data-nav="latest">Latest</button>
+        <button class="btn-nav" data-nav="az-list">A-Z List</button>
+        <button class="btn-accent" data-nav="random">Random</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Categories">
+    <div class="sidebar-header">
+      <h3>Browse</h3>
+      <button class="sidebar-close" id="sidebarClose" aria-label="Close menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <h4>Categories</h4>
+    <ul class="category-list" id="categoryList"></ul>
+    <h4>Audio</h4>
+    <ul class="category-list" id="audioList">
+      <li data-filter="hindi-dubbed"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> Hindi Dubbed</li>
+      <li data-filter="english-dubbed"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg> English Dubbed</li>
+      <li data-filter="subbed"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 10h4"/><path d="M14 10h4"/><path d="M6 14h8"/><path d="M16 14h2"/></svg> Subbed</li>
+    </ul>
+    <h4>Admin</h4>
+    <ul class="category-list">
+      <li id="adminLink"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg> Manage Anime</li>
+    </ul>
+  </aside>
+
+  <div class="main-wrap">
+    <div class="container">
+      <div class="mobile-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="text" id="mobileSearchInput" placeholder="Search anime..." aria-label="Search" />
+      </div>
+
+      <div class="page active" id="pageHome">
+        <div class="hero-banner">
+          <div class="hero-banner-bg"></div>
+          <div class="hero-banner-content">
+            <h1>Watch Anime <span>for Free</span></h1>
+            <p>Explore thousands of anime series and movies in Hindi, English, and Japanese — all in HD quality.</p>
+            <button class="btn-accent" data-nav="random"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg> Browse Random</button>
+          </div>
+        </div>
+        <div class="section-header"><h2>Latest Releases</h2><span class="see-all" data-nav="latest">See All</span></div>
+        <div class="anime-grid" id="homeGrid"></div>
+      </div>
+
+      <div class="page" id="pageLatest">
+        <div class="section-header" style="margin-top:8px"><h2>All Latest</h2></div>
+        <div class="anime-grid" id="latestGrid"></div>
+      </div>
+
+      <div class="page" id="pageAzList">
+        <div class="section-header" style="margin-top:8px"><h2>A-Z Index</h2></div>
+        <div class="anime-grid" id="azGrid"></div>
+      </div>
+
+      <div class="page" id="pageSearch">
+        <div class="search-info" id="searchInfo"></div>
+        <div class="anime-grid" id="searchGrid"></div>
+      </div>
+
+      <div class="page" id="pageCategory">
+        <div class="section-header" style="margin-top:8px"><h2 id="categoryTitle">Category</h2></div>
+        <div class="anime-grid" id="categoryGrid"></div>
+      </div>
+    </div>
+
+    <footer><div class="container"><p>AnimeVault &copy; 2026. All rights reserved. This is a demonstration project.</p></div></footer>
+  </div>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal">
+      <button class="modal-close" id="modalClose" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg></button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="api.js"></script>
+  <script>
+    var STORAGE_KEY = "animevault_data";
+    var USE_API = true;
+    var API_AVAILABLE = false;
+
+    const DEFAULT_ANIME = [
+      {id:1, title:"Haikyu!! (Season 4) Hindi Dubbed", slug:"haikyu-s04-hindi", image:"https://image.tmdb.org/t/p/w500/zfOWZf3rMkgaXXNKOSTL33RBchx.jpg", categories:["animation","anime-hindi-dubbed","comedy","drama","sports"], audio:"hindi-dubbed", episodes:25},
+      {id:2, title:"The Ramparts of Ice (Season 1) Triple Audio", slug:"ramparts-of-ice-s01", image:"https://image.tmdb.org/t/p/w500/rke9UC2QrogvxiQD9TGpbvqDosi.jpg", categories:["animation","anime-hindi-dubbed","romance"], audio:"hindi-dubbed", episodes:12},
+      {id:3, title:"Dr. Stone (Season 4) Triple Audio", slug:"dr-stone-s04", image:"https://catimages.org/images/2025/01/12/drs4.jpg", categories:["action","adventure","animation","sci-fi"], audio:"hindi-dubbed", episodes:24},
+      {id:4, title:"Baki-Dou: The Invincible Samurai S1 Part 2", slug:"baki-dou-s01-p2", image:"https://m.media-amazon.com/images/M/MV5BYmVjZTgzYjQtOTFhMS00NzRmLTkwMzctYmQ3MzE2YTBhZTQ1XkEyXkFqcGc@._V1_SX500.jpg", categories:["action","animation","sports","thriller"], audio:"hindi-dubbed", episodes:13},
+      {id:5, title:"Fullmetal Alchemist: Brotherhood S1", slug:"fma-brotherhood-s01", image:"https://image.tmdb.org/t/p/w500/5ZFUEOULaVml7pQuXxhpR2SmVUw.jpg", categories:["action","adventure","animation","fantasy"], audio:"hindi-dubbed", episodes:64},
+      {id:6, title:"Agents of the Four Seasons S1 Hindi Dubbed", slug:"agents-four-seasons-s01", image:"https://catimages.org/images/2026/04/19/9798855404951.jpg", categories:["animation","drama","fantasy","romance"], audio:"hindi-dubbed", episodes:10},
+      {id:7, title:"Wistoria: Wand and Sword (Season 2)", slug:"wistoria-s02", image:"http://image.tmdb.org/t/p/w500/hM00JrQlrfI0wTSweYDMLUMcv8u.jpg", categories:["action","adventure","animation","fantasy"], audio:"hindi-dubbed", episodes:12},
+      {id:8, title:"Liar Game (Season 1) Hindi Dubbed", slug:"liar-game-s01", image:"https://image.tmdb.org/t/p/w500/w8yyntTxZlDlZ2TR8kb4C92pmcO.jpg", categories:["animation","drama","thriller"], audio:"hindi-dubbed", episodes:15},
+      {id:9, title:"An Observation Log of My Fiancee S1", slug:"observation-log-s01", image:"https://image.tmdb.org/t/p/w500/xlpYhXiyX52t6Dtg1fFN0CqLbK4.jpg", categories:["animation","comedy","fantasy","romance"], audio:"hindi-dubbed", episodes:12},
+      {id:10, title:"Watari-kun Collapse S1", slug:"watari-kun-s01", image:"https://m.media-amazon.com/images/M/MV5BMzQ2ZGZiNDEtYTE4Zi00MGUxLTg2NWYtYmFjYWMyMmZmZjg0XkEyXkFqcGc@._V1_SX500.jpg", categories:["animation","comedy","drama","romance"], audio:"hindi-dubbed", episodes:12},
+      {id:11, title:"The Angel Next Door Spoils Me Rotten S2", slug:"angel-next-door-s02", image:"https://m.media-amazon.com/images/M/MV5BNDI1OWVjNGYtZmE0NC00Zjk3LWI5ZWItODYxYWU2ZGQ1OTJmXkEyXkFqcGc@._V1_SX500.jpg", categories:["animation","comedy","romance"], audio:"hindi-dubbed", episodes:12},
+      {id:12, title:"The Warrior Princess S1 Hindi Dubbed", slug:"warrior-princess-s01", image:"https://image.tmdb.org/t/p/w780/fv0Mr6ahZfmwksgDpVO46iMteA6.jpg", categories:["adventure","animation","comedy","fantasy","romance"], audio:"hindi-dubbed", episodes:12},
+      {id:13, title:"Naruto Shippuden Hindi Dubbed", slug:"naruto-shippuden-hindi", image:"https://image.tmdb.org/t/p/w500/7d3Z5r3C5e4xNvXjPXx3V7xQjL.jpg", categories:["action","adventure","animation","anime-hindi-dubbed"], audio:"hindi-dubbed", episodes:500},
+      {id:14, title:"One Piece Hindi Dubbed", slug:"one-piece-hindi", image:"https://image.tmdb.org/t/p/w500/3M8Fk7K73vkzV7MJKawyr2FVu1.jpg", categories:["action","adventure","animation","comedy","fantasy"], audio:"hindi-dubbed", episodes:1000},
+      {id:15, title:"Attack on Titan Final Season", slug:"aot-final-season", image:"https://image.tmdb.org/t/p/w500/6Ff2w1z6tJ4fHjWkYWv2y3z5Kx.jpg", categories:["action","animation","drama","fantasy","thriller"], audio:"english-dubbed", episodes:28},
+      {id:16, title:"Demon Slayer: Entertainment District", slug:"demon-slayer-entertainment", image:"https://image.tmdb.org/t/p/w500/5H5BvA1W5b6Vg9yCV9QK5K5Z5b.jpg", categories:["action","animation","fantasy"], audio:"english-dubbed", episodes:11},
+      {id:17, title:"Jujutsu Kaisen Season 2", slug:"jujutsu-kaisen-s2", image:"https://image.tmdb.org/t/p/w500/7d3Z5r3C5e4xNvXjPXx3V7xQjL.jpg", categories:["action","animation","fantasy"], audio:"english-dubbed", episodes:23},
+      {id:18, title:"Chainsaw Man English Dub", slug:"chainsaw-man-eng", image:"https://image.tmdb.org/t/p/w500/nPG6sTsy6nG99Vy6o4kHmMqQ4L.jpg", categories:["action","animation","fantasy"], audio:"english-dubbed", episodes:12},
+      {id:19, title:"Spy x Family Season 2", slug:"spy-x-family-s2", image:"https://image.tmdb.org/t/p/w500/5L2Y7G7G7G7G7G7G7G7G7G7G7G.jpg", categories:["animation","comedy","action"], audio:"english-dubbed", episodes:13},
+      {id:20, title:"Vinland Saga Season 2", slug:"vinland-saga-s2", image:"https://image.tmdb.org/t/p/w500/5L2Y7G7G7G7G7G7G7G7G7G7G7G.jpg", categories:["action","adventure","animation","drama"], audio:"subbed", episodes:24},
+      {id:21, title:"Solo Leveling", slug:"solo-leveling", image:"https://image.tmdb.org/t/p/w500/5L2Y7G7G7G7G7G7G7G7G7G7G7G.jpg", categories:["action","adventure","animation","fantasy"], audio:"subbed", episodes:12},
+      {id:22, title:"Dragon Ball Daima", slug:"dragon-ball-daima", image:"https://image.tmdb.org/t/p/w500/7d3Z5r3C5e4xNvXjPXx3V7xQjL.jpg", categories:["action","adventure","animation","comedy","fantasy"], audio:"hindi-dubbed", episodes:20},
+      {id:23, title:"Mashle: Magic and Muscles Season 2", slug:"mashle-s2", image:"https://image.tmdb.org/t/p/w500/nPG6sTsy6nG99Vy6o4kHmMqQ4L.jpg", categories:["animation","comedy","fantasy"], audio:"english-dubbed", episodes:12},
+      {id:24, title:"Dandadan", slug:"dandadan", image:"https://image.tmdb.org/t/p/w500/5H5BvA1W5b6Vg9yCV9QK5K5Z5b.jpg", categories:["action","animation","comedy","sci-fi"], audio:"subbed", episodes:12}
+    ];
+
+    async function loadFromAPI() {
+      try {
+        var result = await apiGetAll();
+        API_AVAILABLE = true;
+        return result.data;
+      } catch(e) {
+        API_AVAILABLE = false;
+        return null;
+      }
+    }
+
+    function getLocalData() {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        try { return JSON.parse(raw); } catch(e) { return null; }
+      }
+      return null;
+    }
+
+    function saveLocalData(data) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    var ALL_ANIME = [];
+    (async function init() {
+      // Try API first, fall back to localStorage
+      var apiData = await loadFromAPI();
+      if (apiData) {
+        ALL_ANIME = apiData;
+      } else {
+        var local = getLocalData();
+        if (local) {
+          ALL_ANIME = local;
+        } else {
+          saveLocalData(DEFAULT_ANIME);
+          ALL_ANIME = DEFAULT_ANIME;
+        }
+      }
+      ALL_ANIME.forEach(function(a) {
+        if (!a.badge) {
+          if (a.audio === "hindi-dubbed") a.badge = "Hindi";
+          else if (a.audio === "english-dubbed") a.badge = "English";
+          else a.badge = "Subbed";
+        }
+      });
+      rebuildCategoryList();
+      goHome();
+    })();
+
+    function shuffle(arr) { var a = [...arr]; for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+
+    function renderCard(anime) {
+      var cats = anime.categories.slice(0, 3);
+      var badgeClass = anime.audio === "hindi-dubbed" ? "badge-hindi" : anime.audio === "english-dubbed" ? "badge-english" : "badge-subbed";
+      var title = anime.title.replace(/"/g, "&quot;");
+      return "<div class="anime-card" data-id="" + anime.id + "" tabindex="0" role="article" aria-label="" + title + ""><div class="anime-card-thumb"><img src="" + anime.image + "" alt="" + title + "" loading="lazy"><span class="anime-card-badge " + badgeClass + "">" + anime.badge + "</span></div><div class="anime-card-body"><h3>" + anime.title + "</h3><div class="anime-card-meta">" + cats.map(function(c) { return "<span class="" + (c === "anime-hindi-dubbed" || c === "animation" ? "cat-accent" : "") + "">" + c.replace(/-/g, " ") + "</span>"; }).join("") + "</div></div></div>";
+    }
+
+    function renderGrid(animeList, containerId) {
+      var el = document.getElementById(containerId);
+      if (!el) return;
+      if (animeList.length === 0) {
+        el.innerHTML = "<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg><h3>No results found</h3><p>Try a different search term or category.</p></div>";
+        return;
+      }
+      el.innerHTML = animeList.map(renderCard).join("");
+    }
+
+    function showPage(pageId) {
+      document.querySelectorAll(".page").forEach(function(p) { p.classList.remove("active"); });
+      var pg = document.getElementById("page" + pageId);
+      if (pg) pg.classList.add("active");
+    }
+
+    function goHome() { showPage("Home"); renderGrid(ALL_ANIME.slice(0, 12), "homeGrid"); }
+    function goLatest() { showPage("Latest"); renderGrid(ALL_ANIME, "latestGrid"); }
+    function goAzList() { showPage("AzList"); renderGrid([...ALL_ANIME].sort(function(a,b) { return a.title.localeCompare(b.title); }), "azGrid"); }
+    function goRandom() { showPage("Latest"); renderGrid(shuffle(ALL_ANIME), "latestGrid"); }
+
+    function goSearch(query) {
+      var q = query.trim().toLowerCase();
+      showPage("Search");
+      if (!q) { renderGrid([], "searchGrid"); document.getElementById("searchInfo").textContent = ""; return; }
+      var results = ALL_ANIME.filter(function(a) { return a.title.toLowerCase().includes(q) || a.categories.some(function(c) { return c.includes(q); }) || a.audio.includes(q); });
+      document.getElementById("searchInfo").innerHTML = "Showing <strong>" + results.length + "</strong> result" + (results.length !== 1 ? "s" : "") + " for "<strong>" + q + "</strong>"";
+      renderGrid(results, "searchGrid");
+    }
+
+    function goCategory(cat) {
+      showPage("Category");
+      document.getElementById("categoryTitle").textContent = cat.split("-").map(function(w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(" ");
+      renderGrid(ALL_ANIME.filter(function(a) { return a.categories.includes(cat); }), "categoryGrid");
+    }
+
+    function showDetail(id) {
+      var anime = ALL_ANIME.find(function(a) { return a.id === id; });
+      if (!anime) return;
+      var epHtml = "";
+      for (var i = 0; i < Math.min(anime.episodes, 20); i++) { epHtml += "<div class="episode-item">Episode " + (i + 1) + "</div>"; }
+      var title = anime.title.replace(/"/g, "&quot;");
+      document.getElementById("modalContent").innerHTML = "<div class="modal-header"><div class="modal-poster"><img src="" + anime.image + "" alt="" + title + "" /></div><div class="modal-info"><h2>" + anime.title + "</h2><div class="modal-tags">" + anime.categories.map(function(c) { return "<span class="" + (c === "anime-hindi-dubbed" || c === "animation" ? "cat-accent" : "") + "">" + c.replace(/-/g, " ") + "</span>"; }).join("") + "<span class="cat-accent">" + anime.badge + "</span></div><p>Experience the thrill of " + anime.title + ". Watch online in HD quality with multiple audio options. " + anime.episodes + " episodes available.</p><div class="modal-actions"><button class="btn-accent"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg> Watch Now</button><button class="btn-nav">Download</button></div></div></div><div class="modal-body"><h4>Episodes (" + anime.episodes + ")</h4><div class="episode-list">" + epHtml + "</div></div>";
+      document.getElementById("modalOverlay").classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal() { document.getElementById("modalOverlay").classList.remove("open"); document.body.style.overflow = ""; }
+    function openSidebar() { document.getElementById("sidebar").classList.add("open"); document.getElementById("sidebarOverlay").classList.add("open"); }
+    function closeSidebar() { document.getElementById("sidebar").classList.remove("open"); document.getElementById("sidebarOverlay").classList.remove("open"); }
+
+    function rebuildCategoryList() {
+      var cats = [...new Set(ALL_ANIME.flatMap(function(a) { return a.categories; }))].sort();
+      var list = document.getElementById("categoryList");
+      list.innerHTML = "";
+      cats.forEach(function(cat) {
+        var count = ALL_ANIME.filter(function(a) { return a.categories.includes(cat); }).length;
+        var li = document.createElement("li");
+        li.innerHTML = "<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> " + cat.split("-").map(function(w) { return w.charAt(0).toUpperCase() + w.slice(1); }).join(" ") + " <span class="count">" + count + "</span>";
+        li.dataset.category = cat;
+        li.addEventListener("click", function() { closeSidebar(); goCategory(cat); });
+        list.appendChild(li);
+      });
+    }
+
+    document.querySelectorAll("[data-nav]").forEach(function(el) {
+      el.addEventListener("click", function(e) {
+        e.preventDefault();
+        var nav = el.dataset.nav;
+        if (nav === "home") goHome();
+        else if (nav === "latest") goLatest();
+        else if (nav === "az-list") goAzList();
+        else if (nav === "random") goRandom();
+      });
+    });
+
+    function handleSearch(input) { goSearch(input.value); }
+    document.getElementById("searchInput").addEventListener("keydown", function(e) { if (e.key === "Enter") handleSearch(e.target); });
+    document.getElementById("searchInput").addEventListener("input", function(e) { if (e.target.value.length > 2) handleSearch(e.target); });
+    document.getElementById("mobileSearchInput").addEventListener("keydown", function(e) { if (e.key === "Enter") handleSearch(e.target); });
+    document.getElementById("mobileSearchInput").addEventListener("input", function(e) { if (e.target.value.length > 2) handleSearch(e.target); });
+
+    document.addEventListener("click", function(e) {
+      var card = e.target.closest(".anime-card");
+      if (card) showDetail(parseInt(card.dataset.id));
+    });
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") { var card = e.target.closest(".anime-card"); if (card) showDetail(parseInt(card.dataset.id)); }
+    });
+
+    document.getElementById("menuBtn").addEventListener("click", openSidebar);
+    document.getElementById("sidebarClose").addEventListener("click", closeSidebar);
+    document.getElementById("sidebarOverlay").addEventListener("click", closeSidebar);
+    document.getElementById("modalClose").addEventListener("click", closeModal);
+    document.getElementById("modalOverlay").addEventListener("click", function(e) { if (e.target === document.getElementById("modalOverlay")) closeModal(); });
+    document.addEventListener("keydown", function(e) { if (e.key === "Escape") { closeModal(); closeSidebar(); } });
+
+    document.getElementById("adminLink").addEventListener("click", function() { window.location.href = "admin.html"; });
+
+    document.querySelectorAll("#audioList li").forEach(function(li) {
+      li.addEventListener("click", function() {
+        var filter = li.dataset.filter;
+        closeSidebar();
+        var results = ALL_ANIME.filter(function(a) { return a.audio === filter; });
+        showPage("Search");
+        document.getElementById("searchInfo").textContent = "Showing " + results.length + " " + filter.replace("-", " ") + " titles";
+        renderGrid(results, "searchGrid");
+      });
+    });
+
+    window.addEventListener("storage", function(e) {
+      if (e.key === STORAGE_KEY || !API_AVAILABLE) {
+        var local = e.key === STORAGE_KEY ? getLocalData() : null;
+        if (local) { ALL_ANIME = local; }
+        rebuildCategoryList();
+        goHome();
+      }
+    });
+
+    // GSAP Animations
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Hero banner entrance animation
+    function animateHero() {
+      var tl = gsap.timeline({ defaults: { duration: 0.8, ease: "power3.out" } });
+      tl.from(".hero-banner-content h1", { y: 40, opacity: 0, duration: 1 })
+        .from(".hero-banner-content p", { y: 30, opacity: 0 }, "-=0.6")
+        .from(".hero-banner-content .btn-accent", { y: 20, opacity: 0, scale: 0.9 }, "-=0.4");
+    }
+
+    // Card stagger animation
+    function animateCards(containerId) {
+      var cards = document.querySelectorAll("#" + containerId + " .anime-card");
+      if (cards.length === 0) return;
+      gsap.fromTo(cards, 
+        { y: 30, opacity: 0, scale: 0.95 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.5, stagger: 0.08, ease: "power2.out", clearProps: "all" }
+      );
+    }
+
+    // Scroll-triggered section headers
+    gsap.utils.toArray(".section-header").forEach(function(header) {
+      gsap.from(header, {
+        x: -30, opacity: 0, duration: 0.6, ease: "power2.out",
+        scrollTrigger: { trigger: header, start: "top 85%", toggleActions: "play none none none" }
+      });
+    });
+
+    // Card hover effect enhancement
+    document.addEventListener("mouseenter", function(e) {
+      var card = e.target.closest(".anime-card");
+      if (card) {
+        gsap.to(card, { y: -6, duration: 0.3, ease: "power2.out" });
+        gsap.to(card.querySelector(".anime-card-thumb img"), { scale: 1.08, duration: 0.4, ease: "power2.out" });
+      }
+    }, true);
+
+    document.addEventListener("mouseleave", function(e) {
+      var card = e.target.closest(".anime-card");
+      if (card) {
+        gsap.to(card, { y: 0, duration: 0.3, ease: "power2.out" });
+        gsap.to(card.querySelector(".anime-card-thumb img"), { scale: 1, duration: 0.4, ease: "power2.out" });
+      }
+    }, true);
+
+    // Re-animate cards on page navigation
+    var origGoHome = goHome;
+    goHome = function() { origGoHome(); requestAnimationFrame(function() { animateCards("homeGrid"); animateHero(); }); };
+
+    var origGoLatest = goLatest;
+    goLatest = function() { origGoLatest(); requestAnimationFrame(function() { animateCards("latestGrid"); }); };
+
+    var origGoAzList = goAzList;
+    goAzList = function() { origGoAzList(); requestAnimationFrame(function() { animateCards("azGrid"); }); };
+
+    var origGoRandom = goRandom;
+    goRandom = function() { origGoRandom(); requestAnimationFrame(function() { animateCards("latestGrid"); }); };
+
+    var origGoSearch = goSearch;
+    goSearch = function(q) { origGoSearch(q); requestAnimationFrame(function() { animateCards("searchGrid"); }); };
+
+    var origGoCategory = goCategory;
+    goCategory = function(cat) { origGoCategory(cat); requestAnimationFrame(function() { animateCards("categoryGrid"); }); };
+
+    // Initial hero animation on page load
+    document.addEventListener("DOMContentLoaded", animateHero);
+  </script>
+</body>
+</html>

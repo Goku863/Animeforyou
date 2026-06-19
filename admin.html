@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AnimeVault — Admin Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .admin-wrap { padding-top: 20px; }
+    .admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+    .admin-header h1 { font-size: 24px; font-weight: 800; }
+    .admin-header h1 span { color: var(--accent); }
+    .admin-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; border-radius: 100px; font-size: 13px; font-weight: 600; border: none; cursor: pointer; font-family: inherit; transition: background 0.2s, transform 0.2s; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-outline:hover { background: var(--bg-card); border-color: var(--border-hover); }
+    .btn-danger { background: #ef4444; color: #fff; }
+    .btn-danger:hover { background: #dc2626; }
+    .btn-sm { padding: 5px 12px; font-size: 12px; }
+    .btn-success { background: #22c55e; color: #fff; }
+    .btn-success:hover { background: #16a34a; }
+
+    .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 20px; }
+    .stat-card h3 { font-size: 28px; font-weight: 800; color: var(--accent); }
+    .stat-card p { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 20px; }
+    .card-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .card-header h2 { font-size: 16px; font-weight: 700; }
+
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; padding: 12px 16px; font-weight: 600; color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); }
+    td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+    .td-thumb { width: 48px; height: 64px; border-radius: 4px; object-fit: cover; background: var(--bg-elevated); }
+    .td-title { font-weight: 600; max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .td-cats { display: flex; gap: 3px; flex-wrap: wrap; }
+    .td-cats span { font-size: 10px; padding: 1px 6px; border-radius: 4px; background: var(--accent-dim); color: var(--accent); }
+    .td-actions { display: flex; gap: 6px; }
+    .badge-audio { font-size: 10px; padding: 2px 8px; border-radius: 100px; font-weight: 600; }
+    .badge-hindi { background: var(--accent-dim); color: var(--accent); }
+    .badge-english { background: rgba(59,130,246,0.15); color: #3b82f6; }
+    .badge-subbed { background: rgba(239,68,68,0.15); color: #ef4444; }
+
+    .form-overlay { display: none; position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px; }
+    .form-overlay.open { display: flex; }
+    .form-modal { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-xl); max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-elevated); padding: 28px; animation: modalIn 0.25s ease; }
+    @keyframes modalIn { from { opacity: 0; transform: scale(0.96) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    .form-modal h2 { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 14px; border-radius: var(--radius-sm); background: var(--bg-card); border: 1px solid var(--border); color: var(--text); font-size: 14px; outline: none; font-family: inherit; transition: border-color 0.2s; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
+    .form-group textarea { min-height: 80px; resize: vertical; }
+    .form-group .hint { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .form-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+
+    .toast { position: fixed; bottom: 24px; right: 24px; z-index: 400; padding: 12px 20px; border-radius: var(--radius-md); font-size: 13px; font-weight: 500; box-shadow: var(--shadow-elevated); animation: toastIn 0.3s ease; max-width: 360px; }
+    .toast-success { background: #22c55e; color: #fff; }
+    .toast-error { background: #ef4444; color: #fff; }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); font-size: 13px; margin-bottom: 16px; cursor: pointer; transition: color 0.2s; }
+    .back-link:hover { color: var(--text); }
+    .back-link svg { width: 16px; height: 16px; }
+
+    .empty-table { text-align: center; padding: 60px 20px; color: var(--text-dim); }
+    .empty-table svg { width: 48px; height: 48px; margin-bottom: 12px; opacity: 0.3; }
+    .empty-table p { font-size: 14px; }
+
+    .status-bar { display: flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 100px; font-size: 12px; font-weight: 500; margin-bottom: 16px; }
+    .status-online { background: rgba(34,197,94,0.12); color: #22c55e; }
+    .status-offline { background: rgba(239,68,68,0.12); color: #ef4444; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .status-online .status-dot { background: #22c55e; }
+    .status-offline .status-dot { background: #ef4444; }
+
+    .loading { text-align: center; padding: 40px; color: var(--text-dim); }
+
+    @media (max-width: 768px) {
+      .form-row { grid-template-columns: 1fr; }
+      .admin-header h1 { font-size: 20px; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-wrap admin-wrap">
+    <div class="container">
+      <div class="back-link" id="backLink">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+        Back to AnimeVault
+      </div>
+
+      <div class="status-bar" id="statusBar">
+        <span class="status-dot"></span>
+        <span id="statusText">Checking connection...</span>
+      </div>
+
+      <div class="admin-header">
+        <h1><span>AnimeVault</span> Admin</h1>
+        <div class="admin-actions">
+          <button class="btn btn-outline" id="exportBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export JSON
+          </button>
+          <button class="btn btn-outline" id="importBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Import JSON
+          </button>
+          <input type="file" id="importFile" accept=".json" style="display:none" />
+          <button class="btn btn-primary" id="addBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Anime
+          </button>
+        </div>
+      </div>
+
+      <div class="stats-row" id="statsRow"></div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2>All Anime</h2>
+          <input type="text" id="filterInput" placeholder="Filter by title..." style="padding:8px 14px;border-radius:100px;background:var(--bg-card);border:1px solid var(--border);color:var(--text);font-size:13px;outline:none;width:200px;" />
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th></th><th>Title</th><th>Categories</th><th>Audio</th><th>Episodes</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="animeTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-overlay" id="formOverlay">
+    <div class="form-modal">
+      <h2 id="formTitle">Add Anime</h2>
+      <input type="hidden" id="editId" value="" />
+      <div class="form-row">
+        <div class="form-group">
+          <label>Title *</label>
+          <input type="text" id="fTitle" placeholder="e.g. Naruto Shippuden" />
+        </div>
+        <div class="form-group">
+          <label>Slug *</label>
+          <input type="text" id="fSlug" placeholder="e.g. naruto-shippuden" />
+          <div class="hint">Auto-generated from title if empty.</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Image URL *</label>
+        <input type="text" id="fImage" placeholder="https://image.tmdb.org/t/p/w500/..." />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Audio Type *</label>
+          <select id="fAudio">
+            <option value="hindi-dubbed">Hindi Dubbed</option>
+            <option value="english-dubbed">English Dubbed</option>
+            <option value="subbed">Subbed</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Episodes *</label>
+          <input type="number" id="fEpisodes" value="12" min="1" max="9999" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Categories (comma-separated)</label>
+        <input type="text" id="fCategories" placeholder="action, adventure, animation, comedy" />
+        <div class="hint">Existing: action, adventure, animation, anime-hindi-dubbed, comedy, drama, fantasy, romance, sci-fi, sports, thriller</div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-outline" id="formCancel">Cancel</button>
+        <button class="btn btn-primary" id="formSave">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastContainer"></div>
+
+  <script src="api.js"></script>
+  <script>
+    var allAnime = [];
+    var loading = false;
+
+    function showToast(msg, type) {
+      type = type || "success";
+      var el = document.createElement("div");
+      el.className = "toast toast-" + type;
+      el.textContent = msg;
+      document.getElementById("toastContainer").appendChild(el);
+      setTimeout(function() { el.remove(); }, 3000);
+    }
+
+    function setStatus(online) {
+      var bar = document.getElementById("statusBar");
+      var text = document.getElementById("statusText");
+      if (online) {
+        bar.className = "status-bar status-online";
+        text.textContent = "Connected to database";
+      } else {
+        bar.className = "status-bar status-offline";
+        text.textContent = "Backend server offline. Start with: cd backend && python3.13 server.py";
+      }
+    }
+
+    async function loadData() {
+      if (loading) return;
+      loading = true;
+      try {
+        var result = await apiGetAll();
+        allAnime = result.data;
+        renderStats();
+        renderTable();
+        setStatus(true);
+      } catch(e) {
+        setStatus(false);
+        document.getElementById("statsRow").innerHTML = "<div class="stat-card"><h3>--</h3><p>Server offline</p></div>";
+        document.getElementById("animeTableBody").innerHTML = "<tr><td colspan="6"><div class="empty-table"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg><p>Cannot connect to server. Run <strong>python3 backend/server.py</strong> and refresh.</p></div></td></tr>";
+      }
+      loading = false;
+    }
+
+    async function renderStats() {
+      try {
+        var result = await apiGetStats();
+        var s = result.data;
+        document.getElementById("statsRow").innerHTML =
+          "<div class="stat-card"><h3>" + s.total + "</h3><p>Total Anime</p></div>" +
+          "<div class="stat-card"><h3>" + s.hindi_dubbed + "</h3><p>Hindi Dubbed</p></div>" +
+          "<div class="stat-card"><h3>" + s.english_dubbed + "</h3><p>English Dubbed</p></div>" +
+          "<div class="stat-card"><h3>" + s.total_episodes + "</h3><p>Total Episodes</p></div>";
+      } catch(e) {}
+    }
+
+    function renderTable(filter) {
+      filter = filter || "";
+      var list = allAnime;
+      if (filter) {
+        var q = filter.toLowerCase();
+        list = allAnime.filter(function(a) { return a.title.toLowerCase().includes(q) || a.categories.some(function(c) { return c.includes(q); }); });
+      }
+      var tbody = document.getElementById("animeTableBody");
+      if (list.length === 0) {
+        tbody.innerHTML = "<tr><td colspan="6"><div class="empty-table"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg><p>" + (filter ? "No matching anime found." : "No anime yet. Add your first one!") + "</p></div></td></tr>";
+        return;
+      }
+      tbody.innerHTML = list.map(function(a) {
+        var badgeClass = a.audio === "hindi-dubbed" ? "badge-hindi" : a.audio === "english-dubbed" ? "badge-english" : "badge-subbed";
+        var audioLabel = a.audio === "hindi-dubbed" ? "Hindi" : a.audio === "english-dubbed" ? "English" : "Subbed";
+        var cats = (a.categories || []).slice(0, 3).map(function(c) { return "<span>" + c.replace(/-/g, " ") + "</span>"; }).join("");
+        var img = a.image || "";
+        var imgHtml = img ? "<img src="" + img + "" class="td-thumb" alt="" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2264%22><rect fill=%22%2314141f%22 width=%2248%22 height=%2264%22/></svg>'" />" : "<div class="td-thumb" style="background:var(--bg-elevated)"></div>";
+        return "<tr><td>" + imgHtml + "</td><td class="td-title">" + a.title + "</td><td class="td-cats">" + cats + "</td><td><span class="badge-audio " + badgeClass + "">" + audioLabel + "</span></td><td>" + (a.episodes || 0) + "</td><td class="td-actions"><button class="btn btn-outline btn-sm edit-btn" data-id="" + a.id + "">Edit</button><button class="btn btn-danger btn-sm delete-btn" data-id="" + a.id + "">Delete</button></td></tr>";
+      }).join("");
+    }
+
+    function openForm(anime) {
+      document.getElementById("formOverlay").classList.add("open");
+      if (anime) {
+        document.getElementById("formTitle").textContent = "Edit Anime";
+        document.getElementById("editId").value = anime.id;
+        document.getElementById("fTitle").value = anime.title;
+        document.getElementById("fSlug").value = anime.slug;
+        document.getElementById("fImage").value = anime.image || "";
+        document.getElementById("fAudio").value = anime.audio || "hindi-dubbed";
+        document.getElementById("fEpisodes").value = anime.episodes || 12;
+        document.getElementById("fCategories").value = (anime.categories || []).join(", ");
+      } else {
+        document.getElementById("formTitle").textContent = "Add Anime";
+        document.getElementById("editId").value = "";
+        document.getElementById("fTitle").value = "";
+        document.getElementById("fSlug").value = "";
+        document.getElementById("fImage").value = "";
+        document.getElementById("fAudio").value = "hindi-dubbed";
+        document.getElementById("fEpisodes").value = 12;
+        document.getElementById("fCategories").value = "";
+      }
+    }
+
+    function closeForm() {
+      document.getElementById("formOverlay").classList.remove("open");
+    }
+
+    async function saveForm() {
+      var editId = document.getElementById("editId").value;
+      var title = document.getElementById("fTitle").value.trim();
+      var slug = document.getElementById("fSlug").value.trim();
+      var image = document.getElementById("fImage").value.trim();
+      var audio = document.getElementById("fAudio").value;
+      var episodes = parseInt(document.getElementById("fEpisodes").value) || 0;
+      var catsStr = document.getElementById("fCategories").value.trim();
+
+      if (!title) { showToast("Title is required", "error"); return; }
+      if (!image) { showToast("Image URL is required", "error"); return; }
+      if (episodes < 1) { showToast("Episodes must be at least 1", "error"); return; }
+
+      var categories = catsStr ? catsStr.split(",").map(function(s) { return s.trim().toLowerCase().replace(/\s+/g, "-"); }).filter(Boolean) : [];
+
+      try {
+        if (editId) {
+          await apiUpdate(parseInt(editId), { title: title, slug: slug, image: image, categories: categories, audio: audio, episodes: episodes });
+          showToast("Anime updated successfully!");
+        } else {
+          await apiCreate({ title: title, slug: slug, image: image, categories: categories, audio: audio, episodes: episodes });
+          showToast("Anime added successfully!");
+        }
+        closeForm();
+        await loadData();
+      } catch(e) {
+        showToast("Error: " + e.message, "error");
+      }
+    }
+
+    async function deleteAnime(id) {
+      if (!confirm("Delete this anime?")) return;
+      try {
+        await apiDelete(id);
+        showToast("Anime deleted.");
+        await loadData();
+      } catch(e) {
+        showToast("Error: " + e.message, "error");
+      }
+    }
+
+    async function exportJSON() {
+      try {
+        var result = await apiGetAll();
+        var data = JSON.stringify(result.data, null, 2);
+        var blob = new Blob([data], { type: "application/json" });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = "animevault-data.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast("Exported " + result.data.length + " anime.");
+      } catch(e) {
+        showToast("Error exporting: " + e.message, "error");
+      }
+    }
+
+    function importJSON(file) {
+      var reader = new FileReader();
+      reader.onload = async function(e) {
+        try {
+          var data = JSON.parse(e.target.result);
+          if (!Array.isArray(data)) { showToast("Invalid JSON: expected an array", "error"); return; }
+          for (var i = 0; i < data.length; i++) {
+            var a = data[i];
+            try {
+              await apiCreate({
+                title: a.title,
+                slug: a.slug || a.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+                image: a.image || "",
+                categories: a.categories || [],
+                audio: a.audio || "hindi-dubbed",
+                episodes: a.episodes || 12
+              });
+            } catch(e) {
+              console.log("Skipped " + a.title + ": " + e.message);
+            }
+          }
+          showToast("Import completed!");
+          await loadData();
+        } catch(err) {
+          showToast("Invalid JSON: " + err.message, "error");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    document.getElementById("addBtn").addEventListener("click", function() { openForm(null); });
+    document.getElementById("formCancel").addEventListener("click", closeForm);
+    document.getElementById("formSave").addEventListener("click", saveForm);
+    document.getElementById("formOverlay").addEventListener("click", function(e) { if (e.target === this) closeForm(); });
+    document.getElementById("exportBtn").addEventListener("click", exportJSON);
+    document.getElementById("importBtn").addEventListener("click", function() { document.getElementById("importFile").click(); });
+    document.getElementById("importFile").addEventListener("change", function(e) { if (e.target.files.length) importJSON(e.target.files[0]); e.target.value = ""; });
+    document.getElementById("backLink").addEventListener("click", function() { window.location.href = "index.html"; });
+    document.getElementById("filterInput").addEventListener("input", function(e) { renderTable(e.target.value); });
+
+    document.addEventListener("click", function(e) {
+      var editBtn = e.target.closest(".edit-btn");
+      if (editBtn) {
+        var id = parseInt(editBtn.dataset.id);
+        var anime = allAnime.find(function(a) { return a.id === id; });
+        if (anime) openForm(anime);
+      }
+      var delBtn = e.target.closest(".delete-btn");
+      if (delBtn) deleteAnime(parseInt(delBtn.dataset.id));
+    });
+
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Escape") closeForm();
+    });
+
+    loadData();
+  </script>
+</body>
+</html>
