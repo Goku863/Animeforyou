@@ -14,6 +14,13 @@ document.addEventListener('DOMContentLoaded',()=>{
   const icons={volcanic:'fa-palette',crimson:'fa-droplet',emerald:'fa-leaf',violet:'fa-wand-magic-sparkles',ocean:'fa-water'};
   const el=document.getElementById('themeIcon');
   if(el)el.className='fas '+(icons[currentTheme]||'fa-palette');
+  // Bootstrap navbar collapse close on nav click
+  document.querySelectorAll('.nav-link').forEach(l=>{
+    l.addEventListener('click',()=>{
+      const c=document.getElementById('navbarContent');
+      if(c&&c.classList.contains('show'))c.classList.remove('show');
+    });
+  });
 });
 
 document.addEventListener('click',(e)=>{

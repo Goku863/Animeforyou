@@ -1,108 +1,147 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="volcanic">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>AnimeForYou — Premium Anime Streaming</title>
-  <meta name="description" content="Watch anime online for free. Stream thousands of episodes in Hindi, English, and Japanese with subtitles." />
-  <meta name="theme-color" content="#f4f6f9" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='10' fill='%23f97316'/><text x='16' y='23' text-anchor='middle' font-size='18' fill='white' font-weight='bold'>A</text></svg>" />
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>AnimeForYou — Premium Anime Streaming</title>
+<meta name="description" content="Discover, track, and watch your favorite anime series — all for free. No sign-up required." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script defer src="shared.js"></script>
+<style>
+/* landing page specific */
+.landing{position:relative;min-height:calc(100vh - 56px);display:flex;align-items:center;justify-content:center;text-align:center;padding:60px 24px 80px;overflow:hidden}
+.landing-glow{position:absolute;top:50%;left:50%;width:600px;height:600px;transform:translate(-50%,-50%);background:radial-gradient(circle,var(--accent-glow) 0%,transparent 70%);opacity:0.4;pointer-events:none}
+.landing-content{position:relative;z-index:1;max-width:640px}
+@media(max-width:768px){.landing-title{font-size:34px}.landing-desc{font-size:15px}.landing-btn{padding:14px 32px;font-size:15px}}
+@media(max-width:480px){.landing-title{font-size:28px}}
+</style>
 </head>
 <body>
-  <a href="#main" class="skip-link">Skip to content</a>
-  <div class="page-transition" id="pageTransition"></div>
-  <canvas id="three-canvas"></canvas>
+<a href="#main" class="skip-link">Skip to content</a>
+<canvas id="three-canvas" aria-hidden="true"></canvas>
 
-  <nav class="navbar" id="navbar" role="navigation" aria-label="Main">
-    <div class="nav-inner">
-      <a href="index.html" class="logo" aria-label="AnimeForYou Home">
-        <span class="logo-mark"><i class="fas fa-play" aria-hidden="true"></i></span>
-        <span class="logo-word">Anime<span class="accent">ForYou</span></span>
-      </a>
+<nav class="navbar navbar-expand-lg" id="navbar">
+  <div class="container">
+    <a class="navbar-brand logo" href="index.html">
+      <span class="logo-mark"><i class="fas fa-play"></i></span>
+      <span class="logo-word">Anime<span class="accent">ForYou</span></span>
+    </a>
+    <button class="navbar-toggler hamburger" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarContent">
       <div class="nav-search">
-        <i class="fas fa-search search-icon" aria-hidden="true"></i>
-        <input type="text" id="searchInput" placeholder="Search anime..." aria-label="Search" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();location='search.html?q='+encodeURIComponent(this.value.trim())}" />
-        <span class="search-kbd">/</span>
+        <i class="fas fa-search search-icon"></i>
+        <input type="search" id="searchInput" placeholder="Search anime..." aria-label="Search anime" autocomplete="off" />
+        <span class="search-kbd" aria-hidden="true">/</span>
       </div>
-      <div class="nav-menu" id="navMenu" role="menubar">
-        <a href="index.html" class="nav-item active" data-p="home" role="menuitem"><i class="fas fa-house"></i> Home</a>
-        <a href="browse.html" class="nav-item" data-p="browse" role="menuitem"><i class="fas fa-compass"></i> Browse</a>
-        <a href="trending.html" class="nav-item" data-p="trending" role="menuitem"><i class="fas fa-fire"></i> Trending</a>
-        <a href="latest.html" class="nav-item" data-p="latest" role="menuitem"><i class="fas fa-clock"></i> Latest</a>
-        <a href="az.html" class="nav-item" data-p="az" role="menuitem"><i class="fas fa-list"></i> A-Z</a>
-        <a href="categories.html" class="nav-item" data-p="categories" role="menuitem"><i class="fas fa-tags"></i> Genres</a>
-        <a href="about.html" class="nav-item" data-p="about" role="menuitem"><i class="fas fa-info"></i> About</a>
+      <div class="navbar-nav nav-menu">
+        <a href="index.html" class="nav-link active" data-p="home"><i class="fas fa-house"></i> Home</a>
+        <a href="browse.html" class="nav-link" data-p="browse"><i class="fas fa-compass"></i> Browse</a>
+        <a href="trending.html" class="nav-link" data-p="trending"><i class="fas fa-fire"></i> Trending</a>
+        <a href="latest.html" class="nav-link" data-p="latest"><i class="fas fa-clock"></i> Latest</a>
+        <a href="az.html" class="nav-link" data-p="az"><i class="fas fa-list"></i> A-Z</a>
+        <a href="categories.html" class="nav-link" data-p="categories"><i class="fas fa-tags"></i> Genres</a>
       </div>
       <div class="nav-end">
-        <a href="bookmarks.html" class="nav-icon-btn" aria-label="Bookmarks"><i class="fas fa-bookmark"></i></a>
-        <div class="theme-toggle" id="themeToggle" onclick="toggleThemePanel()" aria-label="Theme" role="button" tabindex="0">
+        <div class="theme-toggle" onclick="toggleThemePanel()" role="button" tabindex="0" aria-label="Theme">
           <i class="fas fa-palette" id="themeIcon"></i>
-          <div class="theme-panel" id="themePanel" onclick="event.stopPropagation()">
+          <div class="theme-panel" id="themePanel" role="menu">
             <div class="theme-panel-label">Accent Color</div>
             <div class="theme-row">
-              <div class="theme-option" data-t="volcanic" onclick="setTheme('volcanic')"><span class="theme-swatch v"></span> Volcanic</div>
-              <div class="theme-option" data-t="crimson" onclick="setTheme('crimson')"><span class="theme-swatch c"></span> Crimson</div>
-              <div class="theme-option" data-t="emerald" onclick="setTheme('emerald')"><span class="theme-swatch e"></span> Emerald</div>
-              <div class="theme-option" data-t="violet" onclick="setTheme('violet')"><span class="theme-swatch w"></span> Violet</div>
-              <div class="theme-option" data-t="ocean" onclick="setTheme('ocean')"><span class="theme-swatch o"></span> Ocean</div>
+              <div class="theme-option active" data-t="volcanic" onclick="setTheme('volcanic')" role="menuitem"><span class="theme-swatch v"></span>Volcanic</div>
+              <div class="theme-option" data-t="crimson" onclick="setTheme('crimson')" role="menuitem"><span class="theme-swatch c"></span>Crimson</div>
+              <div class="theme-option" data-t="emerald" onclick="setTheme('emerald')" role="menuitem"><span class="theme-swatch e"></span>Emerald</div>
+              <div class="theme-option" data-t="violet" onclick="setTheme('violet')" role="menuitem"><span class="theme-swatch w"></span>Violet</div>
+              <div class="theme-option" data-t="ocean" onclick="setTheme('ocean')" role="menuitem"><span class="theme-swatch o"></span>Ocean</div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </nav>
+  </div>
+</nav>
 
-  <main class="main" id="main">
-    <section aria-label="Home">
-      <div class="landing">
-        <div class="landing-glow"></div>
-        <div class="landing-content">
-          <div class="landing-badge">&#9733; Premium Streaming</div>
-          <h1 class="landing-title">Discover &amp; Stream<br><span>Premium Anime</span></h1>
-          <p class="landing-desc">Thousands of episodes across every genre — from timeless classics to the latest seasonal releases. Watch free, fast, and beautifully presented.</p>
-          <div class="landing-feats">
-            <div class="landing-feat"><i class="fas fa-infinity"></i> Unlimited</div>
-            <div class="landing-feat"><i class="fas fa-globe"></i> Multi-Language</div>
-            <div class="landing-feat"><i class="fas fa-bolt"></i> No Sign Up</div>
-          </div>
-          <a href="browse.html" class="landing-btn"><i class="fas fa-play"></i> Watch Anime</a>
-          <a href="browse.html" class="landing-scroll">Explore the collection <i class="fas fa-arrow-right"></i></a>
-        </div>
+<main id="main" class="main">
+  <div class="landing">
+    <div class="landing-glow" aria-hidden="true"></div>
+    <div class="landing-content">
+      <div class="landing-badge"><i class="fas fa-sparkles"></i> Premium Streaming</div>
+      <h1 class="landing-title">Discover &amp; Watch<br/><span>Anime For You</span></h1>
+      <p class="landing-desc">The ultimate destination to discover, track, and watch your favorite anime series — all completely free, no sign-up required.</p>
+      <div class="landing-feats">
+        <span class="landing-feat"><i class="fas fa-infinity"></i> Unlimited</span>
+        <span class="landing-feat"><i class="fas fa-language"></i> Multi-Language</span>
+        <span class="landing-feat"><i class="fas fa-user-slash"></i> No Sign Up</span>
       </div>
-    </section>
-  </main>
-
-  <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
-
-  <nav class="mob-nav" id="mobNav" aria-label="Mobile navigation">
-    <a href="index.html" class="mob-item active" data-p="home"><i class="fas fa-house"></i><span>Home</span></a>
-    <a href="browse.html" class="mob-item" data-p="browse"><i class="fas fa-compass"></i><span>Browse</span></a>
-    <a href="search.html" class="mob-item" data-p="search"><i class="fas fa-search"></i><span>Search</span></a>
-    <a href="bookmarks.html" class="mob-item" data-p="bookmarks"><i class="fas fa-bookmark"></i><span>Saved</span></a>
-  </nav>
-
-  <footer role="contentinfo">
-    <div class="ft-wrap">
-      <div class="ft-grid">
-        <div class="ft-brand"><a href="index.html" class="logo"><span class="logo-mark"><i class="fas fa-play"></i></span> Anime<span class="accent">ForYou</span></a><p>Premium anime streaming platform. Discover, track, and watch your favorite series — all for free.</p><div class="ft-social"><a href="https://github.com/Goku863/Animeforyou" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a></div></div>
-        <div class="ft-col"><h4>Browse</h4><ul><li><a href="index.html">Home</a></li><li><a href="browse.html">Browse</a></li><li><a href="trending.html">Trending</a></li><li><a href="latest.html">Latest</a></li><li><a href="az.html">A-Z</a></li><li><a href="categories.html">Genres</a></li></ul></div>
-        <div class="ft-col"><h4>Information</h4><ul><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li><li><a href="dmca.html">DMCA</a></li></ul></div>
-        <div class="ft-col"><h4>Account</h4><ul><li><a href="bookmarks.html">Bookmarks</a></li><li><a href="search.html">Search</a></li><li><a href="admin.html">Admin</a></li></ul></div>
-      </div>
-      <div class="ft-bottom"><p>&copy; 2026 AnimeForYou</p><p>Crafted with <i class="fas fa-heart" style="color:var(--accent)"></i> for anime fans</p></div>
+      <a href="browse.html" class="landing-btn">Start Watching <i class="fas fa-arrow-right"></i></a>
+      <div class="landing-scroll" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})">Or browse genres <i class="fas fa-chevron-down"></i></div>
     </div>
-  </footer>
+  </div>
+</main>
 
-  <div class="toast-rack" id="toastRack" role="status" aria-live="polite"></div>
+<footer>
+  <div class="container">
+    <div class="row g-5 mb-4">
+      <div class="col-lg-5 col-md-6">
+        <span class="logo-word" style="font-size:18px;font-weight:700">Anime<span class="accent">ForYou</span></span>
+        <p class="text-secondary mt-2" style="max-width:280px;font-size:13px">Premium anime streaming platform. Discover, track, and watch your favorite series — all for free.</p>
+      </div>
+      <div class="col-lg-2 col-md-3 col-6">
+        <h4 class="fw-semibold mb-3" style="font-size:14px">Browse</h4>
+        <ul class="list-unstyled ft-col">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="browse.html">Browse</a></li>
+          <li><a href="trending.html">Trending</a></li>
+          <li><a href="latest.html">Latest</a></li>
+          <li><a href="az.html">A-Z</a></li>
+          <li><a href="categories.html">Genres</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-md-3 col-6">
+        <h4 class="fw-semibold mb-3" style="font-size:14px">Information</h4>
+        <ul class="list-unstyled ft-col">
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="privacy.html">Privacy</a></li>
+          <li><a href="terms.html">Terms</a></li>
+          <li><a href="dmca.html">DMCA</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <h4 class="fw-semibold mb-3" style="font-size:14px">Account</h4>
+        <ul class="list-unstyled ft-col">
+          <li><a href="bookmarks.html">Bookmarks</a></li>
+          <li><a href="search.html">Search</a></li>
+          <li><a href="admin.html">Admin</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <span>&copy; 2026 AnimeForYou &mdash; Crafted with <i class="fas fa-heart" style="color:var(--accent)"></i> for anime fans</span>
+    </div>
+  </div>
+</footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="shared.js"></script>
+<div class="mob-nav" role="navigation" aria-label="Mobile navigation">
+  <a href="index.html" class="mob-item active" data-p="home"><i class="fas fa-house"></i><span>Home</span></a>
+  <a href="browse.html" class="mob-item" data-p="browse"><i class="fas fa-compass"></i><span>Browse</span></a>
+  <a href="search.html" class="mob-item" data-p="search"><i class="fas fa-search"></i><span>Search</span></a>
+  <a href="bookmarks.html" class="mob-item" data-p="saved"><i class="fas fa-bookmark"></i><span>Saved</span></a>
+</div>
+
+<div class="toast-rack" id="toastRack" aria-live="polite" aria-atomic="true"></div>
+<div class="page-transition" id="pageTransition"></div>
+<button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 </body>
 </html>
