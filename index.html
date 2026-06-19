@@ -26,38 +26,40 @@
         <span class="logo-mark"><i class="fas fa-play" aria-hidden="true"></i></span>
         <span class="logo-word">Anime<span class="accent">ForYou</span></span>
       </a>
+      <div class="nav-search">
+        <i class="fas fa-search search-icon" aria-hidden="true"></i>
+        <input type="text" id="searchInput" placeholder="Search anime, genres, studios..." aria-label="Search" autocomplete="off" onkeydown="if(event.key==='Enter'){event.preventDefault();doSearch(this.value.trim())}" />
+        <span class="search-kbd">/</span>
+      </div>
       <div class="nav-menu" id="navMenu" role="menubar">
-        <a href="#" class="nav-item active" data-p="home" role="menuitem" onclick="go('home');return false"><i class="fas fa-fire-flame-curved" aria-hidden="true"></i> Home</a>
-        <a href="#" class="nav-item" data-p="trending" role="menuitem" onclick="go('trending');return false"><i class="fas fa-chart-line" aria-hidden="true"></i> Trending</a>
-        <a href="#" class="nav-item" data-p="latest" role="menuitem" onclick="go('latest');return false"><i class="fas fa-clock-rotate-left" aria-hidden="true"></i> Latest</a>
-        <a href="#" class="nav-item" data-p="az" role="menuitem" onclick="go('az');return false"><i class="fas fa-arrow-down-a-z" aria-hidden="true"></i> A-Z</a>
-        <a href="#" class="nav-item" data-p="categories" role="menuitem" onclick="go('categories');return false"><i class="fas fa-layer-group" aria-hidden="true"></i> Categories</a>
-        <a href="#" class="nav-item" data-p="about" role="menuitem" onclick="go('about');return false"><i class="fas fa-circle-info" aria-hidden="true"></i> About</a>
+        <a href="#" class="nav-item active" data-p="home" role="menuitem" onclick="go('home');return false"><i class="fas fa-house" aria-hidden="true"></i> Home</a>
+        <a href="#" class="nav-item" data-p="trending" role="menuitem" onclick="go('trending');return false"><i class="fas fa-fire" aria-hidden="true"></i> Trending</a>
+        <a href="#" class="nav-item" data-p="latest" role="menuitem" onclick="go('latest');return false"><i class="fas fa-clock" aria-hidden="true"></i> Latest</a>
+        <a href="#" class="nav-item" data-p="az" role="menuitem" onclick="go('az');return false"><i class="fas fa-list" aria-hidden="true"></i> A-Z</a>
+        <a href="#" class="nav-item" data-p="categories" role="menuitem" onclick="go('categories');return false"><i class="fas fa-tags" aria-hidden="true"></i> Genres</a>
+        <a href="#" class="nav-item" data-p="about" role="menuitem" onclick="go('about');return false"><i class="fas fa-info" aria-hidden="true"></i> About</a>
       </div>
       <div class="nav-end">
         <button class="nav-icon-btn" onclick="go('bookmarks')" aria-label="Bookmarks"><i class="fas fa-bookmark" aria-hidden="true"></i></button>
         <div class="theme-toggle" id="themeToggle" onclick="toggleThemePanel()" aria-label="Theme" role="button" tabindex="0">
-          <span class="theme-icons"><i class="fas fa-snowflake active-theme" id="themeIcon"></i></span>
+          <i class="fas fa-palette" id="themeIcon"></i>
           <div class="theme-panel" id="themePanel" onclick="event.stopPropagation()">
-            <div class="theme-option active" data-t="soft-glass" onclick="setTheme('soft-glass')"><span class="theme-dot"></span> Soft Glass</div>
-            <div class="theme-option" data-t="crystal-clear" onclick="setTheme('crystal-clear')"><span class="theme-dot"></span> Crystal Clear</div>
-            <div class="theme-option" data-t="frosted-deep" onclick="setTheme('frosted-deep')"><span class="theme-dot"></span> Frosted Deep</div>
+            <div class="theme-panel-label">Accent Color</div>
+            <div class="theme-row">
+              <div class="theme-option active" data-t="volcanic" onclick="setTheme('volcanic')"><span class="theme-swatch v"></span> Volcanic</div>
+              <div class="theme-option" data-t="crimson" onclick="setTheme('crimson')"><span class="theme-swatch c"></span> Crimson</div>
+              <div class="theme-option" data-t="emerald" onclick="setTheme('emerald')"><span class="theme-swatch e"></span> Emerald</div>
+              <div class="theme-option" data-t="violet" onclick="setTheme('violet')"><span class="theme-swatch w"></span> Violet</div>
+              <div class="theme-option" data-t="ocean" onclick="setTheme('ocean')"><span class="theme-swatch o"></span> Ocean</div>
+            </div>
           </div>
         </div>
-        <a href="admin.html" class="nav-icon-btn" aria-label="Admin"><i class="fas fa-gear" aria-hidden="true"></i></a>
+        <a href="admin.html" class="nav-icon-btn" aria-label="Admin"><i class="fas fa-cog" aria-hidden="true"></i></a>
       </div>
     </div>
   </nav>
 
   <main class="main" id="main">
-
-    <!-- ===== SEARCH ===== -->
-    <div class="search-section" id="searchSection">
-      <div class="search-box">
-        <input type="text" id="searchInput" class="search-input" placeholder="Search anime, genres, studios..." aria-label="Search anime" autocomplete="off" />
-        <button class="search-btn" onclick="doSearch(document.getElementById('searchInput').value)"><i class="fas fa-search"></i> Search</button>
-      </div>
-    </div>
 
     <!-- ===== HOME ===== -->
     <section class="pg active" id="pg-home" aria-label="Home">
@@ -71,18 +73,19 @@
           <button class="hero-arrow" onclick="heroGo(1)" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
         </div>
       </div>
-      <div class="sect" id="homeFeatured"><div class="sect-head"><h2><i class="fas fa-star" aria-hidden="true"></i> Featured</h2><a href="#" onclick="go('trending');return false" class="see-all">See All <i class="fas fa-arrow-right"></i></a></div><div class="card-row" id="featRow"></div></div>
-      <div class="sect" id="homeTrending"><div class="sect-head"><h2><i class="fas fa-fire" aria-hidden="true"></i> Trending Now</h2><a href="#" onclick="go('trending');return false" class="see-all">See All <i class="fas fa-arrow-right"></i></a></div><div class="card-row" id="trendRow"></div></div>
-      <div class="sect" id="homeLatest"><div class="sect-head"><h2><i class="fas fa-bolt" aria-hidden="true"></i> Latest Releases</h2><a href="#" onclick="go('latest');return false" class="see-all">See All <i class="fas fa-arrow-right"></i></a></div><div class="card-grid" id="latestGrid"></div></div>
-      <div class="sect" id="homeCats"><div class="sect-head"><h2><i class="fas fa-layer-group" aria-hidden="true"></i> Browse Categories</h2></div><div class="cat-grid" id="homeCatGrid"></div></div>
-      <div class="sect" id="homeRec"><div class="sect-head"><h2><i class="fas fa-wand-magic-sparkles" aria-hidden="true"></i> Recommended For You</h2></div><div class="card-row" id="recRow"></div></div>
-      <div class="sect" id="homeCont"><div class="sect-head"><h2><i class="fas fa-history" aria-hidden="true"></i> Continue Watching</h2></div><div class="card-row" id="contRow"></div></div>
-      <div class="sect" id="homeRecent"><div class="sect-head"><h2><i class="fas fa-plus" aria-hidden="true"></i> Recently Added</h2></div><div class="card-grid" id="recentGrid"></div></div>
+      <div class="sect" id="homeCont"><div class="sect-head"><h2><i class="fas fa-clock-rotate" aria-hidden="true"></i> Continue Watching</h2></div><div class="card-row" id="contRow"></div></div>
+      <div class="sect" id="homeFeatured"><div class="sect-head"><h2><i class="fas fa-crown" aria-hidden="true"></i> Featured</h2><a href="#" onclick="go('trending');return false" class="see-all">See All <i class="fas fa-arrow-right"></i></a></div><div class="card-row" id="featRow"></div></div>
+      <div class="sect" id="homeTrending"><div class="sect-head"><h2><i class="fas fa-chart-simple" aria-hidden="true"></i> Trending Now</h2><a href="#" onclick="go('trending');return false" class="see-all">See All <i class="fas fa-arrow-right"></i></a></div><div class="card-row" id="trendRow"></div></div>
+      <div class="sect full" id="homeLatest"><div class="sect-head"><h2><i class="fas fa-bolt" aria-hidden="true"></i> Latest Releases</h2><a href="#" onclick="go('latest');return false" class="see-all">See All <i class="fas fa-arrow-right"></i></a></div><div class="card-grid" id="latestGrid"></div></div>
+      <div class="sect" id="homeCats"><div class="sect-head"><h2><i class="fas fa-grid-2" aria-hidden="true"></i> Browse Genres</h2></div><div class="cat-grid" id="homeCatGrid"></div></div>
+      <div class="sect" id="homeRec"><div class="sect-head"><h2><i class="fas fa-star" aria-hidden="true"></i> Recommended For You</h2></div><div class="card-row" id="recRow"></div></div>
+      <div class="sect full" id="homeRecent"><div class="sect-head"><h2><i class="fas fa-circle-plus" aria-hidden="true"></i> Recently Added</h2></div><div class="card-grid" id="recentGrid"></div></div>
     </section>
 
     <!-- ===== TRENDING ===== -->
     <section class="pg" id="pg-trending" aria-label="Trending">
       <div class="pg-head"><h1><i class="fas fa-fire" aria-hidden="true"></i> Trending</h1><p>Most popular anime right now — updated daily</p></div>
+      <div class="breadcrumbs"><a href="#" onclick="go('home');return false">Home</a><span class="sep">/</span><span class="cur">Trending</span></div>
       <div class="filter-row"><select id="fGenre" onchange="renderTrend()" aria-label="Genre"><option value="all">All Genres</option></select><select id="fSort" onchange="renderTrend()" aria-label="Sort"><option value="t">Most Trending</option><option value="r">Top Rated</option><option value="n">Newest</option><option value="a">A-Z</option></select></div>
       <div class="card-grid" id="trendGrid"></div>
       <div class="empty-state" id="trendEmpty" style="display:none"><i class="fas fa-fire"></i><h3>No trending anime</h3><p>Add anime via the admin panel to see them here.</p></div>
@@ -91,21 +94,24 @@
     <!-- ===== LATEST ===== -->
     <section class="pg" id="pg-latest" aria-label="Latest">
       <div class="pg-head"><h1><i class="fas fa-clock" aria-hidden="true"></i> Latest</h1><p>Freshly uploaded episodes and new additions</p></div>
+      <div class="breadcrumbs"><a href="#" onclick="go('home');return false">Home</a><span class="sep">/</span><span class="cur">Latest</span></div>
       <div class="card-grid" id="latestFull"></div>
     </section>
 
     <!-- ===== A-Z ===== -->
     <section class="pg" id="pg-az" aria-label="A-Z">
-      <div class="pg-head"><h1><i class="fas fa-arrow-down-a-z" aria-hidden="true"></i> A-Z</h1><p>Browse the entire collection alphabetically</p></div>
+      <div class="pg-head"><h1><i class="fas fa-list" aria-hidden="true"></i> A-Z</h1><p>Browse the entire collection alphabetically</p></div>
+      <div class="breadcrumbs"><a href="#" onclick="go('home');return false">Home</a><span class="sep">/</span><span class="cur">A-Z</span></div>
       <div class="alpha-bar" id="alphaBar"></div>
       <div class="card-grid" id="azGrid"></div>
     </section>
 
     <!-- ===== CATEGORIES ===== -->
     <section class="pg" id="pg-categories" aria-label="Categories">
-      <div class="pg-head"><h1><i class="fas fa-layer-group" aria-hidden="true"></i> Categories</h1><p>Browse by genre and find your next favorite</p></div>
+      <div class="pg-head"><h1><i class="fas fa-tags" aria-hidden="true"></i> Genres</h1><p>Browse by genre and find your next favorite</p></div>
+      <div class="breadcrumbs"><a href="#" onclick="go('home');return false">Home</a><span class="sep">/</span><span class="cur">Genres</span></div>
       <div class="cat-grid" id="catGrid"></div>
-      <div class="sect" id="catAnime" style="display:none"><div class="sect-head"><h2 id="catTitle"></h2><a href="#" onclick="go('categories');return false" class="see-all"><i class="fas fa-arrow-left"></i> All Categories</a></div><div class="card-grid" id="catAnimeGrid"></div></div>
+      <div class="sect" id="catAnime" style="display:none"><div class="sect-head"><h2 id="catTitle"></h2><a href="#" onclick="go('categories');return false" class="see-all"><i class="fas fa-arrow-left"></i> All Genres</a></div><div class="card-grid" id="catAnimeGrid"></div></div>
     </section>
 
     <!-- ===== SEARCH RESULTS ===== -->
@@ -124,6 +130,7 @@
     <!-- ===== BOOKMARKS ===== -->
     <section class="pg" id="pg-bookmarks" aria-label="Bookmarks">
       <div class="pg-head"><h1><i class="fas fa-bookmark" aria-hidden="true"></i> Bookmarks</h1><p>Your personal watchlist — saved for later</p></div>
+      <div class="breadcrumbs"><a href="#" onclick="go('home');return false">Home</a><span class="sep">/</span><span class="cur">Bookmarks</span></div>
       <div class="card-grid" id="bmGrid"></div>
       <div class="empty-state" id="noBm" style="display:none"><i class="fas fa-bookmark"></i><h3>No bookmarks yet</h3><p>Save anime to your watchlist by clicking the bookmark icon on any card.</p></div>
     </section>
@@ -159,6 +166,7 @@
     <!-- ===== CONTACT ===== -->
     <section class="pg" id="pg-contact" aria-label="Contact">
       <div class="pg-head"><h1><i class="fas fa-envelope" aria-hidden="true"></i> Contact</h1><p>We'd love to hear from you</p></div>
+      <div class="breadcrumbs"><a href="#" onclick="go('home');return false">Home</a><span class="sep">/</span><span class="cur">Contact</span></div>
       <div class="contact-wrap">
         <div class="contact-info glass-card">
           <h2>Get In Touch</h2>
@@ -183,6 +191,7 @@
     <!-- ===== PRIVACY ===== -->
     <section class="pg" id="pg-privacy" aria-label="Privacy">
       <div class="pg-head"><h1><i class="fas fa-shield" aria-hidden="true"></i> Privacy Policy</h1><p>Last updated January 2026</p></div>
+      <div class="breadcrumbs"><a href="#" onclick="go('home');return false">Home</a><span class="sep">/</span><span class="cur">Privacy</span></div>
       <div class="legal-wrap">
         <div class="legal-card glass-card"><h2>1. Information We Collect</h2><p>We collect minimal data — only what you store locally in your browser (bookmarks, watch history). No personal information is stored on our servers. Firebase is used solely for anime data storage, not user tracking.</p></div>
         <div class="legal-card glass-card"><h2>2. How We Use It</h2><p>Local data is used to personalize your experience — remembering your bookmarks, watch progress, and preferences. We do not sell, share, or analyze your data for advertising purposes.</p></div>
@@ -194,6 +203,7 @@
     <!-- ===== TERMS ===== -->
     <section class="pg" id="pg-terms" aria-label="Terms">
       <div class="pg-head"><h1><i class="fas fa-file-contract" aria-hidden="true"></i> Terms of Service</h1><p>Last updated January 2026</p></div>
+      <div class="breadcrumbs"><a href="#" onclick="go('home');return false">Home</a><span class="sep">/</span><span class="cur">Terms</span></div>
       <div class="legal-wrap">
         <div class="legal-card glass-card"><h2>1. Acceptance</h2><p>By using AnimeForYou, you agree to these terms. If you do not agree, please refrain from using the service.</p></div>
         <div class="legal-card glass-card"><h2>2. Use of Service</h2><p>This platform is provided for personal, non-commercial use only. You may not redistribute, modify, or commercially exploit any part of the service.</p></div>
@@ -205,6 +215,7 @@
     <!-- ===== DMCA ===== -->
     <section class="pg" id="pg-dmca" aria-label="DMCA">
       <div class="pg-head"><h1><i class="fas fa-gavel" aria-hidden="true"></i> DMCA Notice</h1><p>Copyright compliance policy</p></div>
+      <div class="breadcrumbs"><a href="#" onclick="go('home');return false">Home</a><span class="sep">/</span><span class="cur">DMCA</span></div>
       <div class="legal-wrap">
         <div class="legal-card glass-card"><h2>Overview</h2><p>AnimeForYou respects intellectual property rights and expects users to do the same. This platform is an educational demonstration and does not host copyrighted content.</p></div>
         <div class="legal-card glass-card"><h2>No Hosting</h2><p>All anime metadata displayed on this site is user-contributed. We do not host, stream, or distribute video files or copyrighted materials.</p></div>
@@ -265,19 +276,21 @@
     </section>
   </main>
 
+  <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
   <nav class="mob-nav" id="mobNav" aria-label="Mobile navigation">
-    <a href="#" class="mob-item active" data-p="home" onclick="go('home');return false"><i class="fas fa-fire"></i><span>Home</span></a>
-    <a href="#" class="mob-item" data-p="trending" onclick="go('trending');return false"><i class="fas fa-chart-line"></i><span>Trending</span></a>
+    <a href="#" class="mob-item active" data-p="home" onclick="go('home');return false"><i class="fas fa-house"></i><span>Home</span></a>
+    <a href="#" class="mob-item" data-p="trending" onclick="go('trending');return false"><i class="fas fa-fire"></i><span>Trending</span></a>
     <a href="#" class="mob-item" data-p="search" onclick="go('search');return false"><i class="fas fa-search"></i><span>Search</span></a>
     <a href="#" class="mob-item" data-p="bookmarks" onclick="go('bookmarks');return false"><i class="fas fa-bookmark"></i><span>Saved</span></a>
-    <a href="admin.html" class="mob-item" aria-label="Admin"><i class="fas fa-gear"></i><span>Admin</span></a>
+    <a href="admin.html" class="mob-item" aria-label="Admin"><i class="fas fa-cog"></i><span>Admin</span></a>
   </nav>
 
   <footer role="contentinfo">
     <div class="ft-wrap">
       <div class="ft-grid">
         <div class="ft-brand"><a href="#" class="logo" onclick="go('home');return false"><span class="logo-mark"><i class="fas fa-play"></i></span> Anime<span class="accent">ForYou</span></a><p>Premium anime streaming platform. Discover, track, and watch your favorite series — all for free.</p><div class="ft-social"><a href="https://github.com/Goku863/Animeforyou" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a></div></div>
-        <div class="ft-col"><h4>Browse</h4><ul><li><a href="#" onclick="go('home');return false">Home</a></li><li><a href="#" onclick="go('trending');return false">Trending</a></li><li><a href="#" onclick="go('latest');return false">Latest</a></li><li><a href="#" onclick="go('az');return false">A-Z</a></li><li><a href="#" onclick="go('categories');return false">Categories</a></li></ul></div>
+        <div class="ft-col"><h4>Browse</h4><ul><li><a href="#" onclick="go('home');return false">Home</a></li><li><a href="#" onclick="go('trending');return false">Trending</a></li><li><a href="#" onclick="go('latest');return false">Latest</a></li><li><a href="#" onclick="go('az');return false">A-Z</a></li><li><a href="#" onclick="go('categories');return false">Genres</a></li></ul></div>
         <div class="ft-col"><h4>Information</h4><ul><li><a href="#" onclick="go('about');return false">About</a></li><li><a href="#" onclick="go('privacy');return false">Privacy</a></li><li><a href="#" onclick="go('terms');return false">Terms</a></li><li><a href="#" onclick="go('dmca');return false">DMCA</a></li><li><a href="#" onclick="go('contact');return false">Contact</a></li></ul></div>
         <div class="ft-col"><h4>Genres</h4><ul id="ftCats"></ul></div>
       </div>
@@ -303,10 +316,10 @@
 
   let DATA=[],PAGE='home',CUR=null,CEP=0,CEPS=[],HIDX=0,HINT=null,BMS=JSON.parse(localStorage.getItem('afy_bm')||'[]'),HIST=JSON.parse(localStorage.getItem('afy_hist')||'[]'),SRES=[],STS=[],THREE_INIT=false;
 
-  let currentTheme=localStorage.getItem('afy_theme')||'soft-glass';
+  let currentTheme=localStorage.getItem('afy_theme')||'volcanic';
 
   document.documentElement.setAttribute('data-theme',currentTheme);
-  updateThemeIcon(currentTheme);
+  updateThemeUI(currentTheme);
 
   document.addEventListener('click',(e)=>{
     const tp=document.getElementById('themePanel');
@@ -316,37 +329,41 @@
   });
 
   function toggleThemePanel(){
-    const tp=document.getElementById('themePanel');
-    tp.classList.toggle('open');
+    document.getElementById('themePanel').classList.toggle('open');
   }
 
   function setTheme(t){
     currentTheme=t;
     document.documentElement.setAttribute('data-theme',t);
     localStorage.setItem('afy_theme',t);
-    const tp=document.getElementById('themePanel');
-    tp.classList.remove('open');
+    document.getElementById('themePanel').classList.remove('open');
     document.querySelectorAll('.theme-option').forEach(o=>o.classList.toggle('active',o.dataset.t===t));
-    updateThemeIcon(t);
+    updateThemeUI(t);
   }
 
-  function updateThemeIcon(t){
-    const icon=document.getElementById('themeIcon');
-    if(t==='soft-glass')icon.className='fas fa-snowflake active-theme';
-    else if(t==='crystal-clear')icon.className='fas fa-diamond active-theme';
-    else if(t==='frosted-deep')icon.className='fas fa-icicles active-theme';
+  function updateThemeUI(t){
+    document.querySelectorAll('.theme-option').forEach(o=>o.classList.toggle('active',o.dataset.t===t));
+    const icons={volcanic:'fa-palette',crimson:'fa-droplet',emerald:'fa-leaf',violet:'fa-wand-magic-sparkles',ocean:'fa-water'};
+    document.getElementById('themeIcon').className='fas '+(icons[t]||'fa-palette');
   }
 
   function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
   function gIC(c){return GI[c]||'tag';}
 
   document.addEventListener('DOMContentLoaded', async()=>{
-    initScroll();initSearch();initKeys();
+    initScroll();initSearch();initKeys();initBackToTop();
     gsap.registerPlugin(ScrollTrigger);
     if(!RM)initThree();
     await loadData();
   });
   window.addEventListener('beforeunload',()=>{if(HINT)clearInterval(HINT);});
+
+  function initBackToTop(){
+    const btn=document.getElementById('backToTop');
+    window.addEventListener('scroll',()=>{
+      btn.classList.toggle('visible',window.scrollY>400);
+    },{passive:true});
+  }
 
   // ===== THREE.JS 3D BACKGROUND =====
   function initThree(){
@@ -504,7 +521,7 @@
     const feat=DATA.filter(a=>a.rating>=8.5).slice(0,5);
     const tk=document.getElementById('heroTrack'),dt=document.getElementById('heroDots');
     if(!feat.length){
-      document.getElementById('heroBody').innerHTML='<div class="empty-hero"><h2 class="hero-title">Welcome to AnimeForYou</h2><p class="hero-desc">Your premium anime destination. Add your first anime in the admin panel and start building your collection.</p><div class="hero-acts"><a href="admin.html" class="btn-glow lg"><i class="fas fa-plus"></i> Add Anime</a><a href="#" class="btn-ghost lg" onclick="go(\'about\');return false"><i class="fas fa-circle-info"></i> Learn More</a></div></div>';
+      document.getElementById('heroBody').innerHTML='<div class="empty-hero"><h2 class="hero-title">Welcome to AnimeForYou</h2><p class="hero-desc">Your premium anime destination. Add your first anime in the admin panel and start building your collection.</p><div class="hero-acts"><a href="admin.html" class="btn-glow lg"><i class="fas fa-plus"></i> Add Anime</a><a href="#" class="btn-ghost lg" onclick="go(\'about\');return false"><i class="fas fa-info"></i> Learn More</a></div></div>';
       return;
     }
     tk.innerHTML=feat.map(a=>'<div class="hero-slide" style="background-image:url(\''+esc(a.banner||a.poster)+'\')"></div>').join('');
@@ -513,7 +530,6 @@
     HINT=setInterval(()=>heroGo(1),7000);
   }
   function heroGo(d){const t=document.querySelectorAll('.hero-slide').length;if(!t)return;HIDX=(HIDX+d+t)%t;updHero();}
-  function heroGoTo(i){HIDX=i;updHero();clearInterval(HINT);HINT=setInterval(()=>heroGo(1),7000);}
   function updHero(){
     const sl=document.querySelectorAll('.hero-slide'),dt=document.querySelectorAll('.h-dot');
     const feat=DATA.filter(a=>a.rating>=8.5).slice(0,5);
@@ -521,7 +537,7 @@
     dt.forEach((d,i)=>{d.classList.toggle('on',i===HIDX);d.setAttribute('aria-selected',i===HIDX);});
     const a=feat[HIDX];if(!a)return;
     const b=document.getElementById('heroBody');
-    b.innerHTML='<span class="hero-chip"><i class="fas fa-fire"></i> Featured</span><h2 class="hero-title">'+esc(a.title)+'</h2><p class="hero-sub">'+a.year+' &bull; '+esc(a.studio||'')+' &bull; <i class="fas fa-star" style="color:var(--accent)"></i> '+a.rating+'</p><p class="hero-desc">'+esc((a.synopsis||'').substring(0,180))+'...</p><div class="hero-acts"><button class="btn-glow lg" onclick="go(\'detail\',\''+esc(a.id)+'\')"><i class="fas fa-play"></i> Watch Now</button><button class="btn-ghost lg" onclick="go(\'detail\',\''+esc(a.id)+'\')"><i class="fas fa-circle-info"></i> Details</button></div>';
+    b.innerHTML='<span class="hero-chip"><i class="fas fa-crown"></i> Featured</span><h2 class="hero-title">'+esc(a.title)+'</h2><p class="hero-sub">'+a.year+' &bull; '+esc(a.studio||'')+' &bull; <i class="fas fa-star" style="color:var(--accent)"></i> '+a.rating+'</p><p class="hero-desc">'+esc((a.synopsis||'').substring(0,180))+'...</p><div class="hero-acts"><button class="btn-glow lg" onclick="go(\'detail\',\''+esc(a.id)+'\')"><i class="fas fa-play"></i> Watch Now</button><button class="btn-ghost lg" onclick="go(\'detail\',\''+esc(a.id)+'\')"><i class="fas fa-info"></i> Details</button></div>';
     if(!RM)gsap.fromTo('#heroBody > *',{opacity:0,y:30},{opacity:1,y:0,duration:.6,stagger:.1,ease:'power3.out'});
   }
 
@@ -544,16 +560,17 @@
   // ===== RENDER =====
   function renderHome(){
     if(!DATA.length){renderEmptyHome();return;}
+    const cont=HIST.slice(0,10).map(h=>DATA.find(a=>a.id===h.id)).filter(Boolean);
     const feat=DATA.filter(a=>a.rating>=8.5).slice(0,10);
     const trend=[...DATA].sort((a,b)=>(b.trending||0)-(a.trending||0)).slice(0,12);
     const latest=[...DATA].sort((a,b)=>(b.year||0)-(a.year||0)).slice(0,12);
     const recent=[...DATA].sort((a,b)=>(b.id||'').localeCompare(a.id||'')).slice(0,8);
     const rec=[...DATA].sort(()=>Math.random()-.5).slice(0,12);
-    const cont=HIST.slice(0,10).map(h=>DATA.find(a=>a.id===h.id)).filter(Boolean);
-    renderRow('featRow',feat);renderRow('trendRow',trend);
+    renderCont('contRow',cont);renderRow('featRow',feat);
+    renderRow('trendRow',trend);
     renderGrid('latestGrid',latest);renderGrid('recentGrid',recent);
     renderRow('recRow',rec);
-    renderCont('contRow',cont);renderHomeCats();
+    renderHomeCats();
     animScroll();
   }
 
@@ -640,7 +657,6 @@
   // ===== SEARCH =====
   function initSearch(){
     const inp=document.getElementById('searchInput');
-    inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();doSearch(inp.value.trim());}});
   }
 
   function doSearch(q){
