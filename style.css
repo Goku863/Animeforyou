@@ -260,3 +260,14 @@ footer { margin-top: 60px; border-top: 1px solid var(--border); padding: 40px 0 
 /* Skeleton Loading */
 .skeleton { background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-elevated) 50%, var(--bg-card) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
 @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+/* Legal Pages */
+.legal-container { max-width: 800px; }
+.legal-section { margin-bottom: 32px; }
+.legal-section h2 { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: var(--text); }
+.legal-section p { font-size: 14px; color: var(--text-muted); line-height: 1.8; margin-bottom: 12px; }
+.legal-section ul { list-style: none; margin: 12px 0; }
+.legal-section li { font-size: 14px; color: var(--text-muted); line-height: 1.8; padding-left: 20px; position: relative; margin-bottom: 6px; }
+.legal-section li::before { content: "•"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.legal-section a { color: var(--accent); text-decoration: none; transition: opacity 0.2s; }
+.legal-section a:hover { opacity: 0.8; text-decoration: underline; }
