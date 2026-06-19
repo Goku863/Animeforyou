@@ -36,6 +36,14 @@
       </div>
       <div class="nav-end">
         <button class="nav-icon-btn" onclick="go('bookmarks')" aria-label="Bookmarks"><i class="fas fa-bookmark" aria-hidden="true"></i></button>
+        <div class="theme-toggle" id="themeToggle" onclick="toggleThemePanel()" aria-label="Theme" role="button" tabindex="0">
+          <span class="theme-icons"><i class="fas fa-snowflake active-theme" id="themeIcon"></i></span>
+          <div class="theme-panel" id="themePanel" onclick="event.stopPropagation()">
+            <div class="theme-option active" data-t="soft-glass" onclick="setTheme('soft-glass')"><span class="theme-dot"></span> Soft Glass</div>
+            <div class="theme-option" data-t="crystal-clear" onclick="setTheme('crystal-clear')"><span class="theme-dot"></span> Crystal Clear</div>
+            <div class="theme-option" data-t="frosted-deep" onclick="setTheme('frosted-deep')"><span class="theme-dot"></span> Frosted Deep</div>
+          </div>
+        </div>
         <a href="admin.html" class="nav-icon-btn" aria-label="Admin"><i class="fas fa-gear" aria-hidden="true"></i></a>
       </div>
     </div>
@@ -127,22 +135,22 @@
         <p>AnimeForYou brings the best of Japanese animation to your screen — free, fast, and beautifully presented. Discover, track, and stream your favorite series all in one place.</p>
       </div>
       <div class="about-grid">
-        <div class="about-card"><div class="about-ico"><i class="fas fa-play"></i></div><h3>Thousands of Anime</h3><p>From timeless classics to the latest seasonal releases — explore a growing library curated for every taste.</p></div>
-        <div class="about-card"><div class="about-ico"><i class="fas fa-globe"></i></div><h3>Multi-Language</h3><p>Watch with Hindi, English, or Japanese audio. Subtitles available in multiple languages for every title.</p></div>
-        <div class="about-card"><div class="about-ico"><i class="fas fa-mobile-screen-button"></i></div><h3>Watch Anywhere</h3><p>Fully responsive design works flawlessly across mobile, tablet, and desktop — no app download needed.</p></div>
-        <div class="about-card"><div class="about-ico"><i class="fas fa-bolt"></i></div><h3>Fast & Free</h3><p>Zero subscription fees. No hidden charges. Premium streaming experience without the premium price tag.</p></div>
-        <div class="about-card"><div class="about-ico"><i class="fas fa-masks-theater"></i></div><h3>All Genres</h3><p>Action, romance, sci-fi, slice of life, horror, fantasy — every genre you love is just a click away.</p></div>
-        <div class="about-card"><div class="about-ico"><i class="fas fa-bell"></i></div><h3>Stay Updated</h3><p>Get notified about new episodes, trending shows, and seasonal updates so you never miss out.</p></div>
+        <div class="about-card glass-card"><div class="about-ico"><i class="fas fa-play"></i></div><h3>Thousands of Anime</h3><p>From timeless classics to the latest seasonal releases — explore a growing library curated for every taste.</p></div>
+        <div class="about-card glass-card"><div class="about-ico"><i class="fas fa-globe"></i></div><h3>Multi-Language</h3><p>Watch with Hindi, English, or Japanese audio. Subtitles available in multiple languages for every title.</p></div>
+        <div class="about-card glass-card"><div class="about-ico"><i class="fas fa-mobile-screen-button"></i></div><h3>Watch Anywhere</h3><p>Fully responsive design works flawlessly across mobile, tablet, and desktop — no app download needed.</p></div>
+        <div class="about-card glass-card"><div class="about-ico"><i class="fas fa-bolt"></i></div><h3>Fast & Free</h3><p>Zero subscription fees. No hidden charges. Premium streaming experience without the premium price tag.</p></div>
+        <div class="about-card glass-card"><div class="about-ico"><i class="fas fa-masks-theater"></i></div><h3>All Genres</h3><p>Action, romance, sci-fi, slice of life, horror, fantasy — every genre you love is just a click away.</p></div>
+        <div class="about-card glass-card"><div class="about-ico"><i class="fas fa-bell"></i></div><h3>Stay Updated</h3><p>Get notified about new episodes, trending shows, and seasonal updates so you never miss out.</p></div>
       </div>
-      <div class="about-block">
+      <div class="about-block glass-card">
         <h2>Our Mission</h2>
         <p>AnimeForYou was created with one mission: make great anime accessible to everyone, everywhere. We believe that incredible stories deserve to be seen — regardless of geography, language, or budget. Our platform is built by fans, for fans, with a focus on quality, speed, and user experience.</p>
       </div>
-      <div class="about-block">
+      <div class="about-block glass-card">
         <h2>How It Works</h2>
         <p>Browse our curated collection using categories, trending lists, or the A-Z directory. Found something interesting? Click to view details, check ratings, browse episodes, and start watching instantly. Bookmark your favorites to build a personal watchlist. It's that simple.</p>
       </div>
-      <div class="about-block">
+      <div class="about-block glass-card">
         <h3>Disclaimer</h3>
         <p>AnimeForYou is an educational demonstration project. All anime content, images, and trademarks belong to their respective owners. This platform does not host or distribute copyrighted content — all data is user-provided for demonstration purposes.</p>
       </div>
@@ -152,14 +160,14 @@
     <section class="pg" id="pg-contact" aria-label="Contact">
       <div class="pg-head"><h1><i class="fas fa-envelope" aria-hidden="true"></i> Contact</h1><p>We'd love to hear from you</p></div>
       <div class="contact-wrap">
-        <div class="contact-info">
+        <div class="contact-info glass-card">
           <h2>Get In Touch</h2>
           <div class="c-item"><i class="fab fa-github"></i><div><h4>GitHub</h4><a href="https://github.com/Goku863/Animeforyou" target="_blank" rel="noopener">Goku863/Animeforyou</a></div></div>
           <div class="c-item"><i class="fas fa-globe"></i><div><h4>Website</h4><a href="https://animeforyou9.pages.dev" target="_blank" rel="noopener">animeforyou9.pages.dev</a></div></div>
           <div class="c-item"><i class="fas fa-shield"></i><div><h4>DMCA</h4><a href="#" onclick="go('dmca');return false">File a request</a></div></div>
           <div class="c-item"><i class="fas fa-envelope"></i><div><h4>Email</h4><a href="mailto:contact@animeforyou.com">contact@animeforyou.com</a></div></div>
         </div>
-        <div class="contact-form">
+        <div class="contact-form glass-card">
           <h2>Send a Message</h2>
           <form onsubmit="handleContact(event)" novalidate>
             <div class="fg"><label for="c-name">Name</label><input id="c-name" type="text" required placeholder="Your name" /></div>
@@ -176,10 +184,10 @@
     <section class="pg" id="pg-privacy" aria-label="Privacy">
       <div class="pg-head"><h1><i class="fas fa-shield" aria-hidden="true"></i> Privacy Policy</h1><p>Last updated January 2026</p></div>
       <div class="legal-wrap">
-        <div class="legal-card"><h2>1. Information We Collect</h2><p>We collect minimal data — only what you store locally in your browser (bookmarks, watch history). No personal information is stored on our servers. Firebase is used solely for anime data storage, not user tracking.</p></div>
-        <div class="legal-card"><h2>2. How We Use It</h2><p>Local data is used to personalize your experience — remembering your bookmarks, watch progress, and preferences. We do not sell, share, or analyze your data for advertising purposes.</p></div>
-        <div class="legal-card"><h2>3. Third-Party Services</h2><p>We use Firebase (Google) for database storage and Cloudflare Pages for hosting. These services have their own privacy policies which govern data handling at the infrastructure level.</p></div>
-        <div class="legal-card"><h2>4. Contact</h2><p>Questions about this policy? Reach us through our GitHub repository or contact page.</p></div>
+        <div class="legal-card glass-card"><h2>1. Information We Collect</h2><p>We collect minimal data — only what you store locally in your browser (bookmarks, watch history). No personal information is stored on our servers. Firebase is used solely for anime data storage, not user tracking.</p></div>
+        <div class="legal-card glass-card"><h2>2. How We Use It</h2><p>Local data is used to personalize your experience — remembering your bookmarks, watch progress, and preferences. We do not sell, share, or analyze your data for advertising purposes.</p></div>
+        <div class="legal-card glass-card"><h2>3. Third-Party Services</h2><p>We use Firebase (Google) for database storage and Cloudflare Pages for hosting. These services have their own privacy policies which govern data handling at the infrastructure level.</p></div>
+        <div class="legal-card glass-card"><h2>4. Contact</h2><p>Questions about this policy? Reach us through our GitHub repository or contact page.</p></div>
       </div>
     </section>
 
@@ -187,10 +195,10 @@
     <section class="pg" id="pg-terms" aria-label="Terms">
       <div class="pg-head"><h1><i class="fas fa-file-contract" aria-hidden="true"></i> Terms of Service</h1><p>Last updated January 2026</p></div>
       <div class="legal-wrap">
-        <div class="legal-card"><h2>1. Acceptance</h2><p>By using AnimeForYou, you agree to these terms. If you do not agree, please refrain from using the service.</p></div>
-        <div class="legal-card"><h2>2. Use of Service</h2><p>This platform is provided for personal, non-commercial use only. You may not redistribute, modify, or commercially exploit any part of the service.</p></div>
-        <div class="legal-card"><h2>3. Content</h2><p>AnimeForYou does not host, store, or stream video content. The platform serves as a demonstration of web technologies. All anime metadata is user-provided.</p></div>
-        <div class="legal-card"><h2>4. Limitation of Liability</h2><p>The service is provided "as is" without warranties of any kind. We are not liable for any damages arising from the use of this platform.</p></div>
+        <div class="legal-card glass-card"><h2>1. Acceptance</h2><p>By using AnimeForYou, you agree to these terms. If you do not agree, please refrain from using the service.</p></div>
+        <div class="legal-card glass-card"><h2>2. Use of Service</h2><p>This platform is provided for personal, non-commercial use only. You may not redistribute, modify, or commercially exploit any part of the service.</p></div>
+        <div class="legal-card glass-card"><h2>3. Content</h2><p>AnimeForYou does not host, store, or stream video content. The platform serves as a demonstration of web technologies. All anime metadata is user-provided.</p></div>
+        <div class="legal-card glass-card"><h2>4. Limitation of Liability</h2><p>The service is provided "as is" without warranties of any kind. We are not liable for any damages arising from the use of this platform.</p></div>
       </div>
     </section>
 
@@ -198,9 +206,9 @@
     <section class="pg" id="pg-dmca" aria-label="DMCA">
       <div class="pg-head"><h1><i class="fas fa-gavel" aria-hidden="true"></i> DMCA Notice</h1><p>Copyright compliance policy</p></div>
       <div class="legal-wrap">
-        <div class="legal-card"><h2>Overview</h2><p>AnimeForYou respects intellectual property rights and expects users to do the same. This platform is an educational demonstration and does not host copyrighted content.</p></div>
-        <div class="legal-card"><h2>No Hosting</h2><p>All anime metadata displayed on this site is user-contributed. We do not host, stream, or distribute video files or copyrighted materials.</p></div>
-        <div class="legal-card"><h2>Filing a Notice</h2><p>If you believe any content infringes your copyright, please submit a notice via our GitHub repository with "DMCA" in the title. We will review and respond promptly.</p></div>
+        <div class="legal-card glass-card"><h2>Overview</h2><p>AnimeForYou respects intellectual property rights and expects users to do the same. This platform is an educational demonstration and does not host copyrighted content.</p></div>
+        <div class="legal-card glass-card"><h2>No Hosting</h2><p>All anime metadata displayed on this site is user-contributed. We do not host, stream, or distribute video files or copyrighted materials.</p></div>
+        <div class="legal-card glass-card"><h2>Filing a Notice</h2><p>If you believe any content infringes your copyright, please submit a notice via our GitHub repository with "DMCA" in the title. We will review and respond promptly.</p></div>
       </div>
     </section>
 
@@ -294,6 +302,40 @@
   const RM=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   let DATA=[],PAGE='home',CUR=null,CEP=0,CEPS=[],HIDX=0,HINT=null,BMS=JSON.parse(localStorage.getItem('afy_bm')||'[]'),HIST=JSON.parse(localStorage.getItem('afy_hist')||'[]'),SRES=[],STS=[],THREE_INIT=false;
+
+  let currentTheme=localStorage.getItem('afy_theme')||'soft-glass';
+
+  document.documentElement.setAttribute('data-theme',currentTheme);
+  updateThemeIcon(currentTheme);
+
+  document.addEventListener('click',(e)=>{
+    const tp=document.getElementById('themePanel');
+    if(tp&&tp.classList.contains('open')&&!e.target.closest('.theme-toggle')){
+      tp.classList.remove('open');
+    }
+  });
+
+  function toggleThemePanel(){
+    const tp=document.getElementById('themePanel');
+    tp.classList.toggle('open');
+  }
+
+  function setTheme(t){
+    currentTheme=t;
+    document.documentElement.setAttribute('data-theme',t);
+    localStorage.setItem('afy_theme',t);
+    const tp=document.getElementById('themePanel');
+    tp.classList.remove('open');
+    document.querySelectorAll('.theme-option').forEach(o=>o.classList.toggle('active',o.dataset.t===t));
+    updateThemeIcon(t);
+  }
+
+  function updateThemeIcon(t){
+    const icon=document.getElementById('themeIcon');
+    if(t==='soft-glass')icon.className='fas fa-snowflake active-theme';
+    else if(t==='crystal-clear')icon.className='fas fa-diamond active-theme';
+    else if(t==='frosted-deep')icon.className='fas fa-icicles active-theme';
+  }
 
   function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
   function gIC(c){return GI[c]||'tag';}
@@ -528,7 +570,7 @@
     const g=document.getElementById('homeCatGrid');
     const counts={};
     DATA.forEach(a=>(a.genres||[]).forEach(g=>{counts[g]=(counts[g]||0)+1;}));
-    g.innerHTML=CATS.map(c=>'<a href="#" class="cat-card" onclick="go(\'categories\',\''+esc(c)+'\');return false"><div class="cat-ico" style="background:'+(GC[c]||'var(--accent)')+'"><i class="fas fa-'+gIC(c)+'"></i></div><span>'+esc(c)+'</span><span class="cat-n">'+(counts[c]||0)+' titles</span></a>').join('');
+    g.innerHTML=CATS.map(c=>'<a href="#" class="cat-card glass-card" onclick="go(\'categories\',\''+esc(c)+'\');return false"><div class="cat-ico" style="background:'+(GC[c]||'var(--accent)')+'"><i class="fas fa-'+gIC(c)+'"></i></div><span>'+esc(c)+'</span><span class="cat-n">'+(counts[c]||0)+' titles</span></a>').join('');
     const fc=document.getElementById('ftCats');
     if(fc)fc.innerHTML=CATS.slice(0,6).map(c=>'<li><a href="#" onclick="go(\'categories\',\''+esc(c)+'\');return false">'+esc(c)+'</a></li>').join('');
   }
@@ -547,7 +589,7 @@
   }
 
   function card(a){
-    return '<div class="anime-card" onclick="go(\'detail\',\''+esc(a.id)+'\')"><div class="card-vis"><img src="'+esc(a.poster||'')+'" alt="'+esc(a.title)+'" width="160" height="224" loading="lazy" /><div class="card-overlay"><span class="card-play"><i class="fas fa-play"></i></span><button class="card-bm'+(BMS.includes(a.id)?' on':'')+'" onclick="event.stopPropagation();toggleBM(\''+esc(a.id)+'\')" aria-label="Bookmark"><i class="fas fa-bookmark"></i></button></div><span class="card-badge">'+esc(a.type||'TV')+'</span>'+(a.rating>=9?'<span class="card-hot"><i class="fas fa-fire"></i></span>':'')+'</div><div class="card-txt"><h3>'+esc(a.title)+'</h3><div class="card-row-meta"><span><i class="fas fa-star" style="color:var(--accent)"></i> '+(a.rating||0)+'</span><span>'+(a.totalEpisodes||0)+' eps</span></div><div class="card-tags">'+(a.genres||[]).slice(0,2).map(g=>'<span class="ctag" style="--tc:'+(GC[g]||'var(--accent)')+'">'+esc(g)+'</span>').join('')+'</div></div></div>';
+    return '<div class="anime-card" onclick="go(\'detail\',\''+esc(a.id)+'\')"><div class="card-vis glass-card"><img src="'+esc(a.poster||'')+'" alt="'+esc(a.title)+'" width="160" height="224" loading="lazy" /><div class="card-overlay"><span class="card-play"><i class="fas fa-play"></i></span><button class="card-bm'+(BMS.includes(a.id)?' on':'')+'" onclick="event.stopPropagation();toggleBM(\''+esc(a.id)+'\')" aria-label="Bookmark"><i class="fas fa-bookmark"></i></button></div><span class="card-badge">'+esc(a.type||'TV')+'</span>'+(a.rating>=9?'<span class="card-hot"><i class="fas fa-fire"></i></span>':'')+'</div><div class="card-txt"><h3>'+esc(a.title)+'</h3><div class="card-row-meta"><span><i class="fas fa-star" style="color:var(--accent)"></i> '+(a.rating||0)+'</span><span>'+(a.totalEpisodes||0)+' eps</span></div><div class="card-tags">'+(a.genres||[]).slice(0,2).map(g=>'<span class="ctag" style="--tc:'+(GC[g]||'var(--accent)')+'">'+esc(g)+'</span>').join('')+'</div></div></div>';
   }
 
   // ===== TRENDING =====
@@ -590,7 +632,7 @@
       if(ph)ph.style.display='';cg.style.display='';sa.style.display='none';
       const counts={};
       DATA.forEach(a=>(a.genres||[]).forEach(g=>{counts[g]=(counts[g]||0)+1;}));
-      cg.innerHTML=CATS.map(c=>'<a href="#" class="cat-card" onclick="go(\'categories\',\''+esc(c)+'\');return false"><div class="cat-ico" style="background:'+(GC[c]||'var(--accent)')+'"><i class="fas fa-'+gIC(c)+'"></i></div><span>'+esc(c)+'</span><span class="cat-n">'+(counts[c]||0)+' titles</span></a>').join('');
+      cg.innerHTML=CATS.map(c=>'<a href="#" class="cat-card glass-card" onclick="go(\'categories\',\''+esc(c)+'\');return false"><div class="cat-ico" style="background:'+(GC[c]||'var(--accent)')+'"><i class="fas fa-'+gIC(c)+'"></i></div><span>'+esc(c)+'</span><span class="cat-n">'+(counts[c]||0)+' titles</span></a>').join('');
     }
     animScroll();
   }
