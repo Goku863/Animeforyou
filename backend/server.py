@@ -9,6 +9,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 app = Flask(__name__, static_folder=None)
 CORS(app)
 
+# Initialize database on import (for gunicorn)
+init_db()
+seed_defaults()
+
 def slugify(text):
     s = text.lower()
     s = re.sub(r'[^a-z0-9]+', '-', s)
