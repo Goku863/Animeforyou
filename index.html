@@ -7,6 +7,14 @@
   <meta name="description" content="Watch anime online for free. Stream thousands of anime episodes in Hindi, English, and Japanese with subtitles." />
   <meta name="keywords" content="anime, watch anime, free anime, streaming, hindi anime, english anime" />
   <meta name="theme-color" content="#0a0a0a" />
+  <meta property="og:title" content="AnimeForYou — Premium Anime Streaming" />
+  <meta property="og:description" content="Watch anime online for free. Stream thousands of episodes in Hindi, English, and Japanese." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://animeforyou9.pages.dev" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AnimeForYou — Premium Anime Streaming" />
+  <meta name="twitter:description" content="Watch anime online for free. Stream thousands of episodes." />
+  <link rel="canonical" href="https://animeforyou9.pages.dev" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -14,584 +22,370 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23f97316'/><text x='16' y='23' text-anchor='middle' font-size='20' fill='white' font-weight='bold'>A</text></svg>" />
   <link rel="stylesheet" href="style.css" />
   <link rel="manifest" href="manifest.json" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "AnimeForYou",
+    "url": "https://animeforyou9.pages.dev",
+    "description": "Watch anime online for free",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://animeforyou9.pages.dev/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
 </head>
 <body>
-  <canvas id="particleCanvas"></canvas>
+  <a href="#main-content" class="skip-link">Skip to content</a>
+  <canvas id="particleCanvas" aria-hidden="true"></canvas>
 
-  <nav class="navbar" id="navbar">
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main">
     <div class="nav-container">
-      <a href="#" class="logo" onclick="navigate('home')">
-        <span class="logo-icon"><i class="fas fa-play"></i></span>
+      <a href="#" class="logo" onclick="navigate('home');return false">
+        <span class="logo-icon" aria-hidden="true"><i class="fas fa-play"></i></span>
         <span class="logo-text">Anime<span class="accent">ForYou</span></span>
       </a>
-      <div class="nav-links" id="navLinks">
-        <a href="#" class="nav-link active" data-page="home" onclick="navigate('home')"><i class="fas fa-home"></i> Home</a>
-        <a href="#" class="nav-link" data-page="trending" onclick="navigate('trending')"><i class="fas fa-fire"></i> Trending</a>
-        <a href="#" class="nav-link" data-page="latest" onclick="navigate('latest')"><i class="fas fa-clock"></i> Latest</a>
-        <a href="#" class="nav-link" data-page="az" onclick="navigate('az')"><i class="fas fa-sort-alpha-down"></i> A-Z</a>
-        <a href="#" class="nav-link" data-page="categories" onclick="navigate('categories')"><i class="fas fa-th-large"></i> Categories</a>
+      <div class="nav-links" id="navLinks" role="menubar">
+        <a href="#" class="nav-link active" data-page="home" role="menuitem" onclick="navigate('home');return false"><i class="fas fa-home" aria-hidden="true"></i> Home</a>
+        <a href="#" class="nav-link" data-page="trending" role="menuitem" onclick="navigate('trending');return false"><i class="fas fa-fire" aria-hidden="true"></i> Trending</a>
+        <a href="#" class="nav-link" data-page="latest" role="menuitem" onclick="navigate('latest');return false"><i class="fas fa-clock" aria-hidden="true"></i> Latest</a>
+        <a href="#" class="nav-link" data-page="az" role="menuitem" onclick="navigate('az');return false"><i class="fas fa-sort-alpha-down" aria-hidden="true"></i> A-Z</a>
+        <a href="#" class="nav-link" data-page="categories" role="menuitem" onclick="navigate('categories');return false"><i class="fas fa-th-large" aria-hidden="true"></i> Categories</a>
       </div>
       <div class="nav-actions">
         <div class="search-box" id="searchBox">
-          <i class="fas fa-search"></i>
-          <input type="text" id="searchInput" placeholder="Search anime..." autocomplete="off" />
-          <div class="search-suggestions" id="searchSuggestions"></div>
+          <i class="fas fa-search" aria-hidden="true"></i>
+          <input type="text" id="searchInput" placeholder="Search anime..." autocomplete="off" aria-label="Search anime" />
+          <div class="search-suggestions" id="searchSuggestions" role="listbox"></div>
         </div>
-        <button class="btn-icon" onclick="navigate('bookmarks')" title="Bookmarks"><i class="fas fa-bookmark"></i></button>
-        <button class="btn-icon mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
+        <button class="btn-icon" onclick="navigate('bookmarks')" title="Bookmarks" aria-label="Bookmarks"><i class="fas fa-bookmark" aria-hidden="true"></i></button>
+        <button class="btn-icon mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Toggle menu" aria-expanded="false"><i class="fas fa-bars" aria-hidden="true"></i></button>
       </div>
     </div>
   </nav>
 
-  <div class="main-wrap" id="mainWrap">
-    <!-- ========== HOME PAGE ========== -->
-    <section class="page active" id="page-home">
-      <div class="hero-section" id="heroSection">
-        <div class="hero-slider" id="heroSlider"></div>
-        <div class="hero-overlay"></div>
+  <main class="main-wrap" id="mainWrap" id="main-content">
+    <!-- HOME -->
+    <section class="page active" id="page-home" aria-label="Home">
+      <h1 class="visually-hidden">AnimeForYou — Watch Anime Online</h1>
+      <div class="hero-section" id="heroSection" aria-label="Featured anime">
+        <div class="hero-slider" id="heroSlider" role="region" aria-roledescription="carousel"></div>
+        <div class="hero-overlay" aria-hidden="true"></div>
         <div class="hero-content" id="heroContent"></div>
-        <div class="hero-controls">
-          <button class="hero-btn" onclick="heroSlide(-1)"><i class="fas fa-chevron-left"></i></button>
-          <div class="hero-dots" id="heroDots"></div>
-          <button class="hero-btn" onclick="heroSlide(1)"><i class="fas fa-chevron-right"></i></button>
+        <div class="hero-controls" role="group" aria-label="Hero navigation">
+          <button class="hero-btn" onclick="heroSlide(-1)" aria-label="Previous slide"><i class="fas fa-chevron-left" aria-hidden="true"></i></button>
+          <div class="hero-dots" id="heroDots" role="tablist" aria-label="Slide selection"></div>
+          <button class="hero-btn" onclick="heroSlide(1)" aria-label="Next slide"><i class="fas fa-chevron-right" aria-hidden="true"></i></button>
         </div>
       </div>
-      <div class="section" id="homeFeatured">
+      <section class="section" id="homeFeatured" aria-label="Featured anime">
         <div class="section-header">
-          <h2><i class="fas fa-star"></i> Featured Anime</h2>
-          <a href="#" onclick="navigate('trending')" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+          <h2><i class="fas fa-star" aria-hidden="true"></i> Featured Anime</h2>
+          <a href="#" onclick="navigate('trending');return false" class="view-all">View All <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
         </div>
         <div class="anime-grid" id="featuredGrid"></div>
-      </div>
-      <div class="section" id="homeTrending">
+      </section>
+      <section class="section" id="homeTrending" aria-label="Trending anime">
         <div class="section-header">
-          <h2><i class="fas fa-fire"></i> Trending Now</h2>
-          <a href="#" onclick="navigate('trending')" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+          <h2><i class="fas fa-fire" aria-hidden="true"></i> Trending Now</h2>
+          <a href="#" onclick="navigate('trending');return false" class="view-all">View All <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
         </div>
         <div class="anime-row" id="trendingRow"></div>
-      </div>
-      <div class="section" id="homeLatest">
+      </section>
+      <section class="section" id="homeLatest" aria-label="Latest episodes">
         <div class="section-header">
-          <h2><i class="fas fa-clock"></i> Latest Episodes</h2>
-          <a href="#" onclick="navigate('latest')" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+          <h2><i class="fas fa-clock" aria-hidden="true"></i> Latest Episodes</h2>
+          <a href="#" onclick="navigate('latest');return false" class="view-all">View All <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
         </div>
         <div class="anime-grid" id="latestGrid"></div>
-      </div>
-      <div class="section" id="homeCategories">
+      </section>
+      <section class="section" id="homeCategories" aria-label="Browse categories">
         <div class="section-header">
-          <h2><i class="fas fa-th-large"></i> Browse Categories</h2>
+          <h2><i class="fas fa-th-large" aria-hidden="true"></i> Browse Categories</h2>
         </div>
         <div class="category-grid" id="homeCategoryGrid"></div>
-      </div>
-      <div class="section" id="homeContinue">
+      </section>
+      <section class="section" id="homeContinue" aria-label="Continue watching">
         <div class="section-header">
-          <h2><i class="fas fa-history"></i> Continue Watching</h2>
+          <h2><i class="fas fa-history" aria-hidden="true"></i> Continue Watching</h2>
         </div>
         <div class="anime-row" id="continueRow"></div>
-      </div>
-      <div class="section" id="homeRecent">
+      </section>
+      <section class="section" id="homeRecent" aria-label="Recently added">
         <div class="section-header">
-          <h2><i class="fas fa-plus-circle"></i> Recently Added</h2>
+          <h2><i class="fas fa-plus-circle" aria-hidden="true"></i> Recently Added</h2>
         </div>
         <div class="anime-grid" id="recentGrid"></div>
-      </div>
+      </section>
     </section>
 
-    <!-- ========== TRENDING PAGE ========== -->
-    <section class="page" id="page-trending">
-      <div class="page-header-bar">
-        <h1><i class="fas fa-fire"></i> Trending Anime</h1>
-        <p>Most popular anime right now</p>
-      </div>
+    <!-- TRENDING -->
+    <section class="page" id="page-trending" aria-label="Trending anime">
+      <div class="page-header-bar"><h1><i class="fas fa-fire" aria-hidden="true"></i> Trending Anime</h1><p>Most popular anime right now</p></div>
       <div class="filter-bar">
-        <select id="trendingFilter" onchange="renderTrending()">
-          <option value="all">All Genres</option>
-        </select>
-        <select id="trendingSort" onchange="renderTrending()">
-          <option value="trending">Most Trending</option>
-          <option value="rating">Top Rated</option>
-          <option value="newest">Newest</option>
-          <option value="az">A-Z</option>
-        </select>
+        <select id="trendingFilter" onchange="renderTrending()" aria-label="Filter by genre"><option value="all">All Genres</option></select>
+        <select id="trendingSort" onchange="renderTrending()" aria-label="Sort by"><option value="trending">Most Trending</option><option value="rating">Top Rated</option><option value="newest">Newest</option><option value="az">A-Z</option></select>
       </div>
       <div class="anime-grid full-grid" id="trendingGrid"></div>
     </section>
 
-    <!-- ========== LATEST PAGE ========== -->
-    <section class="page" id="page-latest">
-      <div class="page-header-bar">
-        <h1><i class="fas fa-clock"></i> Latest Episodes</h1>
-        <p>Freshly uploaded episodes</p>
-      </div>
+    <!-- LATEST -->
+    <section class="page" id="page-latest" aria-label="Latest episodes">
+      <div class="page-header-bar"><h1><i class="fas fa-clock" aria-hidden="true"></i> Latest Episodes</h1><p>Freshly uploaded episodes</p></div>
       <div class="anime-grid full-grid" id="latestFullGrid"></div>
     </section>
 
-    <!-- ========== A-Z PAGE ========== -->
-    <section class="page" id="page-az">
-      <div class="page-header-bar">
-        <h1><i class="fas fa-sort-alpha-down"></i> A-Z Anime Directory</h1>
-        <p>Browse all anime alphabetically</p>
-      </div>
-      <div class="az-nav" id="azNav"></div>
+    <!-- A-Z -->
+    <section class="page" id="page-az" aria-label="A-Z anime directory">
+      <div class="page-header-bar"><h1><i class="fas fa-sort-alpha-down" aria-hidden="true"></i> A-Z Anime Directory</h1><p>Browse all anime alphabetically</p></div>
+      <div class="az-nav" id="azNav" role="navigation" aria-label="Alphabetical navigation"></div>
       <div class="anime-grid full-grid" id="azGrid"></div>
     </section>
 
-    <!-- ========== CATEGORIES PAGE ========== -->
-    <section class="page" id="page-categories">
-      <div class="page-header-bar">
-        <h1><i class="fas fa-th-large"></i> Categories</h1>
-        <p>Browse by genre</p>
-      </div>
+    <!-- CATEGORIES -->
+    <section class="page" id="page-categories" aria-label="Categories">
+      <div class="page-header-bar"><h1><i class="fas fa-th-large" aria-hidden="true"></i> Categories</h1><p>Browse by genre</p></div>
       <div class="category-grid large" id="categoriesGrid"></div>
       <div class="section" id="categoryAnimeSection" style="display:none">
         <div class="section-header">
           <h2 id="categoryTitle"></h2>
-          <a href="#" onclick="navigate('categories')" class="view-all"><i class="fas fa-arrow-left"></i> All Categories</a>
+          <a href="#" onclick="navigate('categories');return false" class="view-all"><i class="fas fa-arrow-left" aria-hidden="true"></i> All Categories</a>
         </div>
         <div class="anime-grid full-grid" id="categoryAnimeGrid"></div>
       </div>
     </section>
 
-    <!-- ========== SEARCH PAGE ========== -->
-    <section class="page" id="page-search">
-      <div class="page-header-bar">
-        <h1><i class="fas fa-search"></i> Search Results</h1>
-        <p id="searchResultCount"></p>
-      </div>
+    <!-- SEARCH -->
+    <section class="page" id="page-search" aria-label="Search results">
+      <div class="page-header-bar"><h1><i class="fas fa-search" aria-hidden="true"></i> Search Results</h1><p id="searchResultCount"></p></div>
       <div class="filter-bar">
-        <select id="searchGenreFilter" onchange="filterSearchResults()">
-          <option value="all">All Genres</option>
-        </select>
-        <select id="searchYearFilter" onchange="filterSearchResults()">
-          <option value="all">All Years</option>
-        </select>
-        <select id="searchRatingFilter" onchange="filterSearchResults()">
-          <option value="all">All Ratings</option>
-          <option value="9">9+ Stars</option>
-          <option value="8">8+ Stars</option>
-          <option value="7">7+ Stars</option>
-          <option value="6">6+ Stars</option>
-        </select>
-        <select id="searchSortFilter" onchange="filterSearchResults()">
-          <option value="relevance">Relevance</option>
-          <option value="rating">Rating</option>
-          <option value="newest">Newest</option>
-          <option value="az">A-Z</option>
-        </select>
+        <select id="searchGenreFilter" onchange="filterSearchResults()" aria-label="Filter by genre"><option value="all">All Genres</option></select>
+        <select id="searchYearFilter" onchange="filterSearchResults()" aria-label="Filter by year"><option value="all">All Years</option></select>
+        <select id="searchRatingFilter" onchange="filterSearchResults()" aria-label="Filter by rating"><option value="all">All Ratings</option><option value="9">9+ Stars</option><option value="8">8+ Stars</option><option value="7">7+ Stars</option><option value="6">6+ Stars</option></select>
+        <select id="searchSortFilter" onchange="filterSearchResults()" aria-label="Sort results"><option value="relevance">Relevance</option><option value="rating">Rating</option><option value="newest">Newest</option><option value="az">A-Z</option></select>
       </div>
       <div class="anime-grid full-grid" id="searchGrid"></div>
-      <div class="no-results" id="noResults" style="display:none">
-        <i class="fas fa-search"></i>
-        <h3>No results found</h3>
-        <p>Try different keywords or filters</p>
-      </div>
+      <div class="no-results" id="noResults" style="display:none"><i class="fas fa-search" aria-hidden="true"></i><h3>No results found</h3><p>Try different keywords or filters</p></div>
     </section>
 
-    <!-- ========== BOOKMARKS PAGE ========== -->
-    <section class="page" id="page-bookmarks">
-      <div class="page-header-bar">
-        <h1><i class="fas fa-bookmark"></i> My Bookmarks</h1>
-        <p>Your saved anime</p>
-      </div>
+    <!-- BOOKMARKS -->
+    <section class="page" id="page-bookmarks" aria-label="My bookmarks">
+      <div class="page-header-bar"><h1><i class="fas fa-bookmark" aria-hidden="true"></i> My Bookmarks</h1><p>Your saved anime</p></div>
       <div class="anime-grid full-grid" id="bookmarksGrid"></div>
-      <div class="no-results" id="noBookmarks" style="display:none">
-        <i class="fas fa-bookmark"></i>
-        <h3>No bookmarks yet</h3>
-        <p>Save anime to watch later</p>
-      </div>
+      <div class="no-results" id="noBookmarks" style="display:none"><i class="fas fa-bookmark" aria-hidden="true"></i><h3>No bookmarks yet</h3><p>Save anime to watch later</p></div>
     </section>
 
-    <!-- ========== ABOUT PAGE ========== -->
-    <section class="page" id="page-about">
-      <div class="page-header-bar">
-        <h1><i class="fas fa-info-circle"></i> About AnimeForYou</h1>
-        <p>Your ultimate anime streaming destination</p>
-      </div>
+    <!-- ABOUT -->
+    <section class="page" id="page-about" aria-label="About">
+      <div class="page-header-bar"><h1><i class="fas fa-info-circle" aria-hidden="true"></i> About AnimeForYou</h1><p>Your ultimate anime streaming destination</p></div>
       <div class="about-page">
         <div class="about-grid">
-          <div class="about-card glass">
-            <div class="about-icon"><i class="fas fa-play-circle"></i></div>
-            <h3>Thousands of Anime</h3>
-            <p>Browse our extensive collection from classic titles to the latest releases.</p>
-          </div>
-          <div class="about-card glass">
-            <div class="about-icon"><i class="fas fa-globe"></i></div>
-            <h3>Multiple Languages</h3>
-            <p>Watch in Hindi, English, or Japanese with multi-audio and subtitle support.</p>
-          </div>
-          <div class="about-card glass">
-            <div class="about-icon"><i class="fas fa-mobile-alt"></i></div>
-            <h3>Watch Anywhere</h3>
-            <p>Enjoy seamless streaming on any device — mobile, tablet, or desktop.</p>
-          </div>
-          <div class="about-card glass">
-            <div class="about-icon"><i class="fas fa-bolt"></i></div>
-            <h3>Fast & Free</h3>
-            <p>No subscriptions, no fees. Start watching instantly with our fast streaming.</p>
-          </div>
-          <div class="about-card glass">
-            <div class="about-icon"><i class="fas fa-masks-theater"></i></div>
-            <h3>All Genres</h3>
-            <p>From action to romance. Find anime in every genre you love.</p>
-          </div>
-          <div class="about-card glass">
-            <div class="about-icon"><i class="fas fa-bell"></i></div>
-            <h3>Stay Updated</h3>
-            <p>Never miss a new episode with our trending and latest sections.</p>
-          </div>
+          <div class="about-card glass"><div class="about-icon"><i class="fas fa-play-circle" aria-hidden="true"></i></div><h3>Thousands of Anime</h3><p>Browse our extensive collection from classic titles to the latest releases.</p></div>
+          <div class="about-card glass"><div class="about-icon"><i class="fas fa-globe" aria-hidden="true"></i></div><h3>Multiple Languages</h3><p>Watch in Hindi, English, or Japanese with multi-audio and subtitle support.</p></div>
+          <div class="about-card glass"><div class="about-icon"><i class="fas fa-mobile-alt" aria-hidden="true"></i></div><h3>Watch Anywhere</h3><p>Enjoy seamless streaming on any device — mobile, tablet, or desktop.</p></div>
+          <div class="about-card glass"><div class="about-icon"><i class="fas fa-bolt" aria-hidden="true"></i></div><h3>Fast and Free</h3><p>No subscriptions, no fees. Start watching instantly with our fast streaming.</p></div>
+          <div class="about-card glass"><div class="about-icon"><i class="fas fa-masks-theater" aria-hidden="true"></i></div><h3>All Genres</h3><p>From action to romance. Find anime in every genre you love.</p></div>
+          <div class="about-card glass"><div class="about-icon"><i class="fas fa-bell" aria-hidden="true"></i></div><h3>Stay Updated</h3><p>Never miss a new episode with our trending and latest sections.</p></div>
         </div>
-        <div class="about-mission glass">
-          <h2>Our Mission</h2>
-          <p>AnimeForYou was created to make anime accessible to everyone, everywhere. We believe great stories should never be locked behind paywalls. Our platform is designed to be simple, fast, and enjoyable — so you can focus on what matters most: the anime.</p>
-        </div>
-        <div class="about-disclaimer glass">
-          <h3>Disclaimer</h3>
-          <p>AnimeForYou is a demonstration project for educational purposes. All anime content, images, and trademarks are property of their respective owners. This site does not host, distribute, or stream any actual video content.</p>
-        </div>
+        <div class="about-mission glass"><h2>Our Mission</h2><p>AnimeForYou was created to make anime accessible to everyone, everywhere. We believe great stories should never be locked behind paywalls. Our platform is designed to be simple, fast, and enjoyable — so you can focus on what matters most: the anime.</p></div>
+        <div class="about-disclaimer glass"><h3>Disclaimer</h3><p>AnimeForYou is a demonstration project for educational purposes. All anime content, images, and trademarks are property of their respective owners. This site does not host, distribute, or stream any actual video content.</p></div>
       </div>
     </section>
 
-    <!-- ========== CONTACT PAGE ========== -->
-    <section class="page" id="page-contact">
-      <div class="page-header-bar">
-        <h1><i class="fas fa-envelope"></i> Contact Us</h1>
-        <p>Get in touch with us</p>
-      </div>
+    <!-- CONTACT -->
+    <section class="page" id="page-contact" aria-label="Contact">
+      <div class="page-header-bar"><h1><i class="fas fa-envelope" aria-hidden="true"></i> Contact Us</h1><p>Get in touch with us</p></div>
       <div class="contact-page">
         <div class="contact-grid">
           <div class="contact-info glass">
             <h2>Get in Touch</h2>
-            <div class="contact-item">
-              <i class="fab fa-github"></i>
-              <div>
-                <h4>GitHub</h4>
-                <a href="https://github.com/Goku863/Animeforyou" target="_blank">github.com/Goku863/Animeforyou</a>
-              </div>
-            </div>
-            <div class="contact-item">
-              <i class="fas fa-globe"></i>
-              <div>
-                <h4>Website</h4>
-                <a href="https://animeforyou9.pages.dev" target="_blank">animeforyou9.pages.dev</a>
-              </div>
-            </div>
-            <div class="contact-item">
-              <i class="fas fa-shield-alt"></i>
-              <div>
-                <h4>DMCA</h4>
-                <a href="#" onclick="navigate('dmca')">Open a DMCA request</a>
-              </div>
-            </div>
+            <div class="contact-item"><i class="fab fa-github" aria-hidden="true"></i><div><h4>GitHub</h4><a href="https://github.com/Goku863/Animeforyou" target="_blank" rel="noopener noreferrer">github.com/Goku863/Animeforyou</a></div></div>
+            <div class="contact-item"><i class="fas fa-globe" aria-hidden="true"></i><div><h4>Website</h4><a href="https://animeforyou9.pages.dev" target="_blank" rel="noopener noreferrer">animeforyou9.pages.dev</a></div></div>
+            <div class="contact-item"><i class="fas fa-shield-alt" aria-hidden="true"></i><div><h4>DMCA</h4><a href="#" onclick="navigate('dmca');return false">Open a DMCA request</a></div></div>
           </div>
           <div class="contact-form glass">
             <h2>Send a Message</h2>
-            <form id="contactForm" onsubmit="handleContact(event)">
-              <div class="form-group">
-                <label>Name</label>
-                <input type="text" placeholder="Your name" required />
-              </div>
-              <div class="form-group">
-                <label>Email</label>
-                <input type="email" placeholder="your@email.com" required />
-              </div>
-              <div class="form-group">
-                <label>Subject</label>
-                <input type="text" placeholder="How can we help?" required />
-              </div>
-              <div class="form-group">
-                <label>Message</label>
-                <textarea rows="4" placeholder="Your message..." required></textarea>
-              </div>
-              <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Send Message</button>
+            <form id="contactForm" onsubmit="handleContact(event)" novalidate>
+              <div class="form-group"><label for="contact-name">Name</label><input type="text" id="contact-name" placeholder="Your name" required /></div>
+              <div class="form-group"><label for="contact-email">Email</label><input type="email" id="contact-email" placeholder="your@email.com" required /></div>
+              <div class="form-group"><label for="contact-subject">Subject</label><input type="text" id="contact-subject" placeholder="How can we help?" required /></div>
+              <div class="form-group"><label for="contact-message">Message</label><textarea id="contact-message" rows="4" placeholder="Your message..." required></textarea></div>
+              <button type="submit" class="btn-primary"><i class="fas fa-paper-plane" aria-hidden="true"></i> Send Message</button>
             </form>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ========== PRIVACY PAGE ========== -->
-    <section class="page" id="page-privacy">
-      <div class="page-header-bar">
-        <h1><i class="fas fa-shield-alt"></i> Privacy Policy</h1>
-        <p>Last updated: January 2026</p>
-      </div>
+    <!-- PRIVACY -->
+    <section class="page" id="page-privacy" aria-label="Privacy Policy">
+      <div class="page-header-bar"><h1><i class="fas fa-shield-alt" aria-hidden="true"></i> Privacy Policy</h1><p>Last updated: January 2026</p></div>
       <div class="legal-page">
-        <div class="legal-section glass">
-          <h2>1. Information We Collect</h2>
-          <p>AnimeForYou is designed to be privacy-friendly. We collect minimal information:</p>
-          <ul>
-            <li><strong>Local Storage:</strong> We use browser local storage to save your preferences and watchlist. This data stays on your device.</li>
-            <li><strong>Analytics:</strong> We may use basic analytics to understand how visitors use our site.</li>
-            <li><strong>Cookies:</strong> We use only essential cookies required for the site to function.</li>
-          </ul>
-        </div>
-        <div class="legal-section glass">
-          <h2>2. How We Use Information</h2>
-          <p>We use the limited information we collect to improve our website, analyze usage patterns, ensure functionality, and prevent abuse.</p>
-        </div>
-        <div class="legal-section glass">
-          <h2>3. Data Storage</h2>
-          <p>All your data (watchlist, preferences, bookmarks) is stored locally in your browser. We do not maintain user accounts or store personal data on our servers.</p>
-        </div>
-        <div class="legal-section glass">
-          <h2>4. Third-Party Services</h2>
-          <p>Our site may use Google Fonts, Cloudflare CDN, and Cloudflare Pages for hosting. These services have their own privacy policies.</p>
-        </div>
-        <div class="legal-section glass">
-          <h2>5. Contact Us</h2>
-          <p>If you have any questions about this Privacy Policy, please contact us through our GitHub repository.</p>
-        </div>
+        <div class="legal-section glass"><h2>1. Information We Collect</h2><p>AnimeForYou is designed to be privacy-friendly. We collect minimal information:</p><ul><li><strong>Local Storage:</strong> We use browser local storage to save your preferences and watchlist. This data stays on your device.</li><li><strong>Analytics:</strong> We may use basic analytics to understand how visitors use our site.</li><li><strong>Cookies:</strong> We use only essential cookies required for the site to function.</li></ul></div>
+        <div class="legal-section glass"><h2>2. How We Use Information</h2><p>We use the limited information we collect to improve our website, analyze usage patterns, ensure functionality, and prevent abuse.</p></div>
+        <div class="legal-section glass"><h2>3. Data Storage</h2><p>All your data (watchlist, preferences, bookmarks) is stored locally in your browser. We do not maintain user accounts or store personal data on our servers.</p></div>
+        <div class="legal-section glass"><h2>4. Third-Party Services</h2><p>Our site may use Google Fonts, Cloudflare CDN, and Cloudflare Pages for hosting. These services have their own privacy policies.</p></div>
+        <div class="legal-section glass"><h2>5. Contact Us</h2><p>If you have any questions about this Privacy Policy, please contact us through our GitHub repository.</p></div>
       </div>
     </section>
 
-    <!-- ========== TERMS PAGE ========== -->
-    <section class="page" id="page-terms">
-      <div class="page-header-bar">
-        <h1><i class="fas fa-file-contract"></i> Terms of Service</h1>
-        <p>Last updated: January 2026</p>
-      </div>
+    <!-- TERMS -->
+    <section class="page" id="page-terms" aria-label="Terms of Service">
+      <div class="page-header-bar"><h1><i class="fas fa-file-contract" aria-hidden="true"></i> Terms of Service</h1><p>Last updated: January 2026</p></div>
       <div class="legal-page">
-        <div class="legal-section glass">
-          <h2>1. Acceptance of Terms</h2>
-          <p>By accessing and using AnimeForYou, you accept and agree to be bound by these Terms of Service.</p>
-        </div>
-        <div class="legal-section glass">
-          <h2>2. Use License</h2>
-          <p>You may view and browse the site for personal use. You may not reproduce, redistribute, or use the site for commercial purposes.</p>
-        </div>
-        <div class="legal-section glass">
-          <h2>3. Content Disclaimer</h2>
-          <p>AnimeForYou does not host, store, or stream any video content. All anime information is sourced from public APIs and third-party services.</p>
-        </div>
-        <div class="legal-section glass">
-          <h2>4. User Conduct</h2>
-          <p>When using AnimeForYou, you agree to use the site only for lawful purposes and not to attempt to gain unauthorized access or disrupt functionality.</p>
-        </div>
-        <div class="legal-section glass">
-          <h2>5. Limitation of Liability</h2>
-          <p>AnimeForYou is provided "as is" without warranties. We are not responsible for any damages arising from the use of this website.</p>
-        </div>
+        <div class="legal-section glass"><h2>1. Acceptance of Terms</h2><p>By accessing and using AnimeForYou, you accept and agree to be bound by these Terms of Service.</p></div>
+        <div class="legal-section glass"><h2>2. Use License</h2><p>You may view and browse the site for personal use. You may not reproduce, redistribute, or use the site for commercial purposes.</p></div>
+        <div class="legal-section glass"><h2>3. Content Disclaimer</h2><p>AnimeForYou does not host, store, or stream any video content. All anime information is sourced from public APIs and third-party services.</p></div>
+        <div class="legal-section glass"><h2>4. User Conduct</h2><p>When using AnimeForYou, you agree to use the site only for lawful purposes and not to attempt to gain unauthorized access or disrupt functionality.</p></div>
+        <div class="legal-section glass"><h2>5. Limitation of Liability</h2><p>AnimeForYou is provided "as is" without warranties. We are not responsible for any damages arising from the use of this website.</p></div>
       </div>
     </section>
 
-    <!-- ========== DMCA PAGE ========== -->
-    <section class="page" id="page-dmca">
-      <div class="page-header-bar">
-        <h1><i class="fas fa-gavel"></i> DMCA Policy</h1>
-        <p>Digital Millennium Copyright Act</p>
-      </div>
+    <!-- DMCA -->
+    <section class="page" id="page-dmca" aria-label="DMCA Policy">
+      <div class="page-header-bar"><h1><i class="fas fa-gavel" aria-hidden="true"></i> DMCA Policy</h1><p>Digital Millennium Copyright Act</p></div>
       <div class="legal-page">
-        <div class="legal-section glass">
-          <h2>Overview</h2>
-          <p>AnimeForYou respects intellectual property rights. In accordance with the DMCA, we will respond expeditiously to claims of copyright infringement.</p>
-        </div>
-        <div class="legal-section glass">
-          <h2>No Hosting of Content</h2>
-          <p>We do not host, store, or stream any video content. All content is sourced from public APIs and third-party services.</p>
-        </div>
-        <div class="legal-section glass">
-          <h2>Filing a DMCA Notice</h2>
-          <p>If you believe content infringes your copyright, submit a notice with: your signature, identification of the work, location of infringing material, your contact info, and a good faith statement.</p>
-        </div>
-        <div class="legal-section glass">
-          <h2>How to Submit</h2>
-          <p>Open an issue on our GitHub repository with "DMCA" in the title, or contact us through our GitHub profile.</p>
-        </div>
+        <div class="legal-section glass"><h2>Overview</h2><p>AnimeForYou respects intellectual property rights. In accordance with the DMCA, we will respond expeditiously to claims of copyright infringement.</p></div>
+        <div class="legal-section glass"><h2>No Hosting of Content</h2><p>We do not host, store, or stream any video content. All content is sourced from public APIs and third-party services.</p></div>
+        <div class="legal-section glass"><h2>Filing a DMCA Notice</h2><p>If you believe content infringes your copyright, submit a notice with: your signature, identification of the work, location of infringing material, your contact info, and a good faith statement.</p></div>
+        <div class="legal-section glass"><h2>How to Submit</h2><p>Open an issue on our GitHub repository with "DMCA" in the title, or contact us through our GitHub profile.</p></div>
       </div>
     </section>
 
-    <!-- ========== WATCH PAGE ========== -->
-    <section class="page" id="page-watch">
+    <!-- WATCH -->
+    <section class="page" id="page-watch" aria-label="Watch episode">
       <div class="watch-container">
         <div class="watch-header">
-          <a href="#" id="watchBack" class="btn-back"><i class="fas fa-arrow-left"></i> Back</a>
-          <div class="watch-info">
-            <h1 id="watchTitle"></h1>
-            <p id="watchEpisode"></p>
-          </div>
+          <a href="#" id="watchBack" class="btn-back" onclick="return false"><i class="fas fa-arrow-left" aria-hidden="true"></i> Back</a>
+          <div class="watch-info"><h1 id="watchTitle"></h1><p id="watchEpisode"></p></div>
         </div>
         <div class="player-wrapper" id="playerWrapper">
           <div class="video-placeholder" id="videoPlaceholder">
-            <div class="play-icon-large"><i class="fas fa-play"></i></div>
+            <div class="play-icon-large" aria-hidden="true"><i class="fas fa-play"></i></div>
             <p>Video Player</p>
             <p class="subtle" id="playerSource"></p>
           </div>
         </div>
         <div class="player-controls">
-          <div class="server-selector">
+          <div class="server-selector" role="group" aria-label="Server selection">
             <span>Server:</span>
             <button class="server-btn active" onclick="selectServer(0)">Server 1</button>
             <button class="server-btn" onclick="selectServer(1)">Server 2</button>
             <button class="server-btn" onclick="selectServer(2)">Server 3</button>
           </div>
           <div class="player-actions">
-            <button class="btn-player" onclick="toggleTheater()" title="Theater Mode"><i class="fas fa-expand"></i></button>
-            <button class="btn-player" onclick="toggleFullscreen()" title="Fullscreen"><i class="fas fa-fullscreen"></i></button>
+            <button class="btn-player" onclick="toggleTheater()" title="Theater Mode" aria-label="Toggle theater mode"><i class="fas fa-expand" aria-hidden="true"></i></button>
+            <button class="btn-player" onclick="toggleFullscreen()" title="Fullscreen" aria-label="Toggle fullscreen"><i class="fas fa-expand" aria-hidden="true"></i></button>
           </div>
         </div>
-        <div class="episode-nav">
-          <button class="btn-ep-nav" id="prevEpBtn" onclick="prevEpisode()"><i class="fas fa-chevron-left"></i> Previous</button>
-          <div class="episode-selector" id="episodeSelector"></div>
-          <button class="btn-ep-nav" id="nextEpBtn" onclick="nextEpisode()">Next <i class="fas fa-chevron-right"></i></button>
+        <div class="episode-nav" role="navigation" aria-label="Episode navigation">
+          <button class="btn-ep-nav" id="prevEpBtn" onclick="prevEpisode()"><i class="fas fa-chevron-left" aria-hidden="true"></i> Previous</button>
+          <div class="episode-selector" id="episodeSelector" role="group" aria-label="Episode list"></div>
+          <button class="btn-ep-nav" id="nextEpBtn" onclick="nextEpisode()">Next <i class="fas fa-chevron-right" aria-hidden="true"></i></button>
         </div>
         <div class="anime-details-section">
-          <div class="detail-row">
-            <span class="label">Audio:</span>
-            <div class="tag-list" id="watchAudioTags"></div>
-          </div>
-          <div class="detail-row">
-            <span class="label">Subtitles:</span>
-            <div class="tag-list" id="watchSubTags"></div>
-          </div>
+          <div class="detail-row"><span class="label">Audio:</span><div class="tag-list" id="watchAudioTags"></div></div>
+          <div class="detail-row"><span class="label">Subtitles:</span><div class="tag-list" id="watchSubTags"></div></div>
         </div>
-        <div class="section" id="watchRelated">
-          <div class="section-header">
-            <h2>Related Anime</h2>
-          </div>
+        <section class="section" id="watchRelated" aria-label="Related anime">
+          <div class="section-header"><h2>Related Anime</h2></div>
           <div class="anime-row" id="relatedRow"></div>
-        </div>
+        </section>
       </div>
     </section>
 
-    <!-- ========== ANIME DETAIL PAGE ========== -->
-    <section class="page" id="page-detail">
+    <!-- DETAIL -->
+    <section class="page" id="page-detail" aria-label="Anime details">
       <div class="detail-banner" id="detailBanner"></div>
       <div class="detail-page">
         <div class="detail-sidebar">
-          <img id="detailPoster" class="detail-poster" alt="" />
+          <img id="detailPoster" class="detail-poster" alt="" width="280" height="373" />
           <div class="detail-actions">
-            <button class="btn-primary" id="detailPlayBtn" onclick="playFirstEpisode()"><i class="fas fa-play"></i> Watch Now</button>
-            <button class="btn-secondary" id="detailBookmarkBtn" onclick="toggleBookmarkDetail()"><i class="fas fa-bookmark"></i> Bookmark</button>
+            <button class="btn-primary" id="detailPlayBtn" onclick="playFirstEpisode()"><i class="fas fa-play" aria-hidden="true"></i> Watch Now</button>
+            <button class="btn-secondary" id="detailBookmarkBtn" onclick="toggleBookmarkDetail()"><i class="fas fa-bookmark" aria-hidden="true"></i> Bookmark</button>
           </div>
         </div>
         <div class="detail-main">
           <h1 id="detailTitle" class="detail-title"></h1>
           <div class="detail-meta">
-            <span class="rating-badge" id="detailRating"><i class="fas fa-star"></i> <span></span></span>
-            <span class="meta-item" id="detailYear"><i class="fas fa-calendar"></i> <span></span></span>
-            <span class="meta-item" id="detailStatus"><i class="fas fa-circle"></i> <span></span></span>
-            <span class="meta-item" id="detailType"><i class="fas fa-tv"></i> <span></span></span>
+            <span class="rating-badge" id="detailRating"><i class="fas fa-star" aria-hidden="true"></i> <span></span></span>
+            <span class="meta-item" id="detailYear"><i class="fas fa-calendar" aria-hidden="true"></i> <span></span></span>
+            <span class="meta-item" id="detailStatus"><i class="fas fa-circle" aria-hidden="true"></i> <span></span></span>
+            <span class="meta-item" id="detailType"><i class="fas fa-tv" aria-hidden="true"></i> <span></span></span>
           </div>
-          <div class="detail-row">
-            <span class="label">Studio:</span> <span id="detailStudio"></span>
-          </div>
-          <div class="detail-row">
-            <span class="label">Genres:</span>
-            <div class="tag-list" id="detailGenres"></div>
-          </div>
-          <div class="detail-row">
-            <span class="label">Audio:</span>
-            <div class="tag-list" id="detailAudio"></div>
-          </div>
-          <div class="detail-row">
-            <span class="label">Subtitles:</span>
-            <div class="tag-list" id="detailSubs"></div>
-          </div>
-          <div class="detail-synopsis">
-            <h3>Synopsis</h3>
-            <p id="detailSynopsis"></p>
-          </div>
-          <div class="section">
-            <div class="section-header">
-              <h2><i class="fas fa-list"></i> Episodes</h2>
-              <span class="episode-count" id="detailEpisodeCount"></span>
-            </div>
-            <div class="episode-controls">
-              <select id="episodeRange" onchange="renderEpisodes()"></select>
-            </div>
+          <div class="detail-row"><span class="label">Studio:</span> <span id="detailStudio"></span></div>
+          <div class="detail-row"><span class="label">Genres:</span><div class="tag-list" id="detailGenres"></div></div>
+          <div class="detail-row"><span class="label">Audio:</span><div class="tag-list" id="detailAudio"></div></div>
+          <div class="detail-row"><span class="label">Subtitles:</span><div class="tag-list" id="detailSubs"></div></div>
+          <div class="detail-synopsis"><h3>Synopsis</h3><p id="detailSynopsis"></p></div>
+          <section class="section" aria-label="Episodes">
+            <div class="section-header"><h2><i class="fas fa-list" aria-hidden="true"></i> Episodes</h2><span class="episode-count" id="detailEpisodeCount"></span></div>
+            <div class="episode-controls"><select id="episodeRange" onchange="renderEpisodes()" aria-label="Episode range"></select></div>
             <div class="episode-list" id="detailEpisodes"></div>
-          </div>
-          <div class="section" id="detailRelatedSection">
-            <div class="section-header">
-              <h2>Related Anime</h2>
-            </div>
-            <div class="anime-row" id="detailRelated"></div>
-          </div>
-          <div class="section" id="detailRecommendedSection">
-            <div class="section-header">
-              <h2>Recommended</h2>
-            </div>
-            <div class="anime-row" id="detailRecommended"></div>
-          </div>
+          </section>
+          <section class="section" id="detailRelatedSection" aria-label="Related anime"><div class="section-header"><h2>Related Anime</h2></div><div class="anime-row" id="detailRelated"></div></section>
+          <section class="section" id="detailRecommendedSection" aria-label="Recommended anime"><div class="section-header"><h2>Recommended</h2></div><div class="anime-row" id="detailRecommended"></div></section>
         </div>
       </div>
     </section>
-  </div>
+  </main>
 
-  <div class="mobile-nav" id="mobileNav">
-    <a href="#" class="mobile-nav-item active" data-page="home" onclick="navigate('home')"><i class="fas fa-home"></i><span>Home</span></a>
-    <a href="#" class="mobile-nav-item" data-page="trending" onclick="navigate('trending')"><i class="fas fa-fire"></i><span>Trending</span></a>
-    <a href="#" class="mobile-nav-item" data-page="search" onclick="navigate('search')"><i class="fas fa-search"></i><span>Search</span></a>
-    <a href="#" class="mobile-nav-item" data-page="bookmarks" onclick="navigate('bookmarks')"><i class="fas fa-bookmark"></i><span>Bookmarks</span></a>
-    <a href="#" class="mobile-nav-item" data-page="latest" onclick="navigate('latest')"><i class="fas fa-clock"></i><span>Latest</span></a>
-  </div>
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+    <a href="#" class="mobile-nav-item active" data-page="home" onclick="navigate('home');return false"><i class="fas fa-home" aria-hidden="true"></i><span>Home</span></a>
+    <a href="#" class="mobile-nav-item" data-page="trending" onclick="navigate('trending');return false"><i class="fas fa-fire" aria-hidden="true"></i><span>Trending</span></a>
+    <a href="#" class="mobile-nav-item" data-page="search" onclick="navigate('search');return false"><i class="fas fa-search" aria-hidden="true"></i><span>Search</span></a>
+    <a href="#" class="mobile-nav-item" data-page="bookmarks" onclick="navigate('bookmarks');return false"><i class="fas fa-bookmark" aria-hidden="true"></i><span>Bookmarks</span></a>
+    <a href="#" class="mobile-nav-item" data-page="latest" onclick="navigate('latest');return false"><i class="fas fa-clock" aria-hidden="true"></i><span>Latest</span></a>
+  </nav>
 
-  <footer>
+  <footer role="contentinfo">
     <div class="footer-container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <a href="#" class="logo" onclick="navigate('home')"><span class="logo-icon"><i class="fas fa-play"></i></span> Anime<span class="accent">ForYou</span></a>
+          <a href="#" class="logo" onclick="navigate('home');return false"><span class="logo-icon" aria-hidden="true"><i class="fas fa-play"></i></span> Anime<span class="accent">ForYou</span></a>
           <p>Your ultimate destination for watching anime online for free.</p>
-          <div class="social-links">
-            <a href="https://github.com/Goku863/Animeforyou" target="_blank"><i class="fab fa-github"></i></a>
-          </div>
+          <div class="social-links"><a href="https://github.com/Goku863/Animeforyou" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a></div>
         </div>
-        <div class="footer-links">
-          <h4>Quick Links</h4>
-          <ul>
-            <li><a href="#" onclick="navigate('home')"><i class="fas fa-home"></i> Home</a></li>
-            <li><a href="#" onclick="navigate('trending')"><i class="fas fa-fire"></i> Trending</a></li>
-            <li><a href="#" onclick="navigate('latest')"><i class="fas fa-clock"></i> Latest</a></li>
-            <li><a href="#" onclick="navigate('az')"><i class="fas fa-sort-alpha-down"></i> A-Z List</a></li>
-            <li><a href="#" onclick="navigate('categories')"><i class="fas fa-th-large"></i> Categories</a></li>
-          </ul>
-        </div>
-        <div class="footer-links">
-          <h4>Legal</h4>
-          <ul>
-            <li><a href="#" onclick="navigate('about')"><i class="fas fa-info-circle"></i> About</a></li>
-            <li><a href="#" onclick="navigate('privacy')"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
-            <li><a href="#" onclick="navigate('terms')"><i class="fas fa-file-contract"></i> Terms of Service</a></li>
-            <li><a href="#" onclick="navigate('dmca')"><i class="fas fa-gavel"></i> DMCA</a></li>
-            <li><a href="#" onclick="navigate('contact')"><i class="fas fa-envelope"></i> Contact</a></li>
-          </ul>
-        </div>
-        <div class="footer-links">
-          <h4>Categories</h4>
-          <ul id="footerCategories"></ul>
-        </div>
+        <div class="footer-links"><h4>Quick Links</h4><ul><li><a href="#" onclick="navigate('home');return false"><i class="fas fa-home" aria-hidden="true"></i> Home</a></li><li><a href="#" onclick="navigate('trending');return false"><i class="fas fa-fire" aria-hidden="true"></i> Trending</a></li><li><a href="#" onclick="navigate('latest');return false"><i class="fas fa-clock" aria-hidden="true"></i> Latest</a></li><li><a href="#" onclick="navigate('az');return false"><i class="fas fa-sort-alpha-down" aria-hidden="true"></i> A-Z List</a></li><li><a href="#" onclick="navigate('categories');return false"><i class="fas fa-th-large" aria-hidden="true"></i> Categories</a></li></ul></div>
+        <div class="footer-links"><h4>Legal</h4><ul><li><a href="#" onclick="navigate('about');return false"><i class="fas fa-info-circle" aria-hidden="true"></i> About</a></li><li><a href="#" onclick="navigate('privacy');return false"><i class="fas fa-shield-alt" aria-hidden="true"></i> Privacy Policy</a></li><li><a href="#" onclick="navigate('terms');return false"><i class="fas fa-file-contract" aria-hidden="true"></i> Terms of Service</a></li><li><a href="#" onclick="navigate('dmca');return false"><i class="fas fa-gavel" aria-hidden="true"></i> DMCA</a></li><li><a href="#" onclick="navigate('contact');return false"><i class="fas fa-envelope" aria-hidden="true"></i> Contact</a></li></ul></div>
+        <div class="footer-links"><h4>Categories</h4><ul id="footerCategories"></ul></div>
       </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 AnimeForYou. All rights reserved.</p>
-        <p>Built with <i class="fas fa-heart" style="color:var(--accent)"></i> for anime fans</p>
-      </div>
+      <div class="footer-bottom"><p>&copy; 2026 AnimeForYou. All rights reserved.</p><p>Built with <i class="fas fa-heart" style="color:var(--accent)" aria-hidden="true"></i> for anime fans</p></div>
     </div>
   </footer>
 
-  <div class="toast-container" id="toastContainer"></div>
+  <div class="toast-container" id="toastContainer" role="status" aria-live="polite"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="api.js"></script>
   <script>
-    const CATEGORIES = ['Action','Adventure','Comedy','Drama','Fantasy','Romance','Horror','Sci-Fi','Sports','Slice of Life'];
-    const GENRE_COLORS = {Action:'#ef4444',Adventure:'#f97316',Comedy:'#eab308',Drama:'#a855f7',Fantasy:'#6366f1',Romance:'#ec4899',Horror:'#7f1d1d','Sci-Fi':'#06b6d4',Sports:'#22c55e','Slice of Life':'#84cc16'};
+    'use strict';
+    const CATEGORIES=['Action','Adventure','Comedy','Drama','Fantasy','Romance','Horror','Sci-Fi','Sports','Slice of Life'];
+    const GENRE_COLORS={Action:'#ef4444',Adventure:'#f97316',Comedy:'#eab308',Drama:'#a855f7',Fantasy:'#6366f1',Romance:'#ec4899',Horror:'#7f1d1d','Sci-Fi':'#06b6d4',Sports:'#22c55e','Slice of Life':'#84cc16'};
+    const CATEGORY_ICONS={Action:'bolt',Adventure:'compass',Comedy:'laugh',Drama:'theater-masks',Fantasy:'dragon',Romance:'heart',Horror:'ghost','Sci-Fi':'rocket',Sports:'futbol','Slice of Life':'coffee'};
+    const prefersReducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    let allAnime = [];
-    let currentPage = 'home';
-    let currentDetail = null;
-    let currentEpisode = 0;
-    let currentAnimeEpisodes = [];
-    let heroIndex = 0;
-    let heroInterval = null;
-    let bookmarkedIds = JSON.parse(localStorage.getItem('afy_bookmarks')||'[]');
-    let watchHistory = JSON.parse(localStorage.getItem('afy_history')||'[]');
-    let searchResults = [];
+    let allAnime=[];
+    let currentPage='home';
+    let currentDetail=null;
+    let currentEpisode=0;
+    let currentAnimeEpisodes=[];
+    let heroIndex=0;
+    let heroInterval=null;
+    let bookmarkedIds=JSON.parse(localStorage.getItem('afy_bookmarks')||'[]');
+    let watchHistory=JSON.parse(localStorage.getItem('afy_history')||'[]');
+    let searchResults=[];
+    let scrollTriggers=[];
 
-    // --- Init ---
-    document.addEventListener('DOMContentLoaded', () => {
-      allAnime = getSeedData();
-      initParticles();
+    function sanitize(str){const d=document.createElement('div');d.textContent=str;return d.innerHTML;}
+    function getGenreIcon(c){return CATEGORY_ICONS[c]||'tag';}
+
+    document.addEventListener('DOMContentLoaded',()=>{
+      allAnime=getSeedData();
+      if(!prefersReducedMotion)initParticles();
       initHero();
       renderHome();
       initNavScroll();
@@ -600,492 +394,439 @@
       gsap.registerPlugin(ScrollTrigger);
     });
 
+    window.addEventListener('beforeunload',()=>{if(heroInterval)clearInterval(heroInterval);});
+
     // --- Navigation ---
-    function navigate(page, data) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.nav-link,.mobile-nav-item').forEach(l => l.classList.remove('active'));
-      document.querySelectorAll(`[data-page="${page}"]`).forEach(l => l.classList.add('active'));
-      const el = document.getElementById('page-'+page);
-      if(el) el.classList.add('active');
-      currentPage = page;
-      window.scrollTo({top:0,behavior:'smooth'});
-      const nav = document.getElementById('navLinks');
-      if(nav) nav.classList.remove('open');
-
-      if(page==='home') renderHome();
-      else if(page==='trending') renderTrending();
-      else if(page==='latest') renderLatest();
-      else if(page==='az') renderAZ();
-      else if(page==='categories') renderCategories(data);
-      else if(page==='search') document.getElementById('searchInput').focus();
-      else if(page==='bookmarks') renderBookmarks();
-      else if(page==='detail') showDetail(data);
-      else if(page==='watch') initWatch(data);
+    function navigate(page,data){
+      document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+      document.querySelectorAll('.nav-link,.mobile-nav-item').forEach(l=>l.classList.remove('active'));
+      document.querySelectorAll('[data-page="'+page+'"]').forEach(l=>l.classList.add('active'));
+      const el=document.getElementById('page-'+page);
+      if(el)el.classList.add('active');
+      currentPage=page;
+      window.scrollTo({top:0,behavior:prefersReducedMotion?'auto':'smooth'});
+      const nav=document.getElementById('navLinks');
+      if(nav)nav.classList.remove('open');
+      const menuBtn=document.getElementById('mobileMenuBtn');
+      if(menuBtn)menuBtn.setAttribute('aria-expanded','false');
+      clearScrollTriggers();
+      if(page==='home')renderHome();
+      else if(page==='trending')renderTrending();
+      else if(page==='latest')renderLatest();
+      else if(page==='az')renderAZ();
+      else if(page==='categories')renderCategories(data);
+      else if(page==='search'){document.getElementById('searchInput').focus();}
+      else if(page==='bookmarks')renderBookmarks();
+      else if(page==='detail')showDetail(data);
+      else if(page==='watch')initWatch(data);
     }
 
-    function initNavScroll() {
-      window.addEventListener('scroll', () => {
-        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
-      });
+    function initNavScroll(){
+      let ticking=false;
+      window.addEventListener('scroll',()=>{
+        if(!ticking){requestAnimationFrame(()=>{document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50);ticking=false;});ticking=true;}
+      },{passive:true});
     }
 
-    function toggleMobileMenu() {
-      document.getElementById('navLinks').classList.toggle('open');
+    function toggleMobileMenu(){
+      const nav=document.getElementById('navLinks');
+      const btn=document.getElementById('mobileMenuBtn');
+      nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded',nav.classList.contains('open'));
     }
 
     // --- Particles ---
-    function initParticles() {
-      const canvas = document.getElementById('particleCanvas');
-      const ctx = canvas.getContext('2d');
-      let particles = [];
-      function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    function initParticles(){
+      const canvas=document.getElementById('particleCanvas');
+      const ctx=canvas.getContext('2d');
+      let particles=[];
+      let animId;
+      function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
       resize();
-      window.addEventListener('resize', resize);
-      for(let i = 0; i < 60; i++) particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-0.5)*0.5,vy:(Math.random()-0.5)*0.5,r:Math.random()*2+1});
-      function draw() {
+      window.addEventListener('resize',resize);
+      for(let i=0;i<50;i++)particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-0.5)*0.4,vy:(Math.random()-0.5)*0.4,r:Math.random()*1.5+0.5});
+      function draw(){
         ctx.clearRect(0,0,canvas.width,canvas.height);
-        particles.forEach(p => {
-          ctx.beginPath();
-          ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-          ctx.fillStyle = 'rgba(249,115,22,0.15)';
-          ctx.fill();
-          p.x += p.vx; p.y += p.vy;
-          if(p.x<0||p.x>canvas.width) p.vx*=-1;
-          if(p.y<0||p.y>canvas.height) p.vy*=-1;
-        });
-        requestAnimationFrame(draw);
+        particles.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(249,115,22,0.12)';ctx.fill();p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>canvas.width)p.vx*=-1;if(p.y<0||p.y>canvas.height)p.vy*=-1;});
+        animId=requestAnimationFrame(draw);
       }
       draw();
+      document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(animId);}else{animId=requestAnimationFrame(draw);}});
     }
 
     // --- Hero ---
-    function initHero() {
-      const featured = allAnime.filter(a => a.rating >= 8.5).slice(0, 5);
-      const slider = document.getElementById('heroSlider');
-      const dots = document.getElementById('heroDots');
-      slider.innerHTML = featured.map(a => `<div class="hero-slide" style="background-image:url('${a.banner}')"></div>`).join('');
-      dots.innerHTML = featured.map((_,i) => `<span class="hero-dot ${i===0?'active':''}" onclick="heroGoTo(${i})"></span>`).join('');
-      heroIndex = 0;
+    function initHero(){
+      const featured=allAnime.filter(a=>a.rating>=8.5).slice(0,5);
+      const slider=document.getElementById('heroSlider');
+      const dots=document.getElementById('heroDots');
+      slider.innerHTML=featured.map(a=>'<div class="hero-slide" style="background-image:url(\''+sanitize(a.banner)+'\')"></div>').join('');
+      dots.innerHTML=featured.map((_,i)=>'<button class="hero-dot'+(i===0?' active':'')+'" role="tab" aria-selected="'+(i===0)+'" aria-label="Slide '+(i+1)+'" onclick="heroGoTo('+i+')"></button>').join('');
+      heroIndex=0;
       updateHero();
-      heroInterval = setInterval(() => heroSlide(1), 6000);
+      heroInterval=setInterval(()=>heroSlide(1),6000);
     }
 
-    function heroSlide(dir) {
-      const total = document.querySelectorAll('.hero-slide').length;
-      heroIndex = (heroIndex + dir + total) % total;
+    function heroSlide(dir){
+      const total=document.querySelectorAll('.hero-slide').length;
+      heroIndex=(heroIndex+dir+total)%total;
       updateHero();
     }
 
-    function heroGoTo(i) {
-      heroIndex = i;
+    function heroGoTo(i){
+      heroIndex=i;
       updateHero();
       clearInterval(heroInterval);
-      heroInterval = setInterval(() => heroSlide(1), 6000);
+      heroInterval=setInterval(()=>heroSlide(1),6000);
     }
 
-    function updateHero() {
-      const slides = document.querySelectorAll('.hero-slide');
-      const dots = document.querySelectorAll('.hero-dot');
-      const featured = allAnime.filter(a => a.rating >= 8.5).slice(0, 5);
-      slides.forEach((s,i) => s.classList.toggle('active', i===heroIndex));
-      dots.forEach((d,i) => d.classList.toggle('active', i===heroIndex));
-      const a = featured[heroIndex];
-      if(!a) return;
-      const content = document.getElementById('heroContent');
-      content.innerHTML = `
-        <span class="hero-badge"><i class="fas fa-fire"></i> Featured</span>
-        <h1>${a.title}</h1>
-        <p class="hero-meta">${a.year} &bull; ${a.studio} &bull; <i class="fas fa-star" style="color:var(--accent)"></i> ${a.rating}</p>
-        <p class="hero-desc">${a.synopsis.substring(0,150)}...</p>
-        <div class="hero-actions">
-          <button class="btn-primary btn-lg" onclick="navigate('detail','${a.id}')"><i class="fas fa-play"></i> Watch Now</button>
-          <button class="btn-secondary btn-lg" onclick="navigate('detail','${a.id}')"><i class="fas fa-info-circle"></i> Details</button>
-        </div>`;
-      gsap.fromTo('#heroContent > *', {opacity:0, y:30}, {opacity:1, y:0, duration:0.6, stagger:0.1});
+    function updateHero(){
+      const slides=document.querySelectorAll('.hero-slide');
+      const dots=document.querySelectorAll('.hero-dot');
+      const featured=allAnime.filter(a=>a.rating>=8.5).slice(0,5);
+      slides.forEach((s,i)=>s.classList.toggle('active',i===heroIndex));
+      dots.forEach((d,i)=>{d.classList.toggle('active',i===heroIndex);d.setAttribute('aria-selected',i===heroIndex);});
+      const a=featured[heroIndex];
+      if(!a)return;
+      const content=document.getElementById('heroContent');
+      content.innerHTML='<span class="hero-badge"><i class="fas fa-fire" aria-hidden="true"></i> Featured</span><h2>'+sanitize(a.title)+'</h2><p class="hero-meta">'+a.year+' &bull; '+sanitize(a.studio)+' &bull; <i class="fas fa-star" style="color:var(--accent)" aria-hidden="true"></i> '+a.rating+'</p><p class="hero-desc">'+sanitize(a.synopsis.substring(0,150))+'...</p><div class="hero-actions"><button class="btn-primary btn-lg" onclick="navigate(\'detail\',\''+sanitize(a.id)+'\')"><i class="fas fa-play" aria-hidden="true"></i> Watch Now</button><button class="btn-secondary btn-lg" onclick="navigate(\'detail\',\''+sanitize(a.id)+'\')"><i class="fas fa-info-circle" aria-hidden="true"></i> Details</button></div>';
+      if(!prefersReducedMotion)gsap.fromTo('#heroContent > *',{opacity:0,y:25},{opacity:1,y:0,duration:0.5,stagger:0.08});
+    }
+
+    // --- Scroll Animation ---
+    function clearScrollTriggers(){scrollTriggers.forEach(st=>st.kill());scrollTriggers=[];ScrollTrigger.getAll().forEach(st=>st.kill());}
+
+    function animateOnScroll(){
+      if(prefersReducedMotion)return;
+      setTimeout(()=>{
+        gsap.utils.toArray('.anime-card').forEach(card=>{
+          const st=gsap.fromTo(card,{opacity:0,y:25},{opacity:1,y:0,duration:0.35,scrollTrigger:{trigger:card,start:'top 92%',toggleActions:'play none none none'}});
+          scrollTriggers.push(st);
+        });
+      },50);
     }
 
     // --- Home ---
-    function renderHome() {
-      const featured = allAnime.filter(a => a.rating >= 8.5).slice(0, 8);
-      const trending = [...allAnime].sort((a,b) => b.trending - a.trending).slice(0, 12);
-      const latest = [...allAnime].sort((a,b) => b.id.localeCompare(a.id)).slice(0, 12);
-      const recent = [...allAnime].sort((a,b) => b.id.localeCompare(a.id)).slice(0, 8);
-      const continueWatching = watchHistory.slice(0, 10).map(h => allAnime.find(a => a.id === h.id)).filter(Boolean);
-
-      renderAnimeGrid('featuredGrid', featured);
-      renderAnimeRow('trendingRow', trending);
-      renderAnimeGrid('latestGrid', latest);
-      renderAnimeGrid('recentGrid', recent);
-      renderContinueWatching('continueRow', continueWatching);
+    function renderHome(){
+      const featured=allAnime.filter(a=>a.rating>=8.5).slice(0,8);
+      const trending=[...allAnime].sort((a,b)=>b.trending-a.trending).slice(0,12);
+      const latest=[...allAnime].sort((a,b)=>b.id.localeCompare(a.id)).slice(0,12);
+      const recent=[...allAnime].sort((a,b)=>b.id.localeCompare(a.id)).slice(0,8);
+      const continueWatching=watchHistory.slice(0,10).map(h=>allAnime.find(a=>a.id===h.id)).filter(Boolean);
+      renderAnimeGrid('featuredGrid',featured);
+      renderAnimeRow('trendingRow',trending);
+      renderAnimeGrid('latestGrid',latest);
+      renderAnimeGrid('recentGrid',recent);
+      renderContinueWatching('continueRow',continueWatching);
       renderHomeCategories();
       animateOnScroll();
     }
 
-    function renderHomeCategories() {
-      const grid = document.getElementById('homeCategoryGrid');
-      grid.innerHTML = CATEGORIES.map(c => `
-        <a href="#" class="category-card glass" onclick="navigate('categories','${c}')">
-          <div class="category-icon" style="background:${GENRE_COLORS[c]||'var(--accent)'}"><i class="fas fa-${getCategoryIcon(c)}"></i></div>
-          <span>${c}</span>
-          <span class="cat-count">${allAnime.filter(a=>a.genres.includes(c)).length} anime</span>
-        </a>`).join('');
-      const footerCats = document.getElementById('footerCategories');
-      if(footerCats) footerCats.innerHTML = CATEGORIES.slice(0,6).map(c => `<li><a href="#" onclick="navigate('categories','${c}')"><i class="fas fa-tag"></i> ${c}</a></li>`).join('');
+    function renderHomeCategories(){
+      const grid=document.getElementById('homeCategoryGrid');
+      grid.innerHTML=CATEGORIES.map(c=>'<a href="#" class="category-card glass" onclick="navigate(\'categories\',\''+sanitize(c)+'\');return false"><div class="category-icon" style="background:'+(GENRE_COLORS[c]||'var(--accent)')+'"><i class="fas fa-'+getGenreIcon(c)+'" aria-hidden="true"></i></div><span>'+sanitize(c)+'</span><span class="cat-count">'+allAnime.filter(a=>a.genres.includes(c)).length+' anime</span></a>').join('');
+      const footerCats=document.getElementById('footerCategories');
+      if(footerCats)footerCats.innerHTML=CATEGORIES.slice(0,6).map(c=>'<li><a href="#" onclick="navigate(\'categories\',\''+sanitize(c)+'\');return false"><i class="fas fa-tag" aria-hidden="true"></i> '+sanitize(c)+'</a></li>').join('');
     }
 
-    function getCategoryIcon(c) {
-      const icons = {Action:'bolt',Adventure:'compass',Comedy:'laugh',Drama:'theater-masks',Fantasy:'dragon',Romance:'heart',Horror:'ghost',Sci-Fi:'rocket',Sports:'futbol','Slice of Life':'coffee'};
-      return icons[c] || 'tag';
+    function renderAnimeGrid(id,items){
+      const grid=document.getElementById(id);
+      if(!grid)return;
+      grid.innerHTML=items.map(a=>createAnimeCard(a)).join('');
     }
 
-    function renderAnimeGrid(id, items) {
-      const grid = document.getElementById(id);
-      if(!grid) return;
-      grid.innerHTML = items.map(a => createAnimeCard(a)).join('');
+    function renderAnimeRow(id,items){
+      const row=document.getElementById(id);
+      if(!row)return;
+      row.innerHTML=items.map(a=>createAnimeCard(a)).join('');
     }
 
-    function renderAnimeRow(id, items) {
-      const row = document.getElementById(id);
-      if(!row) return;
-      row.innerHTML = items.map(a => createAnimeCard(a)).join('');
-    }
-
-    function renderContinueWatching(id, items) {
-      const row = document.getElementById(id);
-      if(!row) return;
-      if(!items.length) { row.innerHTML = '<p class="subtle">Start watching anime to see your history here</p>'; return; }
-      row.innerHTML = items.map(a => {
-        const hist = watchHistory.find(h => h.id === a.id);
-        const progress = hist ? Math.round((hist.ep / a.totalEpisodes) * 100) : 0;
-        return `<div class="anime-card" onclick="navigate('detail','${a.id}')">
-          <div class="card-poster"><img src="${a.poster}" alt="${a.title}" loading="lazy" /><div class="card-overlay"><span class="play-btn"><i class="fas fa-play"></i></span></div>
-          <div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div></div>
-          <div class="card-info"><h3>${a.title}</h3><p>Ep ${hist?hist.ep:a.totalEpisodes} / ${a.totalEpisodes}</p></div></div>`;
+    function renderContinueWatching(id,items){
+      const row=document.getElementById(id);
+      if(!row)return;
+      if(!items.length){row.innerHTML='<p class="subtle">Start watching anime to see your history here</p>';return;}
+      row.innerHTML=items.map(a=>{
+        const hist=watchHistory.find(h=>h.id===a.id);
+        const progress=hist?Math.round((hist.ep/a.totalEpisodes)*100):0;
+        return '<div class="anime-card" onclick="navigate(\'detail\',\''+sanitize(a.id)+'\')"><div class="card-poster"><img src="'+sanitize(a.poster)+'" alt="'+sanitize(a.title)+'" width="200" height="267" loading="lazy" /><div class="card-overlay"><span class="play-btn"><i class="fas fa-play" aria-hidden="true"></i></span></div><div class="progress-bar"><div class="progress-fill" style="width:'+progress+'%"></div></div></div><div class="card-info"><h3>'+sanitize(a.title)+'</h3><p>Ep '+(hist?hist.ep:a.totalEpisodes)+' / '+a.totalEpisodes+'</p></div></div>';
       }).join('');
     }
 
     // --- Card HTML ---
-    function createAnimeCard(a) {
-      return `<div class="anime-card" onclick="navigate('detail','${a.id}')">
-        <div class="card-poster">
-          <img src="${a.poster}" alt="${a.title}" loading="lazy" />
-          <div class="card-overlay">
-            <span class="play-btn"><i class="fas fa-play"></i></span>
-            <button class="bookmark-btn ${bookmarkedIds.includes(a.id)?'active':''}" onclick="event.stopPropagation();toggleBookmark('${a.id}')"><i class="fas fa-bookmark"></i></button>
-          </div>
-          <span class="card-badge">${a.type}</span>
-          ${a.rating >= 9 ? '<span class="card-hot"><i class="fas fa-fire"></i></span>' : ''}
-        </div>
-        <div class="card-info">
-          <h3>${a.title}</h3>
-          <div class="card-meta">
-            <span><i class="fas fa-star" style="color:var(--accent)"></i> ${a.rating}</span>
-            <span>${a.totalEpisodes} eps</span>
-          </div>
-          <div class="card-tags">${a.genres.slice(0,2).map(g=>`<span class="tag" style="--tag-color:${GENRE_COLORS[g]||'var(--accent)'}">${g}</span>`).join('')}</div>
-        </div></div>`;
+    function createAnimeCard(a){
+      return '<div class="anime-card" onclick="navigate(\'detail\',\''+sanitize(a.id)+'\')"><div class="card-poster"><img src="'+sanitize(a.poster)+'" alt="'+sanitize(a.title)+'" width="200" height="267" loading="lazy" /><div class="card-overlay"><span class="play-btn"><i class="fas fa-play" aria-hidden="true"></i></span><button class="bookmark-btn'+(bookmarkedIds.includes(a.id)?' active':'')+'" onclick="event.stopPropagation();toggleBookmark(\''+sanitize(a.id)+'\')" aria-label="Bookmark '+sanitize(a.title)+'"><i class="fas fa-bookmark" aria-hidden="true"></i></button></div><span class="card-badge">'+sanitize(a.type)+'</span>'+(a.rating>=9?'<span class="card-hot"><i class="fas fa-fire" aria-hidden="true"></i></span>':'')+'</div><div class="card-info"><h3>'+sanitize(a.title)+'</h3><div class="card-meta"><span><i class="fas fa-star" style="color:var(--accent)" aria-hidden="true"></i> '+a.rating+'</span><span>'+a.totalEpisodes+' eps</span></div><div class="card-tags">'+a.genres.slice(0,2).map(g=>'<span class="tag" style="--tag-color:'+(GENRE_COLORS[g]||'var(--accent)')+'">'+sanitize(g)+'</span>').join('')+'</div></div></div>';
     }
 
     // --- Trending ---
-    function renderTrending() {
-      const genre = document.getElementById('trendingFilter').value;
-      const sort = document.getElementById('trendingSort').value;
-      let items = [...allAnime];
-      if(genre !== 'all') items = items.filter(a => a.genres.includes(genre));
-      if(sort === 'trending') items.sort((a,b) => b.trending - a.trending);
-      else if(sort === 'rating') items.sort((a,b) => b.rating - a.rating);
-      else if(sort === 'newest') items.sort((a,b) => b.year - a.year);
-      else if(sort === 'az') items.sort((a,b) => a.title.localeCompare(b.title));
-      renderAnimeGrid('trendingGrid', items);
+    function renderTrending(){
+      const genre=document.getElementById('trendingFilter').value;
+      const sort=document.getElementById('trendingSort').value;
+      let items=[...allAnime];
+      if(genre!=='all')items=items.filter(a=>a.genres.includes(genre));
+      if(sort==='trending')items.sort((a,b)=>b.trending-a.trending);
+      else if(sort==='rating')items.sort((a,b)=>b.rating-a.rating);
+      else if(sort==='newest')items.sort((a,b)=>b.year-a.year);
+      else if(sort==='az')items.sort((a,b)=>a.title.localeCompare(b.title));
+      renderAnimeGrid('trendingGrid',items);
       populateFilter('trendingFilter');
       animateOnScroll();
     }
 
-    // --- Latest ---
-    function renderLatest() {
-      renderAnimeGrid('latestFullGrid', allAnime);
-      animateOnScroll();
-    }
+    function renderLatest(){renderAnimeGrid('latestFullGrid',allAnime);animateOnScroll();}
 
     // --- A-Z ---
-    function renderAZ() {
-      const nav = document.getElementById('azNav');
-      const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-      nav.innerHTML = letters.map(l => `<button class="az-letter" onclick="filterAZ('${l}')">${l}</button>`).join('') + `<button class="az-letter" onclick="filterAZ('0')">#</button>`;
-      renderAnimeGrid('azGrid', [...allAnime].sort((a,b) => a.title.localeCompare(b.title)));
+    function renderAZ(){
+      const nav=document.getElementById('azNav');
+      const letters='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+      nav.innerHTML=letters.map(l=>'<button class="az-letter" onclick="filterAZ(this,\''+l+'\')">'+l+'</button>').join('')+'<button class="az-letter" onclick="filterAZ(this,\'0\')">#</button>';
+      renderAnimeGrid('azGrid',[...allAnime].sort((a,b)=>a.title.localeCompare(b.title)));
       animateOnScroll();
     }
 
-    function filterAZ(letter) {
-      document.querySelectorAll('.az-letter').forEach(b => b.classList.remove('active'));
-      event.target.classList.add('active');
-      const filtered = allAnime.filter(a => {
-        if(letter === '0') return !/^[a-zA-Z]/.test(a.title);
-        return a.title.toUpperCase().startsWith(letter);
-      });
-      renderAnimeGrid('azGrid', filtered);
+    function filterAZ(btn,letter){
+      document.querySelectorAll('.az-letter').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const filtered=allAnime.filter(a=>{if(letter==='0')return!/^[a-zA-Z]/.test(a.title);return a.title.toUpperCase().startsWith(letter);});
+      renderAnimeGrid('azGrid',filtered);
     }
 
     // --- Categories ---
-    function renderCategories(genre) {
-      if(genre) {
-        const filtered = allAnime.filter(a => a.genres.includes(genre));
-        document.getElementById('categoriesGrid').parentElement.querySelector('.page-header-bar').style.display = 'none';
-        document.getElementById('categoriesGrid').style.display = 'none';
-        const section = document.getElementById('categoryAnimeSection');
-        section.style.display = 'block';
-        document.getElementById('categoryTitle').textContent = genre + ' Anime';
-        renderAnimeGrid('categoryAnimeGrid', filtered);
-      } else {
-        document.getElementById('categoriesGrid').parentElement.querySelector('.page-header-bar').style.display = '';
-        document.getElementById('categoriesGrid').style.display = '';
-        document.getElementById('categoryAnimeSection').style.display = 'none';
-        const grid = document.getElementById('categoriesGrid');
-        grid.innerHTML = CATEGORIES.map(c => `
-          <a href="#" class="category-card glass" onclick="navigate('categories','${c}')">
-            <div class="category-icon" style="background:${GENRE_COLORS[c]||'var(--accent)'}"><i class="fas fa-${getCategoryIcon(c)}"></i></div>
-            <span>${c}</span>
-            <span class="cat-count">${allAnime.filter(a=>a.genres.includes(c)).length} anime</span>
-          </a>`).join('');
+    function renderCategories(genre){
+      const pageBar=document.getElementById('page-categories').querySelector('.page-header-bar');
+      const categoriesGrid=document.getElementById('categoriesGrid');
+      const section=document.getElementById('categoryAnimeSection');
+      if(genre){
+        if(pageBar)pageBar.style.display='none';
+        categoriesGrid.style.display='none';
+        section.style.display='block';
+        document.getElementById('categoryTitle').textContent=genre+' Anime';
+        renderAnimeGrid('categoryAnimeGrid',allAnime.filter(a=>a.genres.includes(genre)));
+      }else{
+        if(pageBar)pageBar.style.display='';
+        categoriesGrid.style.display='';
+        section.style.display='none';
+        categoriesGrid.innerHTML=CATEGORIES.map(c=>'<a href="#" class="category-card glass" onclick="navigate(\'categories\',\''+sanitize(c)+'\');return false"><div class="category-icon" style="background:'+(GENRE_COLORS[c]||'var(--accent)')+'"><i class="fas fa-'+getGenreIcon(c)+'" aria-hidden="true"></i></div><span>'+sanitize(c)+'</span><span class="cat-count">'+allAnime.filter(a=>a.genres.includes(c)).length+' anime</span></a>').join('');
       }
       animateOnScroll();
     }
 
     // --- Search ---
-    function initSearchListeners() {
-      const input = document.getElementById('searchInput');
-      const suggestions = document.getElementById('searchSuggestions');
+    function initSearchListeners(){
+      const input=document.getElementById('searchInput');
+      const suggestions=document.getElementById('searchSuggestions');
       let debounce;
-      input.addEventListener('input', () => {
+      input.addEventListener('input',()=>{
         clearTimeout(debounce);
-        debounce = setTimeout(() => {
-          const q = input.value.trim().toLowerCase();
-          if(q.length < 2) { suggestions.style.display = 'none'; return; }
-          const matches = allAnime.filter(a => a.title.toLowerCase().includes(q) || a.genres.some(g=>g.toLowerCase().includes(q))).slice(0,6);
-          if(!matches.length) { suggestions.style.display = 'none'; return; }
-          suggestions.innerHTML = matches.map(a => `<div class="suggestion-item" onclick="navigate('detail','${a.id}')"><img src="${a.poster}" /><span>${a.title}</span></div>`).join('');
-          suggestions.style.display = 'block';
-        }, 200);
+        debounce=setTimeout(()=>{
+          const q=input.value.trim().toLowerCase();
+          if(q.length<2){suggestions.style.display='none';return;}
+          const matches=allAnime.filter(a=>a.title.toLowerCase().includes(q)||a.genres.some(g=>g.toLowerCase().includes(q))).slice(0,6);
+          if(!matches.length){suggestions.style.display='none';return;}
+          suggestions.innerHTML=matches.map(a=>'<div class="suggestion-item" role="option" onclick="navigate(\'detail\',\''+sanitize(a.id)+'\')"><img src="'+sanitize(a.poster)+'" alt="" width="32" height="44" loading="lazy" /><span>'+sanitize(a.title)+'</span></div>').join('');
+          suggestions.style.display='block';
+        },200);
       });
-      input.addEventListener('keydown', (e) => {
-        if(e.key === 'Enter') {
-          e.preventDefault();
-          suggestions.style.display = 'none';
-          performSearch(input.value.trim());
-        }
-      });
-      document.addEventListener('click', (e) => { if(!e.target.closest('.search-box')) suggestions.style.display = 'none'; });
+      input.addEventListener('keydown',(e)=>{if(e.key==='Enter'){e.preventDefault();suggestions.style.display='none';performSearch(input.value.trim());}});
+      document.addEventListener('click',(e)=>{if(!e.target.closest('.search-box'))suggestions.style.display='none';});
     }
 
-    function performSearch(q) {
-      if(!q) return;
-      searchResults = allAnime.filter(a => a.title.toLowerCase().includes(q.toLowerCase()) || a.synopsis.toLowerCase().includes(q.toLowerCase()) || a.genres.some(g=>g.toLowerCase().includes(q.toLowerCase())));
-      document.getElementById('searchResultCount').textContent = `Found ${searchResults.length} results for "${q}"`;
+    function performSearch(q){
+      if(!q)return;
+      searchResults=allAnime.filter(a=>a.title.toLowerCase().includes(q.toLowerCase())||a.synopsis.toLowerCase().includes(q.toLowerCase())||a.genres.some(g=>g.toLowerCase().includes(q.toLowerCase())));
+      document.getElementById('searchResultCount').textContent='Found '+searchResults.length+' results for "'+sanitize(q)+'"';
       navigate('search');
-      renderAnimeGrid('searchGrid', searchResults);
+      renderAnimeGrid('searchGrid',searchResults);
       populateFilter('searchGenreFilter');
+      populateYearFilter('searchYearFilter');
       animateOnScroll();
     }
 
-    function filterSearchResults() {
-      let items = [...searchResults];
-      const genre = document.getElementById('searchGenreFilter').value;
-      const year = document.getElementById('searchYearFilter').value;
-      const rating = document.getElementById('searchRatingFilter').value;
-      const sort = document.getElementById('searchSortFilter').value;
-      if(genre !== 'all') items = items.filter(a => a.genres.includes(genre));
-      if(year !== 'all') items = items.filter(a => a.year == year);
-      if(rating !== 'all') items = items.filter(a => a.rating >= parseFloat(rating));
-      if(sort === 'rating') items.sort((a,b) => b.rating - a.rating);
-      else if(sort === 'newest') items.sort((a,b) => b.year - a.year);
-      else if(sort === 'az') items.sort((a,b) => a.title.localeCompare(b.title));
-      renderAnimeGrid('searchGrid', items);
-      document.getElementById('noResults').style.display = items.length ? 'none' : 'block';
+    function filterSearchResults(){
+      let items=[...searchResults];
+      const genre=document.getElementById('searchGenreFilter').value;
+      const year=document.getElementById('searchYearFilter').value;
+      const rating=document.getElementById('searchRatingFilter').value;
+      const sort=document.getElementById('searchSortFilter').value;
+      if(genre!=='all')items=items.filter(a=>a.genres.includes(genre));
+      if(year!=='all')items=items.filter(a=>a.year===parseInt(year));
+      if(rating!=='all')items=items.filter(a=>a.rating>=parseFloat(rating));
+      if(sort==='rating')items.sort((a,b)=>b.rating-a.rating);
+      else if(sort==='newest')items.sort((a,b)=>b.year-a.year);
+      else if(sort==='az')items.sort((a,b)=>a.title.localeCompare(b.title));
+      renderAnimeGrid('searchGrid',items);
+      document.getElementById('noResults').style.display=items.length?'none':'block';
     }
 
-    function populateFilter(id) {
-      const sel = document.getElementById(id);
-      const val = sel.value;
-      const first = sel.options[0];
-      sel.innerHTML = '';
-      sel.appendChild(first);
-      CATEGORIES.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; sel.appendChild(o); });
-      sel.value = val;
+    function populateFilter(id){
+      const sel=document.getElementById(id);
+      const val=sel.value;
+      while(sel.options.length>1)sel.remove(1);
+      CATEGORIES.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});
+      sel.value=val;
+    }
+
+    function populateYearFilter(id){
+      const sel=document.getElementById(id);
+      const val=sel.value;
+      while(sel.options.length>1)sel.remove(1);
+      const years=[...new Set(allAnime.map(a=>a.year))].sort((a,b)=>b-a);
+      years.forEach(y=>{const o=document.createElement('option');o.value=y;o.textContent=y;sel.appendChild(o);});
+      sel.value=val;
     }
 
     // --- Bookmarks ---
-    function toggleBookmark(id) {
-      const idx = bookmarkedIds.indexOf(id);
-      if(idx > -1) { bookmarkedIds.splice(idx, 1); showToast('Removed from bookmarks'); }
-      else { bookmarkedIds.push(id); showToast('Added to bookmarks'); }
-      localStorage.setItem('afy_bookmarks', JSON.stringify(bookmarkedIds));
-      document.querySelectorAll('.bookmark-btn').forEach(b => {
-        const cardId = b.closest('.anime-card')?.getAttribute('onclick')?.match(/'([^']+)'/)?.[1];
-        b.classList.toggle('active', bookmarkedIds.includes(cardId));
+    function toggleBookmark(id){
+      const idx=bookmarkedIds.indexOf(id);
+      if(idx>-1){bookmarkedIds.splice(idx,1);showToast('Removed from bookmarks');}
+      else{bookmarkedIds.push(id);showToast('Added to bookmarks');}
+      localStorage.setItem('afy_bookmarks',JSON.stringify(bookmarkedIds));
+      document.querySelectorAll('.bookmark-btn').forEach(b=>{
+        const card=b.closest('.anime-card');
+        if(!card)return;
+        const onclick=card.getAttribute('onclick');
+        const match=onclick?onclick.match(/'([^']+)'/):null;
+        const cardId=match?match[1]:null;
+        b.classList.toggle('active',bookmarkedIds.includes(cardId));
       });
-      if(currentPage === 'bookmarks') renderBookmarks();
+      if(currentPage==='bookmarks')renderBookmarks();
     }
 
-    function renderBookmarks() {
-      const items = bookmarkedIds.map(id => allAnime.find(a => a.id === id)).filter(Boolean);
-      renderAnimeGrid('bookmarksGrid', items);
-      document.getElementById('noBookmarks').style.display = items.length ? 'none' : 'block';
+    function renderBookmarks(){
+      const items=bookmarkedIds.map(id=>allAnime.find(a=>a.id===id)).filter(Boolean);
+      renderAnimeGrid('bookmarksGrid',items);
+      document.getElementById('noBookmarks').style.display=items.length?'none':'block';
       animateOnScroll();
     }
 
     // --- Detail ---
-    function showDetail(id) {
-      const a = allAnime.find(x => x.id === id);
-      if(!a) return;
-      currentDetail = a;
-      document.getElementById('detailPoster').src = a.poster;
-      document.getElementById('detailBanner').style.backgroundImage = `url('${a.banner}')`;
-      document.getElementById('detailTitle').textContent = a.title;
-      document.getElementById('detailRating').querySelector('span').textContent = a.rating;
-      document.getElementById('detailYear').querySelector('span').textContent = a.year;
-      document.getElementById('detailStatus').querySelector('span').textContent = a.status;
-      document.getElementById('detailType').querySelector('span').textContent = a.type;
-      document.getElementById('detailStudio').textContent = a.studio;
-      document.getElementById('detailSynopsis').textContent = a.synopsis;
-      document.getElementById('detailGenres').innerHTML = a.genres.map(g => `<span class="tag" style="--tag-color:${GENRE_COLORS[g]||'var(--accent)'}">${g}</span>`).join('');
-      document.getElementById('detailAudio').innerHTML = a.audio.map(l => `<span class="tag">${l}</span>`).join('');
-      document.getElementById('detailSubs').innerHTML = a.subs.map(s => `<span class="tag">${s}</span>`).join('');
-      document.getElementById('detailEpisodeCount').textContent = a.totalEpisodes + ' episodes';
-      document.getElementById('detailBookmarkBtn').innerHTML = bookmarkedIds.includes(a.id) ? '<i class="fas fa-bookmark"></i> Bookmarked' : '<i class="far fa-bookmark"></i> Bookmark';
-      currentAnimeEpisodes = [];
-      for(let i = 1; i <= a.totalEpisodes; i++) currentAnimeEpisodes.push({num:i, title:`Episode ${i}`});
-      const ranges = [];
-      for(let i = 1; i <= a.totalEpisodes; i += 100) ranges.push(`${i}-${Math.min(i+99, a.totalEpisodes)}`);
-      const rangeSel = document.getElementById('episodeRange');
-      rangeSel.innerHTML = ranges.map((r,i) => `<option value="${i}">${r}</option>`).join('');
+    function showDetail(id){
+      const a=allAnime.find(x=>x.id===id);
+      if(!a)return;
+      currentDetail=a;
+      document.getElementById('detailPoster').src=a.poster;
+      document.getElementById('detailPoster').alt=a.title;
+      document.getElementById('detailBanner').style.backgroundImage='url(\''+sanitize(a.banner)+'\')';
+      document.getElementById('detailTitle').textContent=a.title;
+      document.getElementById('detailRating').querySelector('span').textContent=a.rating;
+      document.getElementById('detailYear').querySelector('span').textContent=a.year;
+      document.getElementById('detailStatus').querySelector('span').textContent=a.status;
+      document.getElementById('detailType').querySelector('span').textContent=a.type;
+      document.getElementById('detailStudio').textContent=a.studio;
+      document.getElementById('detailSynopsis').textContent=a.synopsis;
+      document.getElementById('detailGenres').innerHTML=a.genres.map(g=>'<span class="tag" style="--tag-color:'+(GENRE_COLORS[g]||'var(--accent)')+'">'+sanitize(g)+'</span>').join('');
+      document.getElementById('detailAudio').innerHTML=a.audio.map(l=>'<span class="tag">'+sanitize(l)+'</span>').join('');
+      document.getElementById('detailSubs').innerHTML=a.subs.map(s=>'<span class="tag">'+sanitize(s)+'</span>').join('');
+      document.getElementById('detailEpisodeCount').textContent=a.totalEpisodes+' episodes';
+      document.getElementById('detailBookmarkBtn').innerHTML=bookmarkedIds.includes(a.id)?'<i class="fas fa-bookmark" aria-hidden="true"></i> Bookmarked':'<i class="far fa-bookmark" aria-hidden="true"></i> Bookmark';
+      currentAnimeEpisodes=[];
+      for(let i=1;i<=a.totalEpisodes;i++)currentAnimeEpisodes.push({num:i,title:'Episode '+i});
+      const ranges=[];
+      for(let i=1;i<=a.totalEpisodes;i+=100)ranges.push(i+'-'+Math.min(i+99,a.totalEpisodes));
+      const rangeSel=document.getElementById('episodeRange');
+      rangeSel.innerHTML=ranges.map((r,i)=>'<option value="'+i+'">'+r+'</option>').join('');
       renderEpisodes();
-      const related = allAnime.filter(x => x.id !== a.id && x.genres.some(g => a.genres.includes(g))).slice(0, 10);
-      const recommended = allAnime.filter(x => x.id !== a.id && x.rating >= 8).sort(() => Math.random()-0.5).slice(0, 10);
-      renderAnimeRow('detailRelated', related);
-      renderAnimeRow('detailRecommended', recommended);
-      document.getElementById('watchBack').setAttribute('onclick', `navigate('detail','${a.id}')`);
+      const related=allAnime.filter(x=>x.id!==a.id&&x.genres.some(g=>a.genres.includes(g))).slice(0,10);
+      const recommended=allAnime.filter(x=>x.id!==a.id&&x.rating>=8).sort(()=>Math.random()-0.5).slice(0,10);
+      renderAnimeRow('detailRelated',related);
+      renderAnimeRow('detailRecommended',recommended);
+      document.getElementById('watchBack').setAttribute('onclick','navigate(\'detail\',\''+sanitize(a.id)+'\');return false');
       animateOnScroll();
     }
 
-    function renderEpisodes() {
-      const range = document.getElementById('episodeRange').value;
-      const start = range * 100;
-      const eps = currentAnimeEpisodes.slice(start, start + 100);
-      const list = document.getElementById('detailEpisodes');
-      list.innerHTML = eps.map(ep => {
-        const hist = watchHistory.find(h => h.id === currentDetail.id && h.ep === ep.num);
-        return `<div class="episode-item ${hist?'watched':''}" onclick="navigate('watch','${currentDetail.id}:${ep.num}')">
-          <span class="ep-num">${ep.num}</span>
-          <div class="ep-info"><span>${ep.title}</span></div>
-          ${hist ? '<span class="ep-check"><i class="fas fa-check-circle"></i></span>' : ''}
-        </div>`;
+    function renderEpisodes(){
+      const range=document.getElementById('episodeRange').value;
+      const start=range*100;
+      const eps=currentAnimeEpisodes.slice(start,start+100);
+      const list=document.getElementById('detailEpisodes');
+      list.innerHTML=eps.map(ep=>{
+        const hist=watchHistory.find(h=>h.id===currentDetail.id&&h.ep===ep.num);
+        return '<div class="episode-item'+(hist?' watched':'')+'" onclick="navigate(\'watch\',\''+sanitize(currentDetail.id)+':'+ep.num+'\')" role="button" tabindex="0" onkeydown="if(event.key===\'Enter\')navigate(\'watch\',\''+sanitize(currentDetail.id)+':'+ep.num+'\')"><span class="ep-num">'+ep.num+'</span><div class="ep-info"><span>'+sanitize(ep.title)+'</span></div>'+(hist?'<span class="ep-check"><i class="fas fa-check-circle" aria-hidden="true"></i></span>':'')+'</div>';
       }).join('');
     }
 
-    function playFirstEpisode() {
-      if(currentDetail) navigate('watch', `${currentDetail.id}:1`);
-    }
-
-    function toggleBookmarkDetail() {
-      if(currentDetail) toggleBookmark(currentDetail.id);
-      document.getElementById('detailBookmarkBtn').innerHTML = bookmarkedIds.includes(currentDetail.id) ? '<i class="fas fa-bookmark"></i> Bookmarked' : '<i class="far fa-bookmark"></i> Bookmark';
-    }
+    function playFirstEpisode(){if(currentDetail)navigate('watch',currentDetail.id+':1');}
+    function toggleBookmarkDetail(){if(currentDetail){toggleBookmark(currentDetail.id);document.getElementById('detailBookmarkBtn').innerHTML=bookmarkedIds.includes(currentDetail.id)?'<i class="fas fa-bookmark" aria-hidden="true"></i> Bookmarked':'<i class="far fa-bookmark" aria-hidden="true"></i> Bookmark';}}
 
     // --- Watch ---
-    function initWatch(data) {
-      const [animeId, epStr] = data.split(':');
-      const a = allAnime.find(x => x.id === animeId);
-      if(!a) return;
-      currentDetail = a;
-      currentEpisode = parseInt(epStr) || 1;
-      document.getElementById('watchTitle').textContent = a.title;
-      document.getElementById('watchEpisode').textContent = `Episode ${currentEpisode} of ${a.totalEpisodes}`;
-      document.getElementById('playerSource').textContent = `Playing from Server 1 — ${a.title} EP${currentEpisode}`;
-      document.getElementById('watchAudioTags').innerHTML = a.audio.map(l => `<span class="tag">${l}</span>`).join('');
-      document.getElementById('watchSubTags').innerHTML = a.subs.map(s => `<span class="tag">${s}</span>`).join('');
-      document.getElementById('prevEpBtn').disabled = currentEpisode <= 1;
-      document.getElementById('nextEpBtn').disabled = currentEpisode >= a.totalEpisodes;
-      const sel = document.getElementById('episodeSelector');
-      const maxEp = Math.min(a.totalEpisodes, currentEpisode + 5);
-      sel.innerHTML = '';
-      for(let i = Math.max(1, currentEpisode - 2); i <= maxEp; i++) {
-        sel.innerHTML += `<button class="ep-btn ${i===currentEpisode?'active':''}" onclick="navigate('watch','${a.id}:${i}')">EP ${i}</button>`;
+    function initWatch(data){
+      const parts=data.split(':');
+      const animeId=parts[0];
+      const epStr=parts[1];
+      const a=allAnime.find(x=>x.id===animeId);
+      if(!a)return;
+      currentDetail=a;
+      currentEpisode=parseInt(epStr)||1;
+      document.getElementById('watchTitle').textContent=a.title;
+      document.getElementById('watchEpisode').textContent='Episode '+currentEpisode+' of '+a.totalEpisodes;
+      document.getElementById('playerSource').textContent='Playing from Server 1 — '+a.title+' EP'+currentEpisode;
+      document.getElementById('watchAudioTags').innerHTML=a.audio.map(l=>'<span class="tag">'+sanitize(l)+'</span>').join('');
+      document.getElementById('watchSubTags').innerHTML=a.subs.map(s=>'<span class="tag">'+sanitize(s)+'</span>').join('');
+      document.getElementById('prevEpBtn').disabled=currentEpisode<=1;
+      document.getElementById('nextEpBtn').disabled=currentEpisode>=a.totalEpisodes;
+      const sel=document.getElementById('episodeSelector');
+      const maxEp=Math.min(a.totalEpisodes,currentEpisode+5);
+      sel.innerHTML='';
+      for(let i=Math.max(1,currentEpisode-2);i<=maxEp;i++){
+        sel.innerHTML+='<button class="ep-btn'+(i===currentEpisode?' active':'')+'" onclick="navigate(\'watch\',\''+sanitize(a.id)+':'+i+'\')">EP '+i+'</button>';
       }
-      const hist = watchHistory.findIndex(h => h.id === a.id);
-      if(hist > -1) watchHistory[hist] = {id:a.id, ep:currentEpisode, time:Date.now()};
-      else watchHistory.unshift({id:a.id, ep:currentEpisode, time:Date.now()});
-      if(watchHistory.length > 50) watchHistory = watchHistory.slice(0,50);
-      localStorage.setItem('afy_history', JSON.stringify(watchHistory));
-      const related = allAnime.filter(x => x.id !== a.id && x.genres.some(g => a.genres.includes(g))).slice(0, 10);
-      renderAnimeRow('relatedRow', related);
+      const hist=watchHistory.findIndex(h=>h.id===a.id);
+      if(hist>-1)watchHistory[hist]={id:a.id,ep:currentEpisode,time:Date.now()};
+      else watchHistory.unshift({id:a.id,ep:currentEpisode,time:Date.now()});
+      if(watchHistory.length>50)watchHistory=watchHistory.slice(0,50);
+      localStorage.setItem('afy_history',JSON.stringify(watchHistory));
+      const related=allAnime.filter(x=>x.id!==a.id&&x.genres.some(g=>a.genres.includes(g))).slice(0,10);
+      renderAnimeRow('relatedRow',related);
     }
 
-    function prevEpisode() { if(currentDetail && currentEpisode > 1) navigate('watch', `${currentDetail.id}:${currentEpisode-1}`); }
-    function nextEpisode() { if(currentDetail && currentEpisode < currentDetail.totalEpisodes) navigate('watch', `${currentDetail.id}:${currentEpisode+1}`); }
-    function selectServer(i) { document.querySelectorAll('.server-btn').forEach((b,j) => b.classList.toggle('active', j===i)); showToast(`Server ${i+1} selected`); }
-    function toggleTheater() { document.getElementById('playerWrapper').classList.toggle('theater'); }
-    function toggleFullscreen() { const el = document.getElementById('playerWrapper'); el.requestFullscreen?.() || el.webkitRequestFullscreen?.(); }
+    function prevEpisode(){if(currentDetail&&currentEpisode>1)navigate('watch',currentDetail.id+':'+(currentEpisode-1));}
+    function nextEpisode(){if(currentDetail&&currentEpisode<currentDetail.totalEpisodes)navigate('watch',currentDetail.id+':'+(currentEpisode+1));}
+    function selectServer(i){document.querySelectorAll('.server-btn').forEach((b,j)=>b.classList.toggle('active',j===i));showToast('Server '+(i+1)+' selected');}
+    function toggleTheater(){document.getElementById('playerWrapper').classList.toggle('theater');}
+    function toggleFullscreen(){const el=document.getElementById('playerWrapper');if(el.requestFullscreen)el.requestFullscreen();else if(el.webkitRequestFullscreen)el.webkitRequestFullscreen();}
 
-    // --- Footer / Contact ---
-    function handleContact(e) { e.preventDefault(); showToast('Message sent! We will get back to you soon.'); e.target.reset(); }
+    function handleContact(e){e.preventDefault();showToast('Message sent! We will get back to you soon.');e.target.reset();}
 
-    // --- Toast ---
-    function showToast(msg) {
-      const container = document.getElementById('toastContainer');
-      const toast = document.createElement('div');
-      toast.className = 'toast';
-      toast.innerHTML = `<i class="fas fa-check-circle"></i> ${msg}`;
+    function showToast(msg){
+      const container=document.getElementById('toastContainer');
+      const toast=document.createElement('div');
+      toast.className='toast';
+      toast.innerHTML='<i class="fas fa-check-circle" aria-hidden="true"></i> '+sanitize(msg);
       container.appendChild(toast);
-      setTimeout(() => toast.classList.add('show'), 10);
-      setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3000);
+      requestAnimationFrame(()=>{toast.classList.add('show');});
+      setTimeout(()=>{toast.classList.remove('show');setTimeout(()=>toast.remove(),300);},3000);
     }
 
-    // --- Scroll Animation ---
-    function animateOnScroll() {
-      setTimeout(() => {
-        gsap.utils.toArray('.anime-card').forEach(card => {
-          gsap.fromTo(card, {opacity:0, y:30}, {opacity:1, y:0, duration:0.4, scrollTrigger:{trigger:card, start:'top 90%', toggleActions:'play none none none'}});
-        });
-        gsap.utils.toArray('.section-header').forEach(h => {
-          gsap.fromTo(h, {opacity:0, x:-20}, {opacity:1, x:0, duration:0.5, scrollTrigger:{trigger:h, start:'top 90%'}});
-        });
-      }, 100);
-    }
-
-    // --- Keyboard ---
-    function initKeyboard() {
-      document.addEventListener('keydown', (e) => {
-        if(e.key === '/' && document.activeElement.tagName !== 'INPUT') { e.preventDefault(); document.getElementById('searchInput').focus(); }
-        if(e.key === 'Escape') { document.getElementById('searchInput').blur(); document.getElementById('searchSuggestions').style.display = 'none'; }
+    function initKeyboard(){
+      document.addEventListener('keydown',(e)=>{
+        if(e.key==='/'&&document.activeElement.tagName!=='INPUT'&&document.activeElement.tagName!=='TEXTAREA'){e.preventDefault();document.getElementById('searchInput').focus();}
+        if(e.key==='Escape'){document.getElementById('searchInput').blur();document.getElementById('searchSuggestions').style.display='none';}
       });
     }
 
-    // --- Seed Data (24 anime, 1000+ episodes) ---
-    function getSeedData() {
+    function getSeedData(){
       return [
-        {id:'naruto',title:'Naruto Shippuden',poster:'https://cdn.myanimelist.net/images/anime/1565/111305l.jpg',banner:'https://wallpaperaccess.com/full/3146573.jpg',synopsis:'Follows Naruto Uzumaki as he grows from a mischievous academy student into a powerful ninja. After training with Jiraiya, he returns to Konoha to rescue Sasuke and faces the Akatsuki threat that endangers all ninja villages.',rating:9.2,year:2007,studio:'Pierrot',status:'Completed',type:'TV',totalEpisodes:500,trending:98,genres:['Action','Adventure'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'onepiece',title:'One Piece',poster:'https://cdn.myanimelist.net/images/anime/1244/138851l.jpg',banner:'https://wallpaperaccess.com/full/4568992.jpg',synopsis:'Monkey D. Luffy sets sail with his pirate crew in search of the legendary treasure, One Piece. Along the way, they face powerful enemies, uncover ancient mysteries, and build unbreakable bonds of friendship.',rating:9.5,year:1999,studio:'Toei Animation',status:'Airing',type:'TV',totalEpisodes:1120,trending:99,genres:['Action','Adventure','Comedy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'demon-slayer',title:'Demon Slayer',poster:'https://cdn.myanimelist.net/images/anime/1286/99889l.jpg',banner:'https://wallpaperaccess.com/full/3146580.jpg',synopsis:'Tanjiro Kamado becomes a demon slayer after his family is slaughtered and his sister Nezuko is turned into a demon. He embarks on a journey to find a cure and avenge his family.',rating:9.1,year:2019,studio:'Ufotable',status:'Airing',type:'TV',totalEpisodes:55,trending:97,genres:['Action','Fantasy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'attack-on-titan',title:'Attack on Titan',poster:'https://cdn.myanimelist.net/images/anime/1000/110531l.jpg',banner:'https://wallpaperaccess.com/full/3146590.jpg',synopsis:'In a world where humanity lives inside cities surrounded by enormous walls due to the Titans, giant humanoid creatures who devour humans seemingly without reason.',rating:9.4,year:2013,studio:'MAPPA',status:'Completed',type:'TV',totalEpisodes:87,trending:96,genres:['Action','Drama','Horror'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'jujutsu-kaisen',title:'Jujutsu Kaisen',poster:'https://cdn.myanimelist.net/images/anime/1171/109222l.jpg',banner:'https://wallpaperaccess.com/full/4625669.jpg',synopsis:'Yuji Itadori joins a secret organization of Jujutsu Sorcerers after swallowing a cursed object. He fights Curses while trying to find all of Sukuna\'s fingers.',rating:9.0,year:2020,studio:'MAPPA',status:'Airing',type:'TV',totalEpisodes:47,trending:95,genres:['Action','Fantasy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'my-hero-academia',title:'My Hero Academia',poster:'https://cdn.myanimelist.net/images/anime/10/78745l.jpg',banner:'https://wallpaperaccess.com/full/3146600.jpg',synopsis:'In a world where 80% of the population has superpowers, Izuku Midoriya dreams of becoming a hero despite being born quirkless.',rating:8.5,year:2016,studio:'Bones',status:'Airing',type:'TV',totalEpisodes:138,trending:88,genres:['Action','Comedy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'death-note',title:'Death Note',poster:'https://cdn.myanimelist.net/images/anime/9/9453l.jpg',banner:'https://wallpaperaccess.com/full/3146610.jpg',synopsis:'Light Yagami finds a supernatural notebook that kills anyone whose name is written in it. He begins a crusade to create a utopia free of criminals.',rating:9.3,year:2006,studio:'Madhouse',status:'Completed',type:'TV',totalEpisodes:37,trending:94,genres:['Drama','Horror'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'fullmetal-alchemist',title:'Fullmetal Alchemist: Brotherhood',poster:'https://cdn.myanimelist.net/images/anime/1208/94745l.jpg',banner:'https://wallpaperaccess.com/full/3146620.jpg',synopsis:'Two brothers search for the Philosopher\'s Stone after a failed alchemical ritual leaves Edward without limbs and Alphonse as a soul in armor.',rating:9.6,year:2009,studio:'Bones',status:'Completed',type:'TV',totalEpisodes:64,trending:93,genres:['Action','Adventure','Drama'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'solo-leveling',title:'Solo Leveling',poster:'https://cdn.myanimelist.net/images/anime/1809/143580l.jpg',banner:'https://wallpaperaccess.com/full/5030071.jpg',synopsis:'In a world of hunters and magical portals, Sung Jinwoo, the weakest hunter, gains a unique leveling system and rises to become the strongest.',rating:8.9,year:2024,studio:'A-1 Pictures',status:'Airing',type:'TV',totalEpisodes:24,trending:92,genres:['Action','Adventure','Fantasy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'dragon-ball-super',title:'Dragon Ball Super',poster:'https://cdn.myanimelist.net/images/anime/1552/122579l.jpg',banner:'https://wallpaperaccess.com/full/3146630.jpg',synopsis:'Goku and his friends participate in intergalactic tournaments, face gods of destruction, and unlock new forms of power beyond imagination.',rating:8.8,year:2015,studio:'Toei Animation',status:'Completed',type:'TV',totalEpisodes:131,trending:87,genres:['Action','Adventure','Comedy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'hunter-x-hunter',title:'Hunter x Hunter',poster:'https://cdn.myanimelist.net/images/anime/1337/99013l.jpg',banner:'https://wallpaperaccess.com/full/3146640.jpg',synopsis:'Gon Freecss discovers his father is a legendary Hunter and sets out on an adventure to find him, passing the brutal Hunter Exam along the way.',rating:9.3,year:2011,studio:'Madhouse',status:'Completed',type:'TV',totalEpisodes:148,trending:91,genres:['Action','Adventure'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'one-punch-man',title:'One Punch Man',poster:'https://cdn.myanimelist.net/images/anime/12/76049l.jpg',banner:'https://wallpaperaccess.com/full/3146650.jpg',synopsis:'Saitama became a hero for fun and can defeat any opponent with a single punch. He searches for a worthy opponent who can give him a real challenge.',rating:8.7,year:2015,studio:'Madhouse',status:'Airing',type:'TV',totalEpisodes:24,trending:86,genres:['Action','Comedy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'sword-art-online',title:'Sword Art Online',poster:'https://cdn.myanimelist.net/images/anime/11/39717l.jpg',banner:'https://wallpaperaccess.com/full/3146660.jpg',synopsis:'Players become trapped in a virtual reality MMORPG where dying in-game means dying in real life. Kirito must clear all 100 floors to escape.',rating:8.2,year:2012,studio:'A-1 Pictures',status:'Airing',type:'TV',totalEpisodes:96,trending:80,genres:['Action','Adventure','Romance'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'tokyo-ghoul',title:'Tokyo Ghoul',poster:'https://cdn.myanimelist.net/images/anime/5/64449l.jpg',banner:'https://wallpaperaccess.com/full/3146670.jpg',synopsis:'Ken Kaneki becomes half-ghoul after a near-fatal encounter. He must navigate both the human and ghoul worlds while struggling with his new identity.',rating:8.6,year:2014,studio:'Pierrot',status:'Completed',type:'TV',totalEpisodes:48,trending:85,genres:['Action','Drama','Horror'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'bleach',title:'Bleach: TYBW',poster:'https://cdn.myanimelist.net/images/anime/1908/135431l.jpg',banner:'https://wallpaperaccess.com/full/4625700.jpg',synopsis:'Ichigo Kurosaki continues his battle as a Soul Reaper, now facing the Quincy king Yhwach in the final war that will decide the fate of all worlds.',rating:9.0,year:2022,studio:'Pierrot',status:'Airing',type:'TV',totalEpisodes:52,trending:90,genres:['Action','Adventure'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'mushoku-tensei',title:'Mushoku Tensei',poster:'https://cdn.myanimelist.net/images/anime/1806/126216l.jpg',banner:'https://wallpaperaccess.com/full/5030080.jpg',synopsis:'A jobless man reincarnated into a magical world as Rudeus Greyrat, retaining his memories. He strives to live without regrets in his second chance at life.',rating:8.9,year:2021,studio:'Studio Bind',status:'Airing',type:'TV',totalEpisodes:36,trending:89,genres:['Adventure','Fantasy','Romance'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'spy-family',title:'Spy x Family',poster:'https://cdn.myanimelist.net/images/anime/1441/139629l.jpg',banner:'https://wallpaperaccess.com/full/4625710.jpg',synopsis:'A spy, an assassin, and a telepath form a fake family. Each has secrets but they genuinely grow to care for each other while completing their missions.',rating:8.8,year:2022,studio:'Wit Studio',status:'Airing',type:'TV',totalEpisodes:37,trending:84,genres:['Action','Comedy','Drama'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'chainsaw-man',title:'Chainsaw Man',poster:'https://cdn.myanimelist.net/images/anime/1806/126216l.jpg',banner:'https://wallpaperaccess.com/full/5030090.jpg',synopsis:'Denji merges with his chainsaw devil Pochita and becomes Chainsaw Man, a devil hunter working for Public Safety while chasing his simple dreams.',rating:8.7,year:2022,studio:'MAPPA',status:'Airing',type:'TV',totalEpisodes:12,trending:83,genres:['Action','Fantasy','Horror'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'steins-gate',title:'Steins;Gate',poster:'https://cdn.myanimelist.net/images/anime/5/73199l.jpg',banner:'https://wallpaperaccess.com/full/3146690.jpg',synopsis:'Rintaro Okabe discovers he can send messages to the past using a modified microwave. His experiments attract the attention of a shadowy organization.',rating:9.4,year:2011,studio:'White Fox',status:'Completed',type:'TV',totalEpisodes:24,trending:82,genres:['Drama','Sci-Fi'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'cowboy-bebop',title:'Cowboy Bebop',poster:'https://cdn.myanimelist.net/images/anime/4/19644l.jpg',banner:'https://wallpaperaccess.com/full/3146700.jpg',synopsis:'A group of bounty hunters travel through space in their ship Bebop, taking on jobs while dealing with their troubled pasts.',rating:9.1,year:1998,studio:'Sunrise',status:'Completed',type:'TV',totalEpisodes:26,trending:79,genres:['Action','Adventure','Sci-Fi'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'re-zero',title:'Re:Zero',poster:'https://cdn.myanimelist.net/images/anime/1121/133164l.jpg',banner:'https://wallpaperaccess.com/full/5030100.jpg',synopsis:'Subaru Natsuki is transported to another world and discovers he has the ability to return from death. He uses this power to save those he loves.',rating:8.8,year:2016,studio:'White Fox',status:'Airing',type:'TV',totalEpisodes:50,trending:81,genres:['Drama','Fantasy','Thriller'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'kimetsu-no-yaiba-mugen',title:'Demon Slayer: Mugen Train',poster:'https://cdn.myanimelist.net/images/anime/1751/119815l.jpg',banner:'https://wallpaperaccess.com/full/3146710.jpg',synopsis:'Tanjiro and his friends board the Mugen Train to investigate disappearances. They face Enmu, the Lower Moon One demon, in an emotional battle.',rating:8.5,year:2020,studio:'Ufotable',status:'Completed',type:'Movie',totalEpisodes:1,trending:77,genres:['Action','Fantasy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
-        {id:'your-name',title:'Your Name',poster:'https://cdn.myanimelist.net/images/anime/5/87048l.jpg',banner:'https://wallpaperaccess.com/full/3146720.jpg',synopsis:'Two strangers find themselves linked in a bizarre way. When a comet threatens Tokyo, they must find each other and save their city.',rating:9.0,year:2016,studio:'CoMix Wave Films',status:'Completed',type:'Movie',totalEpisodes:1,trending:78,genres:['Drama','Romance','Fantasy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'naruto',title:'Naruto Shippuden',poster:'https://cdn.myanimelist.net/images/anime/1565/111305l.jpg',banner:'https://wallpaperaccess.com/full/3146573.jpg',synopsis:'Follows Naruto Uzumaki as he grows from a mischievous academy student into a powerful ninja.',rating:9.2,year:2007,studio:'Pierrot',status:'Completed',type:'TV',totalEpisodes:500,trending:98,genres:['Action','Adventure'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'onepiece',title:'One Piece',poster:'https://cdn.myanimelist.net/images/anime/1244/138851l.jpg',banner:'https://wallpaperaccess.com/full/4568992.jpg',synopsis:'Monkey D. Luffy sets sail with his pirate crew in search of the legendary treasure, One Piece.',rating:9.5,year:1999,studio:'Toei Animation',status:'Airing',type:'TV',totalEpisodes:1120,trending:99,genres:['Action','Adventure','Comedy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'demon-slayer',title:'Demon Slayer',poster:'https://cdn.myanimelist.net/images/anime/1286/99889l.jpg',banner:'https://wallpaperaccess.com/full/3146580.jpg',synopsis:'Tanjiro Kamado becomes a demon slayer after his family is slaughtered.',rating:9.1,year:2019,studio:'Ufotable',status:'Airing',type:'TV',totalEpisodes:55,trending:97,genres:['Action','Fantasy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'attack-on-titan',title:'Attack on Titan',poster:'https://cdn.myanimelist.net/images/anime/1000/110531l.jpg',banner:'https://wallpaperaccess.com/full/3146590.jpg',synopsis:'Humanity lives inside cities surrounded by enormous walls due to the Titans.',rating:9.4,year:2013,studio:'MAPPA',status:'Completed',type:'TV',totalEpisodes:87,trending:96,genres:['Action','Drama','Horror'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'jujutsu-kaisen',title:'Jujutsu Kaisen',poster:'https://cdn.myanimelist.net/images/anime/1171/109222l.jpg',banner:'https://wallpaperaccess.com/full/4625669.jpg',synopsis:'Yuji Itadori joins a secret organization of Jujutsu Sorcerers after swallowing a cursed object.',rating:9.0,year:2020,studio:'MAPPA',status:'Airing',type:'TV',totalEpisodes:47,trending:95,genres:['Action','Fantasy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'my-hero-academia',title:'My Hero Academia',poster:'https://cdn.myanimelist.net/images/anime/10/78745l.jpg',banner:'https://wallpaperaccess.com/full/3146600.jpg',synopsis:'Izuku Midoriya dreams of becoming a hero despite being born quirkless.',rating:8.5,year:2016,studio:'Bones',status:'Airing',type:'TV',totalEpisodes:138,trending:88,genres:['Action','Comedy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'death-note',title:'Death Note',poster:'https://cdn.myanimelist.net/images/anime/9/9453l.jpg',banner:'https://wallpaperaccess.com/full/3146610.jpg',synopsis:'Light Yagami finds a supernatural notebook that kills anyone whose name is written in it.',rating:9.3,year:2006,studio:'Madhouse',status:'Completed',type:'TV',totalEpisodes:37,trending:94,genres:['Drama','Horror'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'fullmetal-alchemist',title:'Fullmetal Alchemist: Brotherhood',poster:'https://cdn.myanimelist.net/images/anime/1208/94745l.jpg',banner:'https://wallpaperaccess.com/full/3146620.jpg',synopsis:'Two brothers search for the Philosopher\'s Stone.',rating:9.6,year:2009,studio:'Bones',status:'Completed',type:'TV',totalEpisodes:64,trending:93,genres:['Action','Adventure','Drama'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'solo-leveling',title:'Solo Leveling',poster:'https://cdn.myanimelist.net/images/anime/1809/143580l.jpg',banner:'https://wallpaperaccess.com/full/5030071.jpg',synopsis:'Sung Jinwoo gains a unique leveling system and rises to become the strongest.',rating:8.9,year:2024,studio:'A-1 Pictures',status:'Airing',type:'TV',totalEpisodes:24,trending:92,genres:['Action','Adventure','Fantasy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'dragon-ball-super',title:'Dragon Ball Super',poster:'https://cdn.myanimelist.net/images/anime/1552/122579l.jpg',banner:'https://wallpaperaccess.com/full/3146630.jpg',synopsis:'Goku and friends participate in intergalactic tournaments.',rating:8.8,year:2015,studio:'Toei Animation',status:'Completed',type:'TV',totalEpisodes:131,trending:87,genres:['Action','Adventure','Comedy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'hunter-x-hunter',title:'Hunter x Hunter',poster:'https://cdn.myanimelist.net/images/anime/1337/99013l.jpg',banner:'https://wallpaperaccess.com/full/3146640.jpg',synopsis:'Gon Freecss sets out on an adventure to find his father.',rating:9.3,year:2011,studio:'Madhouse',status:'Completed',type:'TV',totalEpisodes:148,trending:91,genres:['Action','Adventure'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'one-punch-man',title:'One Punch Man',poster:'https://cdn.myanimelist.net/images/anime/12/76049l.jpg',banner:'https://wallpaperaccess.com/full/3146650.jpg',synopsis:'Saitama can defeat any opponent with a single punch.',rating:8.7,year:2015,studio:'Madhouse',status:'Airing',type:'TV',totalEpisodes:24,trending:86,genres:['Action','Comedy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'sword-art-online',title:'Sword Art Online',poster:'https://cdn.myanimelist.net/images/anime/11/39717l.jpg',banner:'https://wallpaperaccess.com/full/3146660.jpg',synopsis:'Players become trapped in a virtual reality MMORPG.',rating:8.2,year:2012,studio:'A-1 Pictures',status:'Airing',type:'TV',totalEpisodes:96,trending:80,genres:['Action','Adventure','Romance'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'tokyo-ghoul',title:'Tokyo Ghoul',poster:'https://cdn.myanimelist.net/images/anime/5/64449l.jpg',banner:'https://wallpaperaccess.com/full/3146670.jpg',synopsis:'Ken Kaneki becomes half-ghoul after a near-fatal encounter.',rating:8.6,year:2014,studio:'Pierrot',status:'Completed',type:'TV',totalEpisodes:48,trending:85,genres:['Action','Drama','Horror'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'bleach',title:'Bleach: TYBW',poster:'https://cdn.myanimelist.net/images/anime/1908/135431l.jpg',banner:'https://wallpaperaccess.com/full/4625700.jpg',synopsis:'Ichigo Kurosaki faces the Quincy king Yhwach.',rating:9.0,year:2022,studio:'Pierrot',status:'Airing',type:'TV',totalEpisodes:52,trending:90,genres:['Action','Adventure'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'mushoku-tensei',title:'Mushoku Tensei',poster:'https://cdn.myanimelist.net/images/anime/1806/126216l.jpg',banner:'https://wallpaperaccess.com/full/5030080.jpg',synopsis:'A jobless man reincarnated into a magical world.',rating:8.9,year:2021,studio:'Studio Bind',status:'Airing',type:'TV',totalEpisodes:36,trending:89,genres:['Adventure','Fantasy','Romance'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'spy-family',title:'Spy x Family',poster:'https://cdn.myanimelist.net/images/anime/1441/139629l.jpg',banner:'https://wallpaperaccess.com/full/4625710.jpg',synopsis:'A spy, an assassin, and a telepath form a fake family.',rating:8.8,year:2022,studio:'Wit Studio',status:'Airing',type:'TV',totalEpisodes:37,trending:84,genres:['Action','Comedy','Drama'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'chainsaw-man',title:'Chainsaw Man',poster:'https://cdn.myanimelist.net/images/anime/1806/126216l.jpg',banner:'https://wallpaperaccess.com/full/5030090.jpg',synopsis:'Denji merges with his chainsaw devil Pochita.',rating:8.7,year:2022,studio:'MAPPA',status:'Airing',type:'TV',totalEpisodes:12,trending:83,genres:['Action','Fantasy','Horror'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'steins-gate',title:'Steins;Gate',poster:'https://cdn.myanimelist.net/images/anime/5/73199l.jpg',banner:'https://wallpaperaccess.com/full/3146690.jpg',synopsis:'Rintaro Okabe discovers he can send messages to the past.',rating:9.4,year:2011,studio:'White Fox',status:'Completed',type:'TV',totalEpisodes:24,trending:82,genres:['Drama','Sci-Fi'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'cowboy-bebop',title:'Cowboy Bebop',poster:'https://cdn.myanimelist.net/images/anime/4/19644l.jpg',banner:'https://wallpaperaccess.com/full/3146700.jpg',synopsis:'Bounty hunters travel through space in their ship Bebop.',rating:9.1,year:1998,studio:'Sunrise',status:'Completed',type:'TV',totalEpisodes:26,trending:79,genres:['Action','Adventure','Sci-Fi'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'re-zero',title:'Re:Zero',poster:'https://cdn.myanimelist.net/images/anime/1121/133164l.jpg',banner:'https://wallpaperaccess.com/full/5030100.jpg',synopsis:'Subaru Natsuki discovers he has the ability to return from death.',rating:8.8,year:2016,studio:'White Fox',status:'Airing',type:'TV',totalEpisodes:50,trending:81,genres:['Drama','Fantasy','Thriller'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'kimetsu-no-yaiba-mugen',title:'Demon Slayer: Mugen Train',poster:'https://cdn.myanimelist.net/images/anime/1751/119815l.jpg',banner:'https://wallpaperaccess.com/full/3146710.jpg',synopsis:'Tanjiro and friends board the Mugen Train.',rating:8.5,year:2020,studio:'Ufotable',status:'Completed',type:'Movie',totalEpisodes:1,trending:77,genres:['Action','Fantasy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']},
+        {id:'your-name',title:'Your Name',poster:'https://cdn.myanimelist.net/images/anime/5/87048l.jpg',banner:'https://wallpaperaccess.com/full/3146720.jpg',synopsis:'Two strangers find themselves linked in a bizarre way.',rating:9.0,year:2016,studio:'CoMix Wave Films',status:'Completed',type:'Movie',totalEpisodes:1,trending:78,genres:['Drama','Romance','Fantasy'],audio:['Hindi','English','Japanese'],subs:['English','Hindi']}
       ];
     }
   </script>
