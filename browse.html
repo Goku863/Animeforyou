@@ -4,25 +4,23 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>AnimeForYou — Browse</title>
-  <meta name="description" content="Browse the full anime collection at AnimeForYou. Discover featured, trending, latest releases, and more." />
-  <meta name="theme-color" content="#0a0a0a" />
+  <meta name="description" content="Browse the full anime collection at AnimeForYou." />
+  <meta name="theme-color" content="#0b0b0f" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='10' fill='%23f97316'/><text x='16' y='23' text-anchor='middle' font-size='18' fill='white' font-weight='bold'>A</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23ff6b35'/><text x='16' y='22' text-anchor='middle' font-size='16' fill='white' font-weight='bold'>A</text></svg>" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
-  <canvas id="three-canvas"></canvas>
 
   <header class="top-app-bar" id="topAppBar">
     <div class="container">
       <a href="index.html" class="logo" aria-label="AnimeForYou Home">
-        <span class="logo-mark"><i class="fas fa-play"></i></span>
-        <span class="logo-word">Anime<span class="accent">ForYou</span></span>
+        <span class="logo-icon"><i class="fas fa-play"></i></span>
+        <span>Anime<span class="accent">ForYou</span></span>
       </a>
       <div class="nav-search">
         <i class="fas fa-search search-icon"></i>
@@ -68,7 +66,7 @@
       <button class="hero-arrow" onclick="heroGo(1)" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
     </div>
   </div>
-  <div class="sect" id="homeCont"><div class="sect-head"><h2><i class="fas fa-clock-rotate"></i> Continue Watching</h2></div><div class="card-row" id="contRow"></div></div>
+  <div class="sect" id="homeCont"><div class="sect-head"><h2><i class="fas fa-clock-rotate-left"></i> Continue Watching</h2></div><div class="card-row" id="contRow"></div></div>
   <div class="sect" id="homeFeatured"><div class="sect-head"><h2><i class="fas fa-crown"></i> Featured</h2></div><div class="card-row" id="featRow"></div></div>
   <div class="sect" id="homeTrending"><div class="sect-head"><h2><i class="fas fa-chart-simple"></i> Trending Now</h2><a href="trending.html" class="see-all">See All <i class="fas fa-arrow-right"></i></a></div><div class="card-row" id="trendRow"></div></div>
   <div class="sect full" id="homeLatest"><div class="sect-head"><h2><i class="fas fa-bolt"></i> Latest Releases</h2><a href="latest.html" class="see-all">See All <i class="fas fa-arrow-right"></i></a></div><div class="card-grid" id="latestGrid"></div></div>
@@ -89,16 +87,16 @@
 
   <footer>
     <div class="container">
-      <div class="row g-5 mb-4">
+      <div class="row g-4 mb-4">
         <div class="col-lg-5 col-md-6">
-          <span class="logo-word" style="font-size:18px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif">Anime<span class="accent">ForYou</span></span>
-          <p style="max-width:280px;font-size:13px;color:var(--text-secondary);margin-top:12px">Premium anime streaming platform.</p>
+          <span style="font-size:16px;font-weight:700">Anime<span class="accent">ForYou</span></span>
+          <p style="max-width:260px;font-size:12px;color:var(--text-secondary);margin-top:10px">Free anime streaming platform.</p>
           <div class="ft-social">
             <a href="https://github.com/Goku863/Animeforyou" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
           </div>
         </div>
         <div class="col-lg-2 col-md-3 col-6">
-          <h4 style="font-size:14px;font-weight:600;margin-bottom:16px;color:var(--text)">Browse</h4>
+          <h4 style="font-size:13px;font-weight:600;margin-bottom:12px;color:var(--text)">Browse</h4>
           <ul class="list-unstyled ft-col">
             <li><a href="index.html">Home</a></li>
             <li><a href="browse.html">Browse</a></li>
@@ -109,7 +107,7 @@
           </ul>
         </div>
         <div class="col-lg-2 col-md-3 col-6">
-          <h4 style="font-size:14px;font-weight:600;margin-bottom:16px;color:var(--text)">Information</h4>
+          <h4 style="font-size:13px;font-weight:600;margin-bottom:12px;color:var(--text)">Info</h4>
           <ul class="list-unstyled ft-col">
             <li><a href="about.html">About</a></li>
             <li><a href="contact.html">Contact</a></li>
@@ -119,7 +117,7 @@
           </ul>
         </div>
         <div class="col-lg-3 col-md-6">
-          <h4 style="font-size:14px;font-weight:600;margin-bottom:16px;color:var(--text)">Account</h4>
+          <h4 style="font-size:13px;font-weight:600;margin-bottom:12px;color:var(--text)">Account</h4>
           <ul class="list-unstyled ft-col">
             <li><a href="bookmarks.html">Bookmarks</a></li>
             <li><a href="search.html">Search</a></li>
@@ -127,22 +125,18 @@
         </div>
       </div>
       <div class="ft-bottom">
-        <span>&copy; 2026 AnimeForYou &mdash; Crafted with <i class="fas fa-heart" style="color:var(--primary)"></i> for anime fans</span>
+        <span>&copy; 2026 AnimeForYou &mdash; For anime fans</span>
       </div>
     </div>
   </footer>
 
   <div class="toast-rack" id="toastRack" role="status" aria-live="polite"></div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
   <script src="firebase-config.js"></script>
   <script src="api.js"></script>
   <script src="shared.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 <script>
 'use strict';
 let DATA=[],HIDX=0,HINT=null,STS=[];
@@ -170,7 +164,7 @@ function initHero(){
   const feat=DATA.filter(a=>a.rating>=8.5).slice(0,5);
   const tk=document.getElementById('heroTrack'),dt=document.getElementById('heroDots');
   if(!feat.length){
-    document.getElementById('heroBody').innerHTML='<div class="empty-hero"><h2 class="hero-title">Welcome to AnimeForYou</h2><p class="hero-desc">No anime in the collection yet. Check back soon for new releases!</p><div class="hero-acts"><a href="about.html" class="btn-outlined lg"><i class="fas fa-info"></i> Learn More</a></div></div>';
+    document.getElementById('heroBody').innerHTML='<div class="empty-hero"><h2 class="hero-title">Welcome to AnimeForYou</h2><p class="hero-desc">No anime in the collection yet. Check back soon for new releases!</p><div class="hero-acts"><a href="about.html" class="btn-outlined"><i class="fas fa-info"></i> Learn More</a></div></div>';
     return;
   }
   tk.innerHTML=feat.map(a=>'<div class="hero-slide" style="background-image:url(\''+esc(a.banner||a.poster)+'\')"></div>').join('');
@@ -186,8 +180,8 @@ function updHero(){
   dt.forEach((d,i)=>{d.classList.toggle('on',i===HIDX);d.setAttribute('aria-selected',i===HIDX);});
   const a=feat[HIDX];if(!a)return;
   const b=document.getElementById('heroBody');
-  b.innerHTML='<span class="hero-chip"><i class="fas fa-crown"></i> Featured</span><h2 class="hero-title">'+esc(a.title)+'</h2><p class="hero-sub">'+a.year+' &bull; '+esc(a.studio||'')+' &bull; <i class="fas fa-star" style="color:var(--primary)"></i> '+a.rating+'</p><p class="hero-desc">'+esc((a.synopsis||'').substring(0,180))+'...</p><div class="hero-acts"><button class="btn-filled lg" onclick="location=\'detail.html?id='+esc(a.id)+'\'"><i class="fas fa-play"></i> Watch Now</button><button class="btn-outlined lg" onclick="location=\'detail.html?id='+esc(a.id)+'\'"><i class="fas fa-info"></i> Details</button></div>';
-  if(!RM)gsap.fromTo('#heroBody > *',{opacity:0,y:30},{opacity:1,y:0,duration:.6,stagger:.1,ease:'power3.out'});
+  b.innerHTML='<span class="hero-chip"><i class="fas fa-crown"></i> Featured</span><h2 class="hero-title">'+esc(a.title)+'</h2><p class="hero-sub">'+a.year+' &bull; '+esc(a.studio||'')+' &bull; <i class="fas fa-star" style="color:var(--primary)"></i> '+a.rating+'</p><p class="hero-desc">'+esc((a.synopsis||'').substring(0,180))+'...</p><div class="hero-acts"><button class="btn-filled" onclick="location=\'detail.html?id='+esc(a.id)+'\'"><i class="fas fa-play"></i> Watch Now</button><button class="btn-outlined" onclick="location=\'detail.html?id='+esc(a.id)+'\'"><i class="fas fa-info"></i> Details</button></div>';
+  if(typeof gsap!=='undefined')gsap.fromTo('#heroBody > *',{opacity:0,y:20},{opacity:1,y:0,duration:.5,stagger:.08,ease:'power3.out'});
 }
 
 function renderHome(){
@@ -217,7 +211,7 @@ function renderHomeCats(){
   g.innerHTML=CATS.map(c=>'<a href="categories.html?g='+esc(c)+'" class="cat-card"><div class="cat-ico" style="background:'+(GC[c]||'var(--primary)')+'"><i class="fas fa-'+gIC(c)+'"></i></div><span>'+esc(c)+'</span><span class="cat-n">'+(counts[c]||0)+' titles</span></a>').join('');
 }
 
-function renderRow(id,items){const r=document.getElementById(id);if(!r)return;if(!items.length){r.innerHTML='<p style="padding:20px;color:var(--text-muted)">No anime available</p>';return;}const bms=getBMS();r.innerHTML=items.map((a,i)=>renderCard(a,bms,i)).join('');}
+function renderRow(id,items){const r=document.getElementById(id);if(!r)return;if(!items.length){r.innerHTML='<p style="padding:16px;color:var(--text-muted)">No anime available</p>';return;}const bms=getBMS();r.innerHTML=items.map((a,i)=>renderCard(a,bms,i)).join('');}
 function renderGrid(id,items){const g=document.getElementById(id);if(!g)return;if(!items.length){g.innerHTML='<div class="empty-state"><i class="fas fa-film"></i><h3>No anime found</h3><p>Try again later.</p></div>';return;}const bms=getBMS();g.innerHTML=items.map(a=>cardHTML(a,bms)).join('');}
 
 function renderCard(a,bms,idx){
@@ -227,21 +221,21 @@ function renderCard(a,bms,idx){
 
 function renderCont(id,items){
   const r=document.getElementById(id);if(!r)return;
-  if(!items.length){r.innerHTML='<p style="padding:20px;color:var(--text-muted)">Start watching to see your history here</p>';return;}
+  if(!items.length){r.innerHTML='<p style="padding:16px;color:var(--text-muted)">Start watching to see your history here</p>';return;}
   const bms=getBMS();
   r.innerHTML=items.map(a=>{
     const h=getHIST().find(x=>x.id===a.id);
     const pct=h?Math.round((h.ep/(a.totalEpisodes||1))*100):0;
-    return '<div class="anime-card" onclick="location=\'detail.html?id='+esc(a.id)+'\'"><div class="card-vis"><img src="'+esc(a.poster||'')+'" alt="'+esc(a.title)+'" width="160" height="224" loading="lazy" /><div class="card-overlay"><span class="card-play"><i class="fas fa-play"></i></span></div><button class="card-bm'+(bms.includes(a.id)?' on':'')+'" onclick="event.stopPropagation();this.classList.toggle(\'on\');toggleBM(\''+esc(a.id)+'\')" aria-label="Bookmark"><i class="fas fa-bookmark"></i></button><div class="card-bar"><div class="card-fill" style="width:'+pct+'%"></div></div></div><div class="card-txt"><h3>'+esc(a.title)+'</h3><p style="font-size:11px;color:var(--text-muted)">'+(h?h.ep:(a.totalEpisodes||0))+' / '+(a.totalEpisodes||0)+'</p></div></div>';
+    return '<div class="anime-card" onclick="location=\'detail.html?id='+esc(a.id)+'\'"><div class="card-vis"><img src="'+esc(a.poster||'')+'" alt="'+esc(a.title)+'" width="160" height="224" loading="lazy" /><div class="card-overlay"><span class="card-play"><i class="fas fa-play"></i></span></div><button class="card-bm'+(bms.includes(a.id)?' on':'')+'" onclick="event.stopPropagation();this.classList.toggle(\'on\');toggleBM(\''+esc(a.id)+'\')" aria-label="Bookmark"><i class="fas fa-bookmark"></i></button><div class="card-bar"><div class="card-fill" style="width:'+pct+'%"></div></div></div><div class="card-txt"><h3>'+esc(a.title)+'</h3><p style="font-size:10px;color:var(--text-muted)">'+(h?h.ep:(a.totalEpisodes||0))+' / '+(a.totalEpisodes||0)+'</p></div></div>';
   }).join('');
 }
 
 function animScroll(){
-  if(RM)return;
+  if(RM||typeof gsap==='undefined'||typeof ScrollTrigger==='undefined')return;
   setTimeout(()=>{
-    gsap.utils.toArray('.anime-card').forEach((c,i)=>{const s=gsap.fromTo(c,{opacity:0,y:40,scale:.95},{opacity:1,y:0,scale:1,duration:.5,delay:i*.03,ease:'power3.out',scrollTrigger:{trigger:c,start:'top 93%'}});STS.push(s);});
-    gsap.utils.toArray('.sect-head').forEach(h=>{const s=gsap.fromTo(h,{opacity:0,x:-30},{opacity:1,x:0,duration:.5,ease:'power3.out',scrollTrigger:{trigger:h,start:'top 92%'}});STS.push(s);});
-  },60);
+    gsap.utils.toArray('.anime-card').forEach((c,i)=>{const s=gsap.fromTo(c,{opacity:0,y:24,scale:.97},{opacity:1,y:0,scale:1,duration:.4,delay:i*.02,ease:'power3.out',scrollTrigger:{trigger:c,start:'top 93%'}});STS.push(s);});
+    gsap.utils.toArray('.sect-head').forEach(h=>{const s=gsap.fromTo(h,{opacity:0,x:-20},{opacity:1,x:0,duration:.4,ease:'power3.out',scrollTrigger:{trigger:h,start:'top 92%'}});STS.push(s);});
+  },50);
 }
 </script>
 </body>
