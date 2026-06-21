@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="volcanic">
+<html lang="en" data-theme="emerald">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Admin — AnimeForYou</title>
-  <meta name="theme-color" content="#0b0b0f" />
+  <meta name="theme-color" content="#0F0F23" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='10' fill='%23f97316'/><text x='16' y='23' text-anchor='middle' font-size='16' fill='white' font-weight='bold'>A</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='10' fill='%2322C55E'/><text x='16' y='23' text-anchor='middle' font-size='16' fill='%230F0F23' font-weight='bold'>A</text></svg>" />
   <link rel="stylesheet" href="style.css" />
   <style>
     :root{--admin-sidebar:260px;--accent:var(--primary);--accent-muted:rgba(0,242,255,0.1);--glass-blur:20px;--glass-saturate:1.4;--glass-shadow:0 4px 12px rgba(0,0,0,0.2)}
@@ -91,13 +91,13 @@
       </div>
       <div class="nav-actions">
         <div class="theme-toggle" onclick="toggleThemePanel()" aria-label="Theme" role="button" tabindex="0">
-          <i class="fas fa-palette" id="themeIcon"></i>
+          <i class="fas fa-leaf" id="themeIcon"></i>
           <div class="theme-panel" id="themePanel" onclick="event.stopPropagation()">
             <div class="theme-panel-label">Accent Color</div>
             <div class="theme-row">
-              <div class="theme-option" data-t="volcanic" onclick="setTheme('volcanic')"><span class="theme-swatch v"></span> Volcanic</div>
-              <div class="theme-option" data-t="crimson" onclick="setTheme('crimson')"><span class="theme-swatch c"></span> Crimson</div>
-              <div class="theme-option" data-t="emerald" onclick="setTheme('emerald')"><span class="theme-swatch e"></span> Emerald</div>
+              <div class="theme-option" data-t="emerald" onclick="setTheme('emerald')"><span class="theme-swatch v"></span> Emerald</div>
+              <div class="theme-option" data-t="cobalt" onclick="setTheme('cobalt')"><span class="theme-swatch c"></span> Cobalt</div>
+              <div class="theme-option" data-t="ember" onclick="setTheme('ember')"><span class="theme-swatch e"></span> Ember</div>
               <div class="theme-option" data-t="violet" onclick="setTheme('violet')"><span class="theme-swatch w"></span> Violet</div>
               <div class="theme-option" data-t="ocean" onclick="setTheme('ocean')"><span class="theme-swatch o"></span> Ocean</div>
             </div>

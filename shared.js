@@ -5,13 +5,13 @@ const GI={Action:'bolt',Adventure:'compass',Comedy:'laugh-beam',Drama:'masks-the
 const RM=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 
 // ===== THEME =====
-let currentTheme=localStorage.getItem('afy_theme')||'volcanic';
+let currentTheme=localStorage.getItem('afy_theme')||'emerald';
 document.documentElement.setAttribute('data-theme',currentTheme);
 document.addEventListener('DOMContentLoaded',()=>{
   document.querySelectorAll('.theme-option').forEach(o=>o.classList.toggle('active',o.dataset.t===currentTheme));
-  const icons={volcanic:'fa-palette',crimson:'fa-droplet',emerald:'fa-leaf',violet:'fa-wand-magic-sparkles',ocean:'fa-water'};
+  const icons={emerald:'fa-leaf',cobalt:'fa-droplet',ember:'fa-fire',violet:'fa-wand-magic-sparkles',ocean:'fa-water'};
   const el=document.getElementById('themeIcon');
-  if(el)el.className='fas '+(icons[currentTheme]||'fa-palette');
+  if(el)el.className='fas '+(icons[currentTheme]||'fa-leaf');
 });
 
 document.addEventListener('click',e=>{
@@ -28,9 +28,9 @@ function setTheme(t){
   const tp=document.getElementById('themePanel');
   if(tp)tp.classList.remove('open');
   document.querySelectorAll('.theme-option').forEach(o=>o.classList.toggle('active',o.dataset.t===t));
-  const icons={volcanic:'fa-palette',crimson:'fa-droplet',emerald:'fa-leaf',violet:'fa-wand-magic-sparkles',ocean:'fa-water'};
+  const icons={emerald:'fa-leaf',cobalt:'fa-droplet',ember:'fa-fire',violet:'fa-wand-magic-sparkles',ocean:'fa-water'};
   const el=document.getElementById('themeIcon');
-  if(el)el.className='fas '+(icons[t]||'fa-palette');
+  if(el)el.className='fas '+(icons[t]||'fa-leaf');
 }
 
 // ===== UTILITIES =====
